@@ -12,7 +12,7 @@ class tab4: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setViewControllers([Profile()], animated: false)
+        self.setViewControllers([SettingsVC()], animated: false)
 
         // Do any additional setup after loading the view.
     }

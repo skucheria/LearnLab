@@ -16,7 +16,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Search"
         
         searchBar.searchBarStyle = UISearchBar.Style.prominent
             searchBar.placeholder = " Search..."

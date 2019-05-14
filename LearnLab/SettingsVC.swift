@@ -25,29 +25,52 @@ class SettingsVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 2
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = UIColor.white
+        
+        if indexPath.row == 0{
+            cell.textLabel?.text = "Settings"
+        }
+        
+        if indexPath.row == 1{
+            cell.textLabel?.text = "Logout"
+        }
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        
+        if indexPath.row == 1{
+            do{
+                try Auth.auth().signOut()
+                let newVC = LoginVC()
+                self.present(newVC, animated: false)
+            }
+            catch{}
+        }
+        
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
