@@ -12,6 +12,7 @@ import MessageKit
 import FirebaseFirestore
 import MessageInputBar
 import MessageUI
+import CoreData
 
 
 
@@ -19,11 +20,42 @@ class ChatVC: MessagesViewController {
 
     var messages: [Message] = []
     var member: Member!
-    
+    var fstore : Firestore!
+    var chatName = String()
+    var fName = String()
+    var lName = String()
+    var userData : [String : Any]?
     override func viewDidLoad() {
         super.viewDidLoad()
+        fstore = Firestore.firestore()
         
-        member = Member(name: "bluemoon", color: .blue)
+//        let doc = fstore.collection("users").document(Auth.auth().currentUser?.uid ?? "poop")
+//        doc.getDocument { (snapchat, error) in
+//            if let d = snapchat?.data(){
+//                self.userData = d
+//                print(self.userData ?? "poop")
+//                self.fName = (self.userData?["firstName"]) as! String
+//                self.lName = self.userData?["lastName"] as! String
+//                print(self.fName)
+////                print(self.chatName)
+//            }
+//        }
+        
+        //CORE DATA STUFF ?HERE
+        var userArray = [Users]()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Users")
+        do{
+            userArray = try context.fetch(request) as! [Users]
+            print ("Fetched data")
+        }
+        catch{
+            print("Unable to fetch data")
+        }
+
+        //CHAT BUBBLES PART HERE
+        member = Member(name: "poop", color: .blue)
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messageInputBar.delegate = self

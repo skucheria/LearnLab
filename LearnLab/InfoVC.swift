@@ -10,8 +10,7 @@
 import UIKit
 import FirebaseDatabase
 import Firebase
-
-
+import CoreData
 
 class InfoVC: UIViewController {
 
@@ -78,6 +77,24 @@ class InfoVC: UIViewController {
         self.view.addSubview(tLabel)
         ref = Database.database().reference()
         fstore = Firestore.firestore()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let storeUser = Users(context: context)
+        storeUser.firstName = first.text
+        storeUser.lastName = last.text
+        storeUser.email = "test@me.com"
+        
+        do{
+            try context.save()
+            print("saved")
+        }
+        catch{
+            print("Didnt save")
+        }
+
+
+
     }
 
     @objc func goNext(_ sender:Any){

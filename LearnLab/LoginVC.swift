@@ -26,15 +26,42 @@ class LoginVC: UIViewController, FUIAuthDelegate {
             self.present(newVC, animated: true)
         }
     }
-
+    
+    let inputsContainerView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 5
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    var loginRegisterButton : UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor.white
+        button.setTitle("Register", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(red: 61/255, green: 91/255, blue: 151/255, alpha: 1)
         authUI = FUIAuth.defaultAuthUI()
         authUI?.delegate = self
         let providers : [FUIAuthProvider] = [FUIGoogleAuth()]
         authUI?.providers = providers
+        
         // Do any additional setup after loading the view.
+      
+        ////constraints for auto-layout
+        ////////////
+        view.addSubview(inputsContainerView)
+        view.addSubview(loginRegisterButton)
+        setupInputsContainerView()
+        setupLoginResgiterButton()
+       
+        ///////////
         bCreate.frame = CGRect(x:0, y:self.view.frame.height - self.view.frame.height/3, width:self.view.frame.width, height:45)
         bCreate.backgroundColor = UIColor.lightGray
         bCreate.setTitle("Create", for: .normal)
@@ -71,17 +98,31 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         tfPassword.keyboardType = .emailAddress
     
         
-        self.view.addSubview(bCreate)
-        self.view.addSubview(bLogin)
-        self.view.addSubview(tfEmail)
-        self.view.addSubview(tfPassword)
+//        self.view.addSubview(bCreate)
+//        self.view.addSubview(bLogin)
+//        self.view.addSubview(tfEmail)
+//        self.view.addSubview(tfPassword)
         
         ref = Database.database().reference()
     }
     
+    
+    func setupInputsContainerView(){
+        //x,y,width,height
+        inputsContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        inputsContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        inputsContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
+        inputsContainerView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+    }
+    
+    func setupLoginResgiterButton(){
+        loginRegisterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loginRegisterButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12)
+        loginRegisterButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        loginRegisterButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
 
     @objc func doCreate(_ sender: Any) {
-        print("Button action works!!!!!!")
         //first create the user
         if let email = tfEmail.text, let password = tfPassword.text{
             Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
@@ -91,8 +132,6 @@ class LoginVC: UIViewController, FUIAuthDelegate {
                 self.present(newVC, animated: true)
             }
         }
-        //then navigate to gather more info from them: name (first, last), school
-        
     }
     
     @objc func doLogin(_ sender: Any) {
@@ -124,13 +163,6 @@ class LoginVC: UIViewController, FUIAuthDelegate {
     
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         if error == nil {
-            bLogin.setTitle("Logout", for: .normal)
-            
-            //            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            //            let newViewController = storyBoard.instantiateViewController(withIdentifier: "mainTab") as! MainTabController
-            //            self.present(newViewController, animated: true, completion: nil)
-            
-            
             let newVC = MainTabController()
             self.present(newVC, animated: true)
         }
