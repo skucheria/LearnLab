@@ -25,6 +25,9 @@ class LoginVC: UIViewController, FUIAuthDelegate {
             let newVC = MainTabController()
             self.present(newVC, animated: true)
         }
+        else{
+            print("No user logged in yet")
+        }
     }
     
     let inputsContainerView : UIView = {
@@ -36,12 +39,81 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return view
     }()
     
-    var loginRegisterButton : UIButton = {
+    let loginRegisterButton : UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor.white
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 43/255, alpha: 1)
         button.setTitle("Register", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.addTarget(self, action:#selector(handleRegister), for: .touchUpInside)
         return button
+    }()
+    
+    @objc func handleRegister(){
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
+            print("form is not valid")
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if error == nil{
+                print("successfully created user")
+            }
+            else{
+                print(error)
+            }
+            //save user here
+            let values = ["name": name, "email": email ]
+            self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
+        }
+    }
+    
+    let nameTextField : UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Name"
+        tf.textColor = .black
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }()
+    
+    let nameSeparatorView : UIView = {
+       let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let emailTextField : UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Email"
+        tf.textColor = .black
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }()
+    
+    let emailSeparatorView : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let passwordTextField : UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Password"
+        tf.textColor = .black
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.isSecureTextEntry = true
+        return tf
+    }()
+    
+    let profileImageView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Sensei")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     override func viewDidLoad() {
@@ -58,44 +130,48 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         ////////////
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)
+        view.addSubview(profileImageView)
         setupInputsContainerView()
         setupLoginResgiterButton()
+        setupProfileImageView()
+        
+        
        
         ///////////
-        bCreate.frame = CGRect(x:0, y:self.view.frame.height - self.view.frame.height/3, width:self.view.frame.width, height:45)
-        bCreate.backgroundColor = UIColor.lightGray
-        bCreate.setTitle("Create", for: .normal)
-        bCreate.tintColor = UIColor.black
-        bCreate.addTarget(self, action:#selector(self.doCreate(_:)), for: .touchUpInside)
-
-        bLogin.frame = CGRect(x:0, y:self.view.frame.height - self.view.frame.height/5, width:self.view.frame.width, height:45)
-        bLogin.backgroundColor = UIColor.lightGray
-        bLogin.setTitle("Login", for: .normal)
-        bLogin.tintColor = UIColor.black
-        bLogin.addTarget(self, action:#selector(self.doLogin(_:)), for: .touchUpInside)
-
-        tfEmail.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: 30)
-        tfEmail.center = self.view.center
-        tfEmail.placeholder = "Email"
-        tfEmail.backgroundColor = .white
-        tfEmail.textColor = .black
-        tfEmail.borderStyle = .line
-        tfEmail.layer.cornerRadius = 5
-        tfEmail.layer.masksToBounds = true
-        tfEmail.layer.borderWidth = 1
-        tfEmail.keyboardType = .phonePad
-
-        
-        tfPassword.frame = CGRect(x: self.view.frame.width/4, y: self.view.frame.height - self.view.frame.height/2.25, width: self.view.frame.width/2, height: 30)
-        tfPassword.placeholder = "Password"
-        tfPassword.backgroundColor = .white
-        tfPassword.textColor = .black
-        tfPassword.borderStyle = .line
-        tfPassword.layer.cornerRadius = 5
-        tfPassword.layer.masksToBounds = true
-        tfPassword.layer.borderWidth = 1
-        tfPassword.isSecureTextEntry = true
-        tfPassword.keyboardType = .emailAddress
+//        bCreate.frame = CGRect(x:0, y:self.view.frame.height - self.view.frame.height/3, width:self.view.frame.width, height:45)
+//        bCreate.backgroundColor = UIColor.lightGray
+//        bCreate.setTitle("Create", for: .normal)
+//        bCreate.tintColor = UIColor.black
+//        bCreate.addTarget(self, action:#selector(self.doCreate(_:)), for: .touchUpInside)
+//
+//        bLogin.frame = CGRect(x:0, y:self.view.frame.height - self.view.frame.height/5, width:self.view.frame.width, height:45)
+//        bLogin.backgroundColor = UIColor.lightGray
+//        bLogin.setTitle("Login", for: .normal)
+//        bLogin.tintColor = UIColor.black
+//        bLogin.addTarget(self, action:#selector(self.doLogin(_:)), for: .touchUpInside)
+//
+//        tfEmail.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: 30)
+//        tfEmail.center = self.view.center
+//        tfEmail.placeholder = "Email"
+//        tfEmail.backgroundColor = .white
+//        tfEmail.textColor = .black
+//        tfEmail.borderStyle = .line
+//        tfEmail.layer.cornerRadius = 5
+//        tfEmail.layer.masksToBounds = true
+//        tfEmail.layer.borderWidth = 1
+//        tfEmail.keyboardType = .phonePad
+//
+//
+//        tfPassword.frame = CGRect(x: self.view.frame.width/4, y: self.view.frame.height - self.view.frame.height/2.25, width: self.view.frame.width/2, height: 30)
+//        tfPassword.placeholder = "Password"
+//        tfPassword.backgroundColor = .white
+//        tfPassword.textColor = .black
+//        tfPassword.borderStyle = .line
+//        tfPassword.layer.cornerRadius = 5
+//        tfPassword.layer.masksToBounds = true
+//        tfPassword.layer.borderWidth = 1
+//        tfPassword.isSecureTextEntry = true
+//        tfPassword.keyboardType = .emailAddress
     
         
 //        self.view.addSubview(bCreate)
@@ -113,14 +189,63 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         inputsContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         inputsContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
         inputsContainerView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        inputsContainerView.addSubview(nameTextField)
+        inputsContainerView.addSubview(nameSeparatorView)
+        inputsContainerView.addSubview(emailTextField)
+        inputsContainerView.addSubview(emailSeparatorView)
+        inputsContainerView.addSubview(passwordTextField)
+
+        //constraints for textfield
+        nameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
+        nameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
+        nameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
+        
+        //name separator constraints
+        nameSeparatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
+        nameSeparatorView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
+        nameSeparatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        nameSeparatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        //email textfield constraints
+        emailTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
+        emailTextField.topAnchor.constraint(equalTo: nameSeparatorView.topAnchor).isActive = true
+        emailTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
+        
+        //email separator constraints
+        emailSeparatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
+        emailSeparatorView.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
+        emailSeparatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        emailSeparatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        //password textfield constraints
+        passwordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
+        passwordTextField.topAnchor.constraint(equalTo: emailSeparatorView.topAnchor).isActive = true
+        passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
+        
+        
+        
     }
     
     func setupLoginResgiterButton(){
         loginRegisterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginRegisterButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12)
+        loginRegisterButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12).isActive = true
         loginRegisterButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        loginRegisterButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        loginRegisterButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
+    
+    
+    func setupProfileImageView(){
+        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        profileImageView.bottomAnchor.constraint(equalTo: inputsContainerView.topAnchor, constant: -12).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+    }
+    
+    
 
     @objc func doCreate(_ sender: Any) {
         //first create the user
