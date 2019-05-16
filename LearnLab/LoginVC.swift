@@ -56,17 +56,29 @@ class LoginVC: UIViewController, FUIAuthDelegate {
             return
         }
         
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-            if error == nil{
-                print("successfully created user")
+        if loginRegSegment.selectedSegmentIndex == 1{ //if registering
+            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+                if error == nil{
+                    print("successfully created user")
+                }
+                else{
+                    print(error)
+                }
+                //save user here
+                let values = ["name": name, "email": email ]
+                self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
             }
-            else{
-                print(error)
-            }
-            //save user here
-            let values = ["name": name, "email": email ]
-            self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
         }
+            
+        else{ //if logging in
+            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                if error == nil{
+                    let newVC = MainTabController()
+                    self.present(newVC, animated: true)
+                }
+            }
+        }
+        
     }
     
     let nameTextField : UITextField = {
@@ -116,6 +128,47 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return imageView
     }()
     
+    let loginRegSegment : UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Login", "Register"])
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.tintColor = .white
+        segment.selectedSegmentIndex = 1
+        segment.addTarget(self, action: #selector(segChanged), for: .valueChanged )
+        
+        return segment
+    }()
+    
+    @objc func segChanged(){
+        let title = loginRegSegment.titleForSegment(at: loginRegSegment.selectedSegmentIndex)
+        loginRegisterButton.setTitle(title, for: .normal)
+        //change height of input container view
+        if title == "Login"{
+            inputsHeightConstraint?.constant = 100
+            nameHeightConstraint?.isActive = false
+            nameHeightConstraint = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 0)
+            nameHeightConstraint?.isActive = true
+            emailHeight?.isActive = false
+            emailHeight = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/2)
+            emailHeight?.isActive = true
+            passHeight?.isActive = false
+            passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/2)
+            passHeight?.isActive = true
+        }
+        else{
+            inputsHeightConstraint?.constant = 150
+            nameHeightConstraint?.isActive = false
+            nameHeightConstraint = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+            nameHeightConstraint?.isActive = true
+            emailHeight?.isActive = false
+            emailHeight = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+            emailHeight?.isActive = true
+            passHeight?.isActive = false
+            passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+            passHeight?.isActive = true
+
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 61/255, green: 91/255, blue: 151/255, alpha: 1)
@@ -124,71 +177,30 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         let providers : [FUIAuthProvider] = [FUIGoogleAuth()]
         authUI?.providers = providers
         
-        // Do any additional setup after loading the view.
-      
-        ////constraints for auto-layout
-        ////////////
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)
         view.addSubview(profileImageView)
+        view.addSubview(loginRegSegment)
         setupInputsContainerView()
         setupLoginResgiterButton()
         setupProfileImageView()
-        
-        
-       
-        ///////////
-//        bCreate.frame = CGRect(x:0, y:self.view.frame.height - self.view.frame.height/3, width:self.view.frame.width, height:45)
-//        bCreate.backgroundColor = UIColor.lightGray
-//        bCreate.setTitle("Create", for: .normal)
-//        bCreate.tintColor = UIColor.black
-//        bCreate.addTarget(self, action:#selector(self.doCreate(_:)), for: .touchUpInside)
-//
-//        bLogin.frame = CGRect(x:0, y:self.view.frame.height - self.view.frame.height/5, width:self.view.frame.width, height:45)
-//        bLogin.backgroundColor = UIColor.lightGray
-//        bLogin.setTitle("Login", for: .normal)
-//        bLogin.tintColor = UIColor.black
-//        bLogin.addTarget(self, action:#selector(self.doLogin(_:)), for: .touchUpInside)
-//
-//        tfEmail.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: 30)
-//        tfEmail.center = self.view.center
-//        tfEmail.placeholder = "Email"
-//        tfEmail.backgroundColor = .white
-//        tfEmail.textColor = .black
-//        tfEmail.borderStyle = .line
-//        tfEmail.layer.cornerRadius = 5
-//        tfEmail.layer.masksToBounds = true
-//        tfEmail.layer.borderWidth = 1
-//        tfEmail.keyboardType = .phonePad
-//
-//
-//        tfPassword.frame = CGRect(x: self.view.frame.width/4, y: self.view.frame.height - self.view.frame.height/2.25, width: self.view.frame.width/2, height: 30)
-//        tfPassword.placeholder = "Password"
-//        tfPassword.backgroundColor = .white
-//        tfPassword.textColor = .black
-//        tfPassword.borderStyle = .line
-//        tfPassword.layer.cornerRadius = 5
-//        tfPassword.layer.masksToBounds = true
-//        tfPassword.layer.borderWidth = 1
-//        tfPassword.isSecureTextEntry = true
-//        tfPassword.keyboardType = .emailAddress
-    
-        
-//        self.view.addSubview(bCreate)
-//        self.view.addSubview(bLogin)
-//        self.view.addSubview(tfEmail)
-//        self.view.addSubview(tfPassword)
+        setupSegment()
         
         ref = Database.database().reference()
     }
     
+    var inputsHeightConstraint : NSLayoutConstraint?
+    var nameHeightConstraint : NSLayoutConstraint?
+    var emailHeight : NSLayoutConstraint?
+    var passHeight : NSLayoutConstraint?
     
     func setupInputsContainerView(){
         //x,y,width,height
         inputsContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         inputsContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         inputsContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
-        inputsContainerView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        inputsHeightConstraint = inputsContainerView.heightAnchor.constraint(equalToConstant: 150)
+        inputsHeightConstraint?.isActive = true
         
         inputsContainerView.addSubview(nameTextField)
         inputsContainerView.addSubview(nameSeparatorView)
@@ -200,7 +212,8 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         nameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         nameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
         nameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
+        nameHeightConstraint = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+        nameHeightConstraint?.isActive = true
         
         //name separator constraints
         nameSeparatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
@@ -212,7 +225,8 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         emailTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         emailTextField.topAnchor.constraint(equalTo: nameSeparatorView.topAnchor).isActive = true
         emailTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
+        emailHeight = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+        emailHeight?.isActive = true
         
         //email separator constraints
         emailSeparatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
@@ -224,10 +238,8 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         passwordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: emailSeparatorView.topAnchor).isActive = true
         passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
-        
-        
-        
+        passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+        passHeight?.isActive = true
     }
     
     func setupLoginResgiterButton(){
@@ -240,61 +252,18 @@ class LoginVC: UIViewController, FUIAuthDelegate {
     
     func setupProfileImageView(){
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: inputsContainerView.topAnchor, constant: -12).isActive = true
+        profileImageView.bottomAnchor.constraint(equalTo: loginRegSegment.topAnchor, constant: -12).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
     
-    
-
-    @objc func doCreate(_ sender: Any) {
-        //first create the user
-        if let email = tfEmail.text, let password = tfPassword.text{
-            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-                print(Auth.auth().currentUser?.uid)
-                //after creating the user in the database, move to view where user enters info
-                let newVC = InfoVC()
-                self.present(newVC, animated: true)
-            }
-        }
+    func setupSegment(){
+        loginRegSegment.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loginRegSegment.bottomAnchor.constraint(equalTo: inputsContainerView.topAnchor, constant: -12).isActive = true
+        loginRegSegment.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        loginRegSegment.heightAnchor.constraint(equalToConstant: 35).isActive=true
     }
     
-    @objc func doLogin(_ sender: Any) {
-        if Auth.auth().currentUser == nil{ //not logged in
-            // if let authVC = authUI?.authViewController() {
-            //   present(authVC, animated: true, completion: nil)
-            //                let newViewController = SecondVC()
-            //                self.navigationController?.pushViewController(newViewController, animated: true)
-            //  }
-            if let email = tfEmail.text, let password = tfPassword.text{
-                Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-                    if error == nil{
-                        self.bLogin.setTitle("Logout", for: .normal)
-                        let newVC = MainTabController()
-                        self.present(newVC, animated: true)
-                    }
-                }
-            }
-        }
-        else{ //logged in. sign out
-            do{
-                try Auth.auth().signOut()
-                self.bLogin.setTitle("Login", for: .normal)
-            }
-            catch{}
-
-        }
-    }
-    
-    func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
-        if error == nil {
-            let newVC = MainTabController()
-            self.present(newVC, animated: true)
-        }
-    }
-    
-    
-   
     /*
     // MARK: - Navigation
 
