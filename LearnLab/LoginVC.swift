@@ -37,6 +37,8 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 5
         view.layer.masksToBounds = true
+        view.isUserInteractionEnabled = true
+
         return view
     }()
     
@@ -51,36 +53,36 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return button
     }()
     
-    @objc func handleRegister(){
-        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
-            print("form is not valid")
-            return
-        }
-        
-        if loginRegSegment.selectedSegmentIndex == 1{ //if registering
-            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-                if error == nil{
-                    print("successfully created user")
-                }
-                else{
-                    print(error)
-                }
-                //save user here
-                let values = ["name": name, "email": email ]
-                self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
-            }
-        }
-            
-        else{ //if logging in
-            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-                if error == nil{
-                    let newVC = MainTabController()
-                    self.present(newVC, animated: true)
-                }
-            }
-        }
-        
-    }
+//    @objc func handleRegister(){
+//        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
+//            print("form is not valid")
+//            return
+//        }
+//        
+//        if loginRegSegment.selectedSegmentIndex == 1{ //if registering
+//            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+//                if error == nil{
+//                    print("successfully created user")
+//                }
+//                else{
+//                    print(error)
+//                }
+//                //save user here
+//                let values = ["name": name, "email": email ]
+//                self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
+//            }
+//        }
+//            
+//        else{ //if logging in
+//            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+//                if error == nil{
+//                    let newVC = MainTabController()
+//                    self.present(newVC, animated: true)
+//                }
+//            }
+//        }
+//        
+//    }
     
     let nameTextField : UITextField = {
         let tf = UITextField()
@@ -121,12 +123,16 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return tf
     }()
     
-    let profileImageView : UIImageView = {
+    lazy var profileImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Sensei")
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(uploadPic)))
+//        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.layer.cornerRadius = 5
+        let gest = UITapGestureRecognizer(target: self, action: #selector(uploadPic))
+        gest.numberOfTapsRequired = 1
+        imageView.addGestureRecognizer(gest)
         return imageView
     }()
     
@@ -136,13 +142,10 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         segment.tintColor = .white
         segment.selectedSegmentIndex = 1
         segment.addTarget(self, action: #selector(segChanged), for: .valueChanged )
-        
+        segment.isUserInteractionEnabled = true
         return segment
     }()
     
-    @objc func uploadPic(){
-        print("cliked view")
-    }
     
     @objc func segChanged(){
         let title = loginRegSegment.titleForSegment(at: loginRegSegment.selectedSegmentIndex)
@@ -178,6 +181,8 @@ class LoginVC: UIViewController, FUIAuthDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 61/255, green: 91/255, blue: 151/255, alpha: 1)
+        self.view.isUserInteractionEnabled = true
+
         authUI = FUIAuth.defaultAuthUI()
         authUI?.delegate = self
         let providers : [FUIAuthProvider] = [FUIGoogleAuth()]
