@@ -22,6 +22,7 @@ class LoginVC: UIViewController, FUIAuthDelegate {
     
     override func viewDidAppear(_ animated: Bool) { //if there's already a current user session, move to main app
         if Auth.auth().currentUser != nil {
+            
             let newVC = MainTabController()
             self.present(newVC, animated: true)
         }
@@ -125,6 +126,7 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         imageView.image = UIImage(named: "Sensei")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(uploadPic)))
         return imageView
     }()
     
@@ -137,6 +139,10 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         
         return segment
     }()
+    
+    @objc func uploadPic(){
+        print("cliked view")
+    }
     
     @objc func segChanged(){
         let title = loginRegSegment.titleForSegment(at: loginRegSegment.selectedSegmentIndex)
@@ -187,6 +193,7 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         setupSegment()
         
         ref = Database.database().reference()
+       
     }
     
     var inputsHeightConstraint : NSLayoutConstraint?

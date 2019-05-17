@@ -9,84 +9,91 @@
 import UIKit
 import Firebase
 
-
 class MessagesVC: UITableViewController {
 
+    var ref : DatabaseReference?
+    
+    var users = [User]()
+    
+    var allPeople : [String:Any]?
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Messages"
-        // Uncomment the following line to preserve selection between presentations
+        
+        ref = Database.database().reference()
+        
+        ref?.child("user").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value
+            , with: { (snapshot) in
+                
+                if let dictionary = snapshot.value as? [String : Any]{
+                    self.navigationItem.title = dictionary["name"] as? String
+                }
+        })
+        
+        fetchUser()
+        
+        tableView.register(userCellClass.self, forCellReuseIdentifier: "cellId")
+//        // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func fetchUser(){
+        
+       
+        
+        ref?.child("user").observeSingleEvent(of: .value
+            , with: { (snapshot) in
 
-    // MARK: - Table view data source
+                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+                
+                for item in tester{
+//                    print(item.value["name"])
+                    let user = User()
+                    user.email = item.value["email"]
+                    user.name = item.value["name"]
+//                    print("User: ", user.name)
+                    self.users.append(user)
+                }
+                
+                DispatchQueue.main.async { self.tableView.reloadData() }
+
+        })
+        
+//        print("store dictionary: ", self.allPeople)
+        
+//        print ("Users: ", self.users)
+    
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.users.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        let user = self.users[indexPath.row]
+        cell.textLabel?.text = user.name
+        cell.detailTextLabel?.text = user.email
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    class userCellClass : UITableViewCell{
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+            super.init(style: .subtitle, reuseIdentifier: "cellId")
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

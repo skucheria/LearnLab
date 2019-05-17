@@ -12,7 +12,7 @@ class tab2: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setViewControllers([ChatVC()], animated: false)
+        self.setViewControllers([MessagesVC()], animated: false)
 
         
         // Do any additional setup after loading the view.
