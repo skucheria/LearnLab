@@ -53,37 +53,6 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return button
     }()
     
-//    @objc func handleRegister(){
-//        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
-//            print("form is not valid")
-//            return
-//        }
-//        
-//        if loginRegSegment.selectedSegmentIndex == 1{ //if registering
-//            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-//                if error == nil{
-//                    print("successfully created user")
-//                }
-//                else{
-//                    print(error)
-//                }
-//                //save user here
-//                let values = ["name": name, "email": email ]
-//                self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
-//            }
-//        }
-//            
-//        else{ //if logging in
-//            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-//                if error == nil{
-//                    let newVC = MainTabController()
-//                    self.present(newVC, animated: true)
-//                }
-//            }
-//        }
-//        
-//    }
-    
     let nameTextField : UITextField = {
         let tf = UITextField()
         tf.placeholder = "Name"

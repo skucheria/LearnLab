@@ -61,7 +61,6 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             let imageRef = Storage.storage().reference().child("test.png")
             
             if let uploadData = self.profileImageView.image?.pngData(){
-                print("UPLOADING IMAGE DATA ", uploadData)
                 imageRef.putData(uploadData)
             }
             let newVC = MainTabController()
