@@ -58,10 +58,27 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                 let values = ["name": name, "email": email ]
                 self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
             }
-            let imageRef = Storage.storage().reference().child("test.png")
+            let imageRef = Storage.storage().reference().child("images").child("test4.png")
+            
+            
             
             if let uploadData = self.profileImageView.image?.pngData(){
-                imageRef.putData(uploadData)
+                imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                    if error != nil{
+                        print(error)
+                        return
+                    }
+                    
+                    imageRef.downloadURL(completion: { (url, error) in
+                        if error == nil{
+                            print ("DOWNLOAD URL: ", url!)
+                            let urlString = url?.absoluteString
+                            let vals = ["profilePic" : urlString]
+                            self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals)
+                        }
+                    })
+                }
+//                imageRef.putData(uploadData)
             }
             let newVC = MainTabController()
             self.present(newVC, animated: true)
