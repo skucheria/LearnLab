@@ -58,7 +58,10 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                 let values = ["name": name, "email": email ]
                 self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
             }
-            let imageRef = Storage.storage().reference().child("images").child("test4.png")
+            
+            let imageName = NSUUID().uuidString
+            
+            let imageRef = Storage.storage().reference().child("prof_pics").child("\(imageName).png")
             
             
             
@@ -68,13 +71,11 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                         print(error)
                         return
                     }
-                    
                     imageRef.downloadURL(completion: { (url, error) in
                         if error == nil{
-                            print ("DOWNLOAD URL: ", url!)
                             let urlString = url?.absoluteString
                             let vals = ["profilePic" : urlString]
-                            self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals)
+                            self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals) //updating with url link for image
                         }
                     })
                 }

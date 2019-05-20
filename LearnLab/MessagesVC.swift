@@ -55,6 +55,7 @@ class MessagesVC: UITableViewController {
                     let user = User()
                     user.email = item.value["email"]
                     user.name = item.value["name"]
+                    user.profLinik = item.value["profilePic"]
 //                    print("User: ", user.name)
                     self.users.append(user)
                 }
@@ -82,12 +83,49 @@ class MessagesVC: UITableViewController {
         let user = self.users[indexPath.row]
         cell.textLabel?.text = user.name
         cell.detailTextLabel?.text = user.email
+        
+        
+
+//        if let profileImageUrl = user.profLinik{
+//            let url = URL(string: profileImageUrl)
+//            print("URL FOR PIC ", url)
+//
+//
+//            URLSession.shared.dataTask(with: url!, completionHandler: {(data, response, error) in
+//                if error != nil{
+//                    print(error)
+//                    return
+//                }
+//
+//                DispatchQueue.main.async { cell.imageView?.image = UIImage(data: data!)
+//                    cell.imageView?.contentMode = .scaleAspectFill
+//                }
+//
+//
+//            }).resume()
+//
+//        }
+        
         return cell
     }
     
     class userCellClass : UITableViewCell{
+        
+        let profileImageView : UIImageView = {
+            let imageView = UIImageView()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.image = UIImage(named: "person")
+            return imageView
+        }()
+        
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: .subtitle, reuseIdentifier: "cellId")
+            addSubview(profileImageView)
+            //constraints x,y,w,h
+            profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
+            profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+            profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         }
         
         required init?(coder aDecoder: NSCoder) {
