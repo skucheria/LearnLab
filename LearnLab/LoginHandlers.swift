@@ -61,11 +61,9 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             
             let imageName = NSUUID().uuidString
             
-            let imageRef = Storage.storage().reference().child("prof_pics").child("\(imageName).png")
+            let imageRef = Storage.storage().reference().child("prof_pics").child("\(imageName).jpg")
             
-            
-            
-            if let uploadData = self.profileImageView.image?.pngData(){
+            if let uploadData = self.profileImageView.image?.jpegData(compressionQuality: 0.1){
                 imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
                     if error != nil{
                         print(error)

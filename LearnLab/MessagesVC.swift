@@ -87,30 +87,17 @@ class MessagesVC: UITableViewController {
         let profileImageUrl = user.profLinik
         
         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-//        if {
-//            let url = URL(string: profileImageUrl)
-//            print("URL FOR PIC ", url)
-//
-//
-//            URLSession.shared.dataTask(with: url!, completionHandler: {(data, response, error) in
-//                if error != nil{
-//                    print(error)
-//                    return
-//                }
-//
-//                DispatchQueue.main.async {
-//                    cell.profileImageView.image = UIImage(data: data!)
-////                      cell.imageView?.image = UIImage(data: data!)
-////                    cell.imageView?.contentMode = .scaleAspectFill
-//                }
-//            }).resume()
-//        }
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 72
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let chatVC = ChatLogVC()
+        navigationController?.pushViewController(chatVC, animated: true)
     }
     
     class userCellClass : UITableViewCell{
