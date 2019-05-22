@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		353AD7F6229515B70063596E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F5229515B70063596E /* Extensions.swift */; };
 		3560D84A22868EC3003C12E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D84922868EC3003C12E0 /* ViewController.swift */; };
 		3560D84F2286ACD7003C12E0 /* Sensei.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3560D84E2286ACD7003C12E0 /* Sensei.jpg */; };
 		3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D85022888AF1003C12E0 /* MainTabController.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		0AE6AF16688589330F827671 /* Pods-LearnLab.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLab.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLab/Pods-LearnLab.debug.xcconfig"; sourceTree = "<group>"; };
+		353AD7F5229515B70063596E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3560D84922868EC3003C12E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3560D84E2286ACD7003C12E0 /* Sensei.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Sensei.jpg; sourceTree = "<group>"; };
 		3560D85022888AF1003C12E0 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
@@ -150,6 +152,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		353AD7F4229515A70063596E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				353AD7F5229515B70063596E /* Extensions.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		3560D84D2286ACB6003C12E0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +181,7 @@
 		35D2994D22855346005DF851 = {
 			isa = PBXGroup;
 			children = (
+				353AD7F4229515A70063596E /* Helpers */,
 				3560D84D2286ACB6003C12E0 /* Images */,
 				35D2995822855346005DF851 /* LearnLab */,
 				35D2997022855348005DF851 /* LearnLabTests */,
@@ -536,6 +547,7 @@
 				35D2996222855346005DF851 /* LearnLab.xcdatamodeld in Sources */,
 				357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */,
 				35900FAE2289402200D796D3 /* tab4.swift in Sources */,
+				353AD7F6229515B70063596E /* Extensions.swift in Sources */,
 				35C1C7A1228E24390060AAA3 /* User.swift in Sources */,
 				3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */,
 				3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */,
