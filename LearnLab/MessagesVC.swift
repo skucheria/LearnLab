@@ -97,6 +97,7 @@ class MessagesVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatVC = ChatLogVC()
+        
         navigationController?.pushViewController(chatVC, animated: true)
     }
     
