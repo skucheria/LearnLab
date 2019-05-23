@@ -23,8 +23,7 @@ extension UIImageView{
         
 //        if let profileImageUrl = urlString{
             let url = URL(string: urlString)
-            print("URL FOR PIC ", url)
-            
+        
             
             URLSession.shared.dataTask(with: url!, completionHandler: {(data, response, error) in
                 if error != nil{

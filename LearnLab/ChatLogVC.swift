@@ -13,11 +13,18 @@ import FirebaseDatabase
 class ChatLogVC : UIViewController, UITextFieldDelegate{
     
     var ref : DatabaseReference?
+    
+    var toUser : User? {
+        didSet{
+            navigationItem.title = toUser?.name
+            
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Chat Log"
+//        navigationItem.title = "Chat Log"
         self.view.backgroundColor = .white
         ref = Database.database().reference()
 
@@ -73,7 +80,8 @@ class ChatLogVC : UIViewController, UITextFieldDelegate{
     }
     
     @objc func handleSend(){
-        let values = ["text" : inputTextField.text!, "fromID" : Auth.auth().currentUser?.uid]
+        let timestamp = String(NSDate().timeIntervalSince1970)
+        let values = ["text" : inputTextField.text!, "fromID" : Auth.auth().currentUser?.uid, "toID" : toUser!.id!, "timestamp:" : timestamp] 
         let re = Database.database().reference().child("messages")
         let childRef = re.childByAutoId()
         childRef.updateChildValues(values)

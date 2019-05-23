@@ -25,7 +25,6 @@
 		35900FB02289405500D796D3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAF2289405500D796D3 /* Profile.swift */; };
 		35900FB22289409000D796D3 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB12289409000D796D3 /* MessagesVC.swift */; };
 		35900FB4228940AC00D796D3 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB3228940AC00D796D3 /* SearchVC.swift */; };
-		35C1C792228B6FB90060AAA3 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1C791228B6FB90060AAA3 /* ChatVC.swift */; };
 		35C1C79F228BB7EE0060AAA3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1C79E228BB7EE0060AAA3 /* Message.swift */; };
 		35C1C7A1228E24390060AAA3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1C7A0228E24390060AAA3 /* User.swift */; };
 		35D2995A22855346005DF851 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2995922855346005DF851 /* AppDelegate.swift */; };
@@ -77,7 +76,6 @@
 		35900FAF2289405500D796D3 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		35900FB12289409000D796D3 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		35900FB3228940AC00D796D3 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
-		35C1C791228B6FB90060AAA3 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		35C1C79E228BB7EE0060AAA3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		35C1C7A0228E24390060AAA3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35D2995622855346005DF851 /* LearnLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,7 +216,6 @@
 				35900FA922893FF500D796D3 /* Tutors.swift */,
 				3560D85422889089003C12E0 /* tab2.swift */,
 				35900FB12289409000D796D3 /* MessagesVC.swift */,
-				35C1C791228B6FB90060AAA3 /* ChatVC.swift */,
 				353AD7F722952D420063596E /* ChatLogVC.swift */,
 				35C1C799228B7B2F0060AAA3 /* Models - Chat */,
 				35900FAB2289401B00D796D3 /* tab3.swift */,
@@ -535,7 +532,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35C1C792228B6FB90060AAA3 /* ChatVC.swift in Sources */,
 				35900FAA22893FF500D796D3 /* Tutors.swift in Sources */,
 				3560D8532288907F003C12E0 /* tab1.swift in Sources */,
 				35C1C79F228BB7EE0060AAA3 /* Message.swift in Sources */,

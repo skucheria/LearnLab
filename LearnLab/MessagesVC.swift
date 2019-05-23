@@ -15,6 +15,8 @@ class MessagesVC: UITableViewController {
     
     var users = [User]()
     
+    var msgs = [Message]()
+    
     var allPeople : [String:Any]?
 
     
@@ -33,6 +35,8 @@ class MessagesVC: UITableViewController {
         
         fetchUser()
         
+        fetchMessages()
+        
         tableView.register(userCellClass.self, forCellReuseIdentifier: "cellId")
 //        // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -42,34 +46,58 @@ class MessagesVC: UITableViewController {
     }
     
     func fetchUser(){
-        
-       
-        
-        ref?.child("user").observeSingleEvent(of: .value
+     ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
-
-                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
                 
+                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
                 for item in tester{
-//                    print(item.value["name"])
                     let user = User()
-                    user.email = item.value["email"]
-                    user.name = item.value["name"]
-                    user.profLinik = item.value["profilePic"]
-//                    print("User: ", user.name)
-                    self.users.append(user)
+                    if item.key != Auth.auth().currentUser?.uid{
+                        user.email = item.value["email"]
+                        user.name = item.value["name"]
+                        user.profLinik = item.value["profilePic"]
+                        user.id = item.key
+                        //                    print("User: ", user.name)
+                        self.users.append(user)
+                    }
                 }
                 
                 DispatchQueue.main.async { self.tableView.reloadData() }
 
         })
-        
-//        print("store dictionary: ", self.allPeople)
-        
-//        print ("Users: ", self.users)
-    
     }
 
+    func fetchMessages(){
+        print("in msgss")
+        ref?.child("messages").observeSingleEvent(of: .childAdded
+            , with: { (snapshot) in
+                
+                if let dict = snapshot.value as? [String : AnyObject]{
+                    
+                    let msg = Message()
+                    msg.setValuesForKeys(dict)
+                    self.msgs.append(msg)
+                }
+                
+//                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+//                var counter = 0
+//                for item in tester{
+//                    print("In here: ", counter)
+//                    counter+=1
+//                    let msg = Message()
+//                    msg.toID = item.value["toId"]
+//                    msg.fromID = item.value["fromID"]
+//                    msg.text = item.value["text"]
+//                    msg.timestamp = item.value["timestamp"]
+//                    self.msgs.append(msg)
+//                }
+                
+                DispatchQueue.main.async { self.tableView.reloadData() }
+                
+        })
+        
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -96,9 +124,17 @@ class MessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let chatVC = ChatLogVC()
+        let user = self.users[indexPath.row]
         
+        showChatVC(user: user)
+       
+    }
+    
+    func showChatVC(user : User){
+        let chatVC = ChatLogVC()
+        chatVC.toUser = user
         navigationController?.pushViewController(chatVC, animated: true)
+        print("MESsages: ", self.msgs[0].toID)
     }
     
     class userCellClass : UITableViewCell{
