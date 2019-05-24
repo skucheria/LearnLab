@@ -19,8 +19,9 @@ class MessagesVC: UITableViewController {
     
     var allPeople : [String:Any]?
     
-    var idToUser : [String: User]?
+//    var idToUser : [String: User]?
 
+    var msgsDict = [String:Message]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,8 +76,14 @@ class MessagesVC: UITableViewController {
                 msg.fromID = dictionary["fromID"] as! String
                 msg.toID = dictionary["toID"] as! String
                 msg.text = dictionary["text"] as! String
-                msg.timestamp = dictionary["timestamp"] as! NSNumber
-                self.msgs.append(msg)
+                msg.timestamp = dictionary["timestamp"] as? NSNumber
+
+                if let toID = msg.toID{
+                    self.msgsDict[toID] = msg
+                    self.msgs = Array(self.msgsDict.values)
+                }
+                
+//                self.msgs.append(msg)
 
             }
             DispatchQueue.main.async { self.tableView.reloadData() }
@@ -89,7 +96,7 @@ class MessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.msgs.count
+        return self.msgsDict.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,12 +111,20 @@ class MessagesVC: UITableViewController {
                     if let dictionary = snapshot.value as? [String : Any]{
                         cell.textLabel?.text = dictionary["name"] as? String
                         let profileImageUrl = dictionary["profilePic"] as? String
+                        print(profileImageUrl)
                         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
                     }
             })
         }
 
         cell.detailTextLabel?.text = msg.text
+        
+        if let seconds = msg.timestamp?.doubleValue{
+            let date = NSDate(timeIntervalSince1970: seconds)
+            let format = DateFormatter()
+            format.dateFormat = "hh:mm a"
+            cell.timeLabel.text = format.string(from: date as Date)
+        }
         
 //        let user = self.users[indexPath.row]
 //        cell.textLabel?.text = user.name
