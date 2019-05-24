@@ -75,6 +75,7 @@ class MessagesVC: UITableViewController {
                 msg.fromID = dictionary["fromID"] as! String
                 msg.toID = dictionary["toID"] as! String
                 msg.text = dictionary["text"] as! String
+                msg.timestamp = dictionary["timestamp"] as! NSNumber
                 self.msgs.append(msg)
 
             }
@@ -95,11 +96,11 @@ class MessagesVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! userCellClass
 //
         let msg = msgs[indexPath.row]
-
+        
+        //get recipient user information
         if let toID = msg.toID{
             ref?.child("user").child(toID).observeSingleEvent(of: .value
                 , with: { (snapshot) in
-
                     if let dictionary = snapshot.value as? [String : Any]{
                         cell.textLabel?.text = dictionary["name"] as? String
                         let profileImageUrl = dictionary["profilePic"] as? String
