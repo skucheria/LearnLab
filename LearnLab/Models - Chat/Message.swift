@@ -10,10 +10,8 @@ import UIKit
 
 @objcMembers
 class Message: NSObject {
-    
     var fromID: String?
     var text: String?
-    var timestamp : String?
     var toID : String?
 }
 

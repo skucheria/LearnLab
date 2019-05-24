@@ -18,6 +18,8 @@ class MessagesVC: UITableViewController {
     var msgs = [Message]()
     
     var allPeople : [String:Any]?
+    
+    var idToUser : [String: User]?
 
     
     override func viewDidLoad() {
@@ -48,7 +50,6 @@ class MessagesVC: UITableViewController {
     func fetchUser(){
      ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
-                
                 let tester = snapshot.value as? [String : [String:String] ] ?? [:]
                 for item in tester{
                     let user = User()
@@ -68,34 +69,18 @@ class MessagesVC: UITableViewController {
     }
 
     func fetchMessages(){
-        print("in msgss")
-        ref?.child("messages").observeSingleEvent(of: .childAdded
-            , with: { (snapshot) in
-                
-                if let dict = snapshot.value as? [String : AnyObject]{
-                    
-                    let msg = Message()
-                    msg.setValuesForKeys(dict)
-                    self.msgs.append(msg)
-                }
-                
-//                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
-//                var counter = 0
-//                for item in tester{
-//                    print("In here: ", counter)
-//                    counter+=1
-//                    let msg = Message()
-//                    msg.toID = item.value["toId"]
-//                    msg.fromID = item.value["fromID"]
-//                    msg.text = item.value["text"]
-//                    msg.timestamp = item.value["timestamp"]
-//                    self.msgs.append(msg)
-//                }
-                
-                DispatchQueue.main.async { self.tableView.reloadData() }
-                
-        })
-        
+        ref?.child("messages").observe(.childAdded, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String: Any]{
+                let msg = Message()
+                msg.fromID = dictionary["fromID"] as! String
+                msg.toID = dictionary["toID"] as! String
+                msg.text = dictionary["text"] as! String
+                self.msgs.append(msg)
+
+            }
+            DispatchQueue.main.async { self.tableView.reloadData() }
+
+        }, withCancel: nil)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -103,18 +88,35 @@ class MessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.users.count
+        return self.msgs.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! userCellClass
-        let user = self.users[indexPath.row]
-        cell.textLabel?.text = user.name
-        cell.detailTextLabel?.text = user.email
+//
+        let msg = msgs[indexPath.row]
+
+        if let toID = msg.toID{
+            ref?.child("user").child(toID).observeSingleEvent(of: .value
+                , with: { (snapshot) in
+
+                    if let dictionary = snapshot.value as? [String : Any]{
+                        cell.textLabel?.text = dictionary["name"] as? String
+                        let profileImageUrl = dictionary["profilePic"] as? String
+                        cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+                    }
+            })
+        }
+
+        cell.detailTextLabel?.text = msg.text
         
-        let profileImageUrl = user.profLinik
-        
-        cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+//        let user = self.users[indexPath.row]
+//        cell.textLabel?.text = user.name
+//        cell.detailTextLabel?.text = user.email
+//
+//        let profileImageUrl = user.profLinik
+//
+//        cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
         
         return cell
     }
@@ -134,43 +136,8 @@ class MessagesVC: UITableViewController {
         let chatVC = ChatLogVC()
         chatVC.toUser = user
         navigationController?.pushViewController(chatVC, animated: true)
-        print("MESsages: ", self.msgs[0].toID)
     }
     
-    class userCellClass : UITableViewCell{
-        
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            textLabel!.frame = CGRect(x: 56, y: textLabel!.frame.origin.y - 2, width: textLabel!.frame.width, height: textLabel!.frame.height)
-            detailTextLabel!.frame = CGRect(x: 56, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
-
-        }
-        
-        let profileImageView : UIImageView = {
-            let imageView = UIImageView()
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.image = UIImage(named: "person")
-            imageView.layer.cornerRadius = 24
-            imageView.layer.borderColor = (UIColor.red).cgColor
-            imageView.layer.borderWidth = 2
-            imageView.layer.masksToBounds = true
-            return imageView
-        }()
-        
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: .subtitle, reuseIdentifier: "cellId")
-            addSubview(profileImageView)
-            //constraints x,y,w,h
-            profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
-            profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-            profileImageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
-            profileImageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        }
-        
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-    }
+    
     
 }

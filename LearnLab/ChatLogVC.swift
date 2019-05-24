@@ -81,7 +81,7 @@ class ChatLogVC : UIViewController, UITextFieldDelegate{
     
     @objc func handleSend(){
         let timestamp = String(NSDate().timeIntervalSince1970)
-        let values = ["text" : inputTextField.text!, "fromID" : Auth.auth().currentUser?.uid, "toID" : toUser!.id!, "timestamp:" : timestamp] 
+        let values = ["text" : inputTextField.text!, "fromID" : Auth.auth().currentUser?.uid, "toID" : toUser!.id!] 
         let re = Database.database().reference().child("messages")
         let childRef = re.childByAutoId()
         childRef.updateChildValues(values)

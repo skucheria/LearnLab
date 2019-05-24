@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		353AD7F6229515B70063596E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F5229515B70063596E /* Extensions.swift */; };
 		353AD7F822952D420063596E /* ChatLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F722952D420063596E /* ChatLogVC.swift */; };
+		353AD7FA229797EA0063596E /* userCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F9229797EA0063596E /* userCellClass.swift */; };
 		3560D84A22868EC3003C12E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D84922868EC3003C12E0 /* ViewController.swift */; };
 		3560D84F2286ACD7003C12E0 /* Sensei.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3560D84E2286ACD7003C12E0 /* Sensei.jpg */; };
 		3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D85022888AF1003C12E0 /* MainTabController.swift */; };
@@ -60,6 +61,7 @@
 		0AE6AF16688589330F827671 /* Pods-LearnLab.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLab.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLab/Pods-LearnLab.debug.xcconfig"; sourceTree = "<group>"; };
 		353AD7F5229515B70063596E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		353AD7F722952D420063596E /* ChatLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogVC.swift; sourceTree = "<group>"; };
+		353AD7F9229797EA0063596E /* userCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userCellClass.swift; sourceTree = "<group>"; };
 		3560D84922868EC3003C12E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3560D84E2286ACD7003C12E0 /* Sensei.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Sensei.jpg; sourceTree = "<group>"; };
 		3560D85022888AF1003C12E0 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			children = (
 				35C1C79E228BB7EE0060AAA3 /* Message.swift */,
 				35C1C7A0228E24390060AAA3 /* User.swift */,
+				353AD7F9229797EA0063596E /* userCellClass.swift */,
 			);
 			path = "Models - Chat";
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */,
 				3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */,
 				35D2995A22855346005DF851 /* AppDelegate.swift in Sources */,
+				353AD7FA229797EA0063596E /* userCellClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
