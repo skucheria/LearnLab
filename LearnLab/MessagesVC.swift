@@ -73,9 +73,9 @@ class MessagesVC: UITableViewController {
         ref?.child("messages").observe(.childAdded, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: Any]{
                 let msg = Message()
-                msg.fromID = dictionary["fromID"] as! String
-                msg.toID = dictionary["toID"] as! String
-                msg.text = dictionary["text"] as! String
+                msg.fromID = dictionary["fromID"] as? String
+                msg.toID = dictionary["toID"] as? String
+                msg.text = dictionary["text"] as? String
                 msg.timestamp = dictionary["timestamp"] as? NSNumber
 
                 if let toID = msg.toID{
@@ -111,7 +111,6 @@ class MessagesVC: UITableViewController {
                     if let dictionary = snapshot.value as? [String : Any]{
                         cell.textLabel?.text = dictionary["name"] as? String
                         let profileImageUrl = dictionary["profilePic"] as? String
-                        print(profileImageUrl)
                         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
                     }
             })

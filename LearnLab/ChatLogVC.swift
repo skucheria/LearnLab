@@ -87,9 +87,19 @@ class ChatLogVC : UIViewController, UITextFieldDelegate{
         let childRef = re.childByAutoId()
         childRef.updateChildValues(values)
         childRef.updateChildValues(values2)
+        
+        groupMessages(key: childRef.key!)
+
         inputTextField.text = ""
         
     }
+    
+    func groupMessages(key : String){
+        let groupRef = Database.database().reference().child("group-messages")
+        let child = groupRef.child((Auth.auth().currentUser?.uid)!)
+        child.updateChildValues([key : 1])
+    }
+    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handleSend()
