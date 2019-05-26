@@ -26,6 +26,7 @@
 		35900FB02289405500D796D3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAF2289405500D796D3 /* Profile.swift */; };
 		35900FB22289409000D796D3 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB12289409000D796D3 /* MessagesVC.swift */; };
 		35900FB4228940AC00D796D3 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB3228940AC00D796D3 /* SearchVC.swift */; };
+		35BA1DC82299B79C00F0ADE3 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BA1DC72299B79C00F0ADE3 /* ProfileVC.swift */; };
 		35C1C79F228BB7EE0060AAA3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1C79E228BB7EE0060AAA3 /* Message.swift */; };
 		35C1C7A1228E24390060AAA3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1C7A0228E24390060AAA3 /* User.swift */; };
 		35D2995A22855346005DF851 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2995922855346005DF851 /* AppDelegate.swift */; };
@@ -78,6 +79,7 @@
 		35900FAF2289405500D796D3 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		35900FB12289409000D796D3 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		35900FB3228940AC00D796D3 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		35BA1DC72299B79C00F0ADE3 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		35C1C79E228BB7EE0060AAA3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		35C1C7A0228E24390060AAA3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35D2995622855346005DF851 /* LearnLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,6 +228,7 @@
 				35900FAD2289402200D796D3 /* tab4.swift */,
 				35900FAF2289405500D796D3 /* Profile.swift */,
 				3560D8582289030C003C12E0 /* SettingsVC.swift */,
+				35BA1DC72299B79C00F0ADE3 /* ProfileVC.swift */,
 				35D2996322855348005DF851 /* Assets.xcassets */,
 				35D2996522855348005DF851 /* LaunchScreen.storyboard */,
 				35D2996822855348005DF851 /* Info.plist */,
@@ -555,6 +558,7 @@
 				3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */,
 				3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */,
 				35D2995A22855346005DF851 /* AppDelegate.swift in Sources */,
+				35BA1DC82299B79C00F0ADE3 /* ProfileVC.swift in Sources */,
 				353AD7FA229797EA0063596E /* userCellClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,7 +12,9 @@ class tab4: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setViewControllers([SettingsVC()], animated: false)
+//        let profileView = ProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        self.setViewControllers([ProfileVC(collectionViewLayout: UICollectionViewFlowLayout())], animated: false)
+        self.setViewControllers([ProfileVC()], animated: false)
 
         // Do any additional setup after loading the view.
     }
