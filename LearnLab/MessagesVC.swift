@@ -141,6 +141,8 @@ class MessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
         let user = self.users[indexPath.row]
         
         showChatVC(user: user)

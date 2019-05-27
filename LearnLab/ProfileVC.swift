@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
 
 class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
+    var currUser : User?
+    
     let topView : UIView = {
         let view = UIView()
         view.backgroundColor = .green
@@ -24,7 +27,11 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         //        imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        imageView.layer.cornerRadius = 5
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 2
+        imageView.layer.cornerRadius = 75/2
+
+        imageView.layer.borderColor = UIColor.black.cgColor
         return imageView
     }()
     
@@ -50,6 +57,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
         setupTopView()
         setupTableView()
+        getCurrentUserInfo()
         
         options.delegate = self
         options.dataSource = self
@@ -70,15 +78,42 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         topView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
-        profileImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -25).isActive = true
+        profileImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         profileImageView.topAnchor.constraint(equalTo: topView.topAnchor, constant: 50).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 75).isActive = true
+
         
         name.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
         name.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
         name.widthAnchor.constraint(equalToConstant: 50)
         name.heightAnchor.constraint(equalToConstant: 20)
+        
+    }
+    
+    func getCurrentUserInfo(){
+        let uid = Auth.auth().currentUser?.uid
+        let ref = Database.database().reference()
+        let curr = User()
+        ref.child("user").observeSingleEvent(of: .value
+            , with: { (snapshot) in
+                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+                for item in tester{
+//                    print("Key AKA UID: ", item.key)
+//                    print("My UID: ", uid!)
+                    if item.key == (uid!){
+//                        print("every going in here")
+                        curr.email = item.value["email"]
+                        curr.name = item.value["name"]
+                        curr.profLinik = item.value["profilePic"]
+                        curr.id = item.key
+                        
+                        self.name.text = curr.name
+                        let profileImageUrl = curr.profLinik
+                        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+                    }
+                }
+        })
         
     }
     
@@ -88,8 +123,6 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         options.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         options.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         options.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

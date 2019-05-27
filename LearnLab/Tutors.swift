@@ -32,19 +32,16 @@ class Tutors: UITableViewController {
     }
     
     func fetchUser(){
-        print("Calling fetchUser")
         ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
                 
                 let tester = snapshot.value as? [String : [String:String] ] ?? [:]
-                print("USERS SNAPSHOT: ", snapshot)
                 for item in tester{
                     let user = User()
                     user.email = item.value["email"]
                     user.name = item.value["name"]
                     user.profLinik = item.value["profilePic"]
                     user.id = item.key
-                    //                    print("User: ", user.name)
                     self.users.append(user)
                 
                 }
