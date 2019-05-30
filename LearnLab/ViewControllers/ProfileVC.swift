@@ -32,12 +32,15 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         imageView.layer.cornerRadius = 75/2
 
         imageView.layer.borderColor = UIColor.black.cgColor
+        
+        let gest = UITapGestureRecognizer(target: self, action: #selector(uploadPic))
+        gest.numberOfTapsRequired = 1
+        imageView.addGestureRecognizer(gest)
         return imageView
     }()
     
     let name : UILabel = {
         let name = UILabel()
-        name.text = "FirstName LastName"
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
     }()
@@ -47,6 +50,15 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         options.translatesAutoresizingMaskIntoConstraints = false
         return options
     }()
+    
+//    let alert : UIAlertController = {
+//        let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: nil))
+//        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+//        return alert
+//    }()
+    
+    let progressHUD = ProgressHUD(text: "Logging Out...")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +74,9 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         options.delegate = self
         options.dataSource = self
         options.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
 
     }
     
@@ -107,7 +122,6 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         curr.name = item.value["name"]
                         curr.profLinik = item.value["profilePic"]
                         curr.id = item.key
-                        
                         self.name.text = curr.name
                         let profileImageUrl = curr.profLinik
                         self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
@@ -130,19 +144,45 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        
+        if(indexPath.row == 0){
+            cell.textLabel?.text = "Logout"
+            return cell
+        }
+        
         cell.textLabel?.text = "Cell"
         
         
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        if indexPath.row == 0{
+            progressHUD.show()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                self.progressHUD.hide()
+                self.logout()
+            }
+        }
+    }
 
+    func logout(){
+        do{
+            try Auth.auth().signOut()
+            let newVC = LoginVC()
+            self.present(newVC, animated: true)
+        }
+        catch{}
+    }
    
+    @objc func uploadPic(){
+        print("Upload pic")
+    }
 
 }

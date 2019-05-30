@@ -52,7 +52,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                     print("successfully created user")
                 }
                 else{
-                    print(error)
+                    print(error!)
                 }
                 //save user here
                 let values = ["name": name, "email": email ]
@@ -66,7 +66,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             if let uploadData = self.profileImageView.image?.jpegData(compressionQuality: 0.1){
                 imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
                     if error != nil{
-                        print(error)
+                        print(error!)
                         return
                     }
                     imageRef.downloadURL(completion: { (url, error) in
