@@ -53,18 +53,10 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return options
     }()
     
-//    let alert : UIAlertController = {
-//        let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: nil))
-//        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-//        return alert
-//    }()
-    
     let progressHUD = ProgressHUD(text: "Logging Out...")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "ProfileVC"
         self.view.backgroundColor = .white
         self.view.isUserInteractionEnabled = true
         view.addSubview(options)
@@ -79,6 +71,15 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         self.view.addSubview(progressHUD)
         progressHUD.hide()
+        
+        var ref = Database.database().reference()
+        
+        ref.child("user").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value
+            , with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String : Any]{
+                    self.navigationItem.title = dictionary["name"] as? String
+                }
+        })
 
     }
     
