@@ -50,8 +50,8 @@ class EditProfileVC: UIViewController {
     }()
     
     lazy var editButton : UIBarButtonItem = {
-        let edit = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPressed))
-        edit.title = "Edit"
+        let edit = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(editPressed))
+        edit.title = "Save"
         return edit
     }()
     
@@ -124,11 +124,16 @@ class EditProfileVC: UIViewController {
                     }
                 }
         })
-        
     }
     
     @objc func editPressed(){
     
+        let nameText = name.text
+        let emailText = email.text
+        let vals = ["name" : nameText, "email": emailText]
+        var ref = Database.database().reference()
+        ref.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals) //updating with url link for image
+
     
     }
     
