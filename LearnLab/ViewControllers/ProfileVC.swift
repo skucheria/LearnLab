@@ -140,38 +140,74 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (section == 0){
+            return 3
+        }
         return 2
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         
-        if(indexPath.row == 0){
-            cell.textLabel?.text = "Logout"
-            return cell
+        if (indexPath.section == 0){
+            if(indexPath.row == 0){
+                cell.textLabel?.text = "View & Edit Profile"
+                return cell
+            }
+            else if(indexPath.row == 1){
+                cell.textLabel?.text = "Payment Accounts"
+                return cell
+            }
+            else if(indexPath.row == 2){
+                cell.textLabel?.text = "Logout"
+                return cell
+            }
         }
         
-        cell.textLabel?.text = "Cell"
-        
+        if(indexPath.row == 0){
+            cell.textLabel?.text = "section 2 #1"
+            return cell
+        }
+        else if(indexPath.row == 1){
+            cell.textLabel?.text = "section 2 #2"
+            return cell
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
-        if indexPath.row == 0{
-            progressHUD.show()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-                self.progressHUD.hide()
-                self.logout()
+        if (indexPath.section == 0){
+            if (indexPath.row == 0){
+                let epVC = EditProfileVC()
+                self.navigationController?.pushViewController(epVC, animated: true)
+            }
+            else if indexPath.row == 2{
+                progressHUD.show()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                    self.progressHUD.hide()
+                    self.logout()
+                }
             }
         }
     }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        if (section == 1){
+            label.text = "    "
+            return label
+        }
+        label.text = "First one"
+        return label
+    }
+    
     func logout(){
         do{
             try Auth.auth().signOut()
