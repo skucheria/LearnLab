@@ -14,11 +14,13 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
     var currUser : User?
     
-    let topView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .green
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    let topView : UIImageView = {
+//        let view = UIView()
+        let image = UIImageView()
+//        view.backgroundColor = .green
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
     }()
     
     lazy var profileImageView : UIImageView = {
@@ -29,7 +31,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         imageView.isUserInteractionEnabled = true
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2
-        imageView.layer.cornerRadius = 75/2
+        imageView.layer.cornerRadius = 125/2
 
         imageView.layer.borderColor = UIColor.black.cgColor
         
@@ -94,9 +96,9 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         topView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         profileImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        profileImageView.topAnchor.constraint(equalTo: topView.topAnchor, constant: 50).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: topView.topAnchor, constant: 25).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 125).isActive = true
 
         
         name.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
@@ -125,6 +127,8 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         self.name.text = curr.name
                         let profileImageUrl = curr.profLinik
                         self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+                        self.topView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+
                     }
                 }
         })
