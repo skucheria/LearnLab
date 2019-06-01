@@ -22,12 +22,11 @@ class LoginVC: UIViewController, FUIAuthDelegate {
     
     override func viewDidAppear(_ animated: Bool) { //if there's already a current user session, move to main app
         if Auth.auth().currentUser != nil {
-            
             let newVC = MainTabController()
             self.present(newVC, animated: true)
         }
         else{
-            print("No user logged in yet")
+            print("No user logged in")
         }
     }
     

@@ -29,7 +29,7 @@ class Tutors: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+    }   
     
     func fetchUser(){
         ref?.child("user").observeSingleEvent(of: .value
@@ -42,7 +42,10 @@ class Tutors: UITableViewController {
                     user.name = item.value["name"]
                     user.profLinik = item.value["profilePic"]
                     user.id = item.key
-                    self.users.append(user)
+                    user.tutor = item.value["tutor"]
+                    if user.tutor == "yes"{
+                        self.users.append(user)
+                    }
                 
                 }
                 

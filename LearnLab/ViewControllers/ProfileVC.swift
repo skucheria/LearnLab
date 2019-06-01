@@ -150,7 +150,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0){
-            return 3
+            return 4
         }
         return 2
         
@@ -169,6 +169,10 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
             else if(indexPath.row == 2){
+                cell.textLabel?.text = "Become a Tutor"
+                return cell
+            }
+            else if(indexPath.row == 3){
                 cell.textLabel?.text = "Logout"
                 return cell
             }
@@ -194,6 +198,9 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 self.navigationController?.pushViewController(epVC, animated: true)
             }
             else if indexPath.row == 2{
+                
+            }
+            else if indexPath.row == 3{
                 progressHUD.show()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                     self.progressHUD.hide()

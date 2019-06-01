@@ -25,9 +25,9 @@ class MessagesVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Messages"
-//        ref = Database.database().reference()
-//
+//        self.navigationItem.title = "Messages"
+        ref = Database.database().reference()
+
 //        ref?.child("user").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value
 //            , with: { (snapshot) in
 //

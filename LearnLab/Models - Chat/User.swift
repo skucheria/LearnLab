@@ -14,4 +14,5 @@ class User: NSObject {
     var name: String?
     var profLinik : String?
     var id : String?
+    var tutor : String?
 }
