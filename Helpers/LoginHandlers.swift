@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import CoreData
+
 
 
 extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -72,7 +74,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                     imageRef.downloadURL(completion: { (url, error) in
                         if error == nil{
                             let urlString = url?.absoluteString
-                            let vals = ["profilePic" : urlString, "tutor" : "no"]
+                            let vals = ["profilePic" : urlString, "tutor" : "yes"]
                             self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals) //updating with url link for image
                         }
                     })
@@ -94,4 +96,20 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
         }
         
     }
+    
+    func saveData(){
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else{ return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let usersEntity = NSEntityDescription.entity(forEntityName: "Users", in: managedContext)
+        
+        let curr = NSManagedObject(entity: usersEntity!, insertInto: managedContext)
+        curr.setValue("name", forKey: "name")
+        
+        
+        
+        
+    }
+    
 }

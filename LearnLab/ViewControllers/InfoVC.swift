@@ -78,20 +78,20 @@ class InfoVC: UIViewController {
         ref = Database.database().reference()
         fstore = Firestore.firestore()
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let storeUser = Users(context: context)
-        storeUser.firstName = first.text
-        storeUser.lastName = last.text
-        storeUser.email = "test@me.com"
-        
-        do{
-            try context.save()
-            print("saved")
-        }
-        catch{
-            print("Didnt save")
-        }
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let context = appDelegate.persistentContainer.viewContext
+//        let storeUser = Users(context: context)
+////        storeUser.firstName = first.text
+////        storeUser.lastName = last.text
+//        storeUser.email = "test@me.com"
+//        
+//        do{
+//            try context.save()
+//            print("saved")
+//        }
+//        catch{
+//            print("Didnt save")
+//        }
 
 
 

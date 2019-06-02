@@ -12,21 +12,34 @@ import Firebase
 class MessagesVC: UITableViewController {
 
     var ref : DatabaseReference?
-    
     var users = [User]()
-    
     var msgs = [Message]()
-    
     var allPeople : [String:Any]?
-    
 //    var idToUser : [String: User]?
-
     var msgsDict = [String:Message]()
+    
+    lazy var newMessage : UIBarButtonItem = {
+        let newMessage = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newPressed))
+        newMessage.title = "New"
+        return newMessage
+    }()
+    
+    @objc func newPressed(){
+        let newVC = NewChatVC()
+//        self.navigationController?.present(newVC, animated: true, completion: nil)
+        let navController = UINavigationController(rootViewController: newVC)
+        present(navController, animated: true, completion: nil)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.navigationItem.title = "Messages"
         ref = Database.database().reference()
+        self.navigationItem.title = "Messages"
+        self.navigationItem.rightBarButtonItem = newMessage
+        
+        self.tabBarController?.tabBar.isHidden = false
 
 //        ref?.child("user").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value
 //            , with: { (snapshot) in
@@ -145,14 +158,15 @@ class MessagesVC: UITableViewController {
         
         let user = self.users[indexPath.row]
         
-        showChatVC(user: user)
+        showChatVC(user)
        
     }
     
-    func showChatVC(user : User){
+    func showChatVC(_ user : User){
+        print("show called")
         let chatVC = ChatLogVC()
         chatVC.toUser = user
-        navigationController?.pushViewController(chatVC, animated: true)
+        self.navigationController?.pushViewController(chatVC, animated: true)
     }
     
     

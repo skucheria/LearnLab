@@ -14,13 +14,11 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
     var currUser : User?
     
-    let topView : UIImageView = {
-//        let view = UIView()
-        let image = UIImageView()
-//        view.backgroundColor = .green
-        image.translatesAutoresizingMaskIntoConstraints = false
-        
-        return image
+    let topView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var profileImageView : UIImageView = {
@@ -128,7 +126,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         self.name.text = curr.name
                         let profileImageUrl = curr.profLinik
                         self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-                        self.topView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+//                        self.topView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
 
                     }
                 }
