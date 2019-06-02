@@ -27,6 +27,7 @@ class MessagesVC: UITableViewController {
     @objc func newPressed(){
         let newVC = NewChatVC()
 //        self.navigationController?.present(newVC, animated: true, completion: nil)
+        newVC.messagesController = self
         let navController = UINavigationController(rootViewController: newVC)
         present(navController, animated: true, completion: nil)
     }
@@ -39,7 +40,6 @@ class MessagesVC: UITableViewController {
         self.navigationItem.title = "Messages"
         self.navigationItem.rightBarButtonItem = newMessage
         
-        self.tabBarController?.tabBar.isHidden = false
 
 //        ref?.child("user").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value
 //            , with: { (snapshot) in

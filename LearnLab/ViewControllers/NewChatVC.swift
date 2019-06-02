@@ -88,13 +88,10 @@ class NewChatVC: UITableViewController {
     var messagesController : MessagesVC?
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        dismiss(animated: true) {
+        dismiss(animated: true) {
             let user = self.users[indexPath.row]
-            let chatVC = ChatLogVC()
-            chatVC.toUser = user
-            self.navigationController?.pushViewController(chatVC, animated: true)
-            
-//        }
+            self.messagesController?.showChatVC(user)
+        }
     
     }
     

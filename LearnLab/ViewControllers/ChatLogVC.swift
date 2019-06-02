@@ -23,7 +23,7 @@ class ChatLogVC : UIViewController, UITextFieldDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.tabBar.isHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
 
 //        navigationItem.title = "Chat Log"
         self.view.backgroundColor = .white
@@ -47,9 +47,9 @@ class ChatLogVC : UIViewController, UITextFieldDelegate{
         containerView.backgroundColor = .white
         containerView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(containerView)
-//        let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
+        let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
         containerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight).isActive = true
         containerView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
