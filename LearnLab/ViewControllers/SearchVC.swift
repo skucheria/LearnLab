@@ -44,7 +44,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     }
     
     func pullCourses(_ text : String){
-        fstore?.collection("courses").whereField("department", isEqualTo: "CSCI").getDocuments(completion: { (snapshot, error) in
+        fstore?.collection("courses").whereField("department", isEqualTo: text).getDocuments(completion: { (snapshot, error) in
             
             for doc in snapshot!.documents{
                 if let dictionary = doc.data() as? [String:String]{
@@ -53,7 +53,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     course.school = dictionary["school"]
                     course.department = dictionary["department"]
                     course.title = dictionary["title"]
-                    print(course.title)
                     self.filteredData.append(course)
                 }
             }
@@ -62,44 +61,30 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange textSearched: String)
     {
-        //query for courses and update the table viiew
-        pullCourses(textSearched)
+        //query for courses and update the table view
+        pullCourses(textSearched.uppercased())
         //sercah bar works
+        tableView.reloadData()
     }
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if section == 0{
-            return 1
-        }
-        if section == 1{
-            return 1
-        }
-        return 0;
+        return filteredData.count
+
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.backgroundColor = UIColor.white
-        
-        if indexPath.section == 0{
-            if indexPath.row == 0{
-                cell.textLabel?.text = "Settings"
-            }
-        }
-        if indexPath.section == 1{
-            if indexPath.row == 0{
-                cell.textLabel?.text = "Logout"
-            }
-        }
+        cell.textLabel?.text = filteredData[indexPath.row].title
         return cell
     }
     
@@ -107,14 +92,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         print(indexPath.row)
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         
-        if indexPath.section == 1{
-            do{
-                try Auth.auth().signOut()
-                let newVC = LoginVC()
-                self.present(newVC, animated: false)
-            }
-            catch{}
-        }
         
     }
 
