@@ -166,14 +166,6 @@ class MessagesVC: UITableViewController {
             cell.timeLabel.text = format.string(from: date as Date)
         }
         
-//        let user = self.users[indexPath.row]
-//        cell.textLabel?.text = user.name
-//        cell.detailTextLabel?.text = user.email
-//
-//        let profileImageUrl = user.profLinik
-//
-//        cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-        
         return cell
     }
     
@@ -182,17 +174,39 @@ class MessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let msg = msgs[indexPath.row]
         
+        let chatPartnerID : String?
         
-        let user = self.users[indexPath.row]
+        if msg.fromID == Auth.auth().currentUser?.uid{
+            chatPartnerID = msg.toID
+        }
+        else{
+            chatPartnerID = msg.fromID
+        }
         
-        showChatVC(user)
+        let dbRef = Database.database().reference().child("user")
+        
+        dbRef.observeSingleEvent(of: .value) { (snapshot) in
+            let curr = User()
+            let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+            for item in tester{
+                if item.key == (chatPartnerID!){
+                    curr.email = item.value["email"]
+                    curr.name = item.value["name"]
+                    curr.profLinik = item.value["profilePic"]
+                    curr.id = chatPartnerID
+                    self.showChatVC(curr)
+                }
+            }
+        }
        
+        
     }
     
     func showChatVC(_ user : User){
         print("show called")
-        let chatVC = ChatLogVC()
+        let chatVC = ChatLogVC(collectionViewLayout: UICollectionViewFlowLayout())
         chatVC.toUser = user
         self.navigationController?.pushViewController(chatVC, animated: true)
     }

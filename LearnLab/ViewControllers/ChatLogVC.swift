@@ -10,22 +10,53 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class ChatLogVC : UIViewController, UITextFieldDelegate{
+class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout{
     
     var ref : DatabaseReference?
+    var messages = [Message]()
     
     var toUser : User? {
         didSet{
             navigationItem.title = toUser?.name
-            
+            observeMessages()
         }
+    }
+    
+    func observeMessages(){
+        let userMsgRef = Database.database().reference().child("group-messages").child((Auth.auth().currentUser?.uid)!)
+        userMsgRef.observe(.childAdded, with: { (snapshot) in
+            let msgsRef = Database.database().reference().child("messages").child(snapshot.key) //getting the message for messageID from snapshot key
+            msgsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dict = snapshot.value as? [String:AnyObject] else{return}
+                let msg = Message()
+                msg.setValuesForKeys(dict)
+                
+                let chatPartnerID : String?
+                if msg.fromID == Auth.auth().currentUser?.uid{
+                    chatPartnerID = msg.toID
+                }
+                else{
+                    chatPartnerID = msg.fromID
+                }
+                
+                if chatPartnerID == self.toUser?.id{
+                    self.messages.append(msg)
+                    DispatchQueue.main.async { self.collectionView?.reloadData() }
+                }
+                
+                
+
+            })
+        }, withCancel: nil)
+        
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.tabBarController?.tabBar.isHidden = true
-
-//        navigationItem.title = "Chat Log"
+        collectionView?.alwaysBounceVertical = true
+        collectionView?.backgroundColor = UIColor.white
+        collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: "cellId")//        navigationItem.title = "Chat Log"
         self.view.backgroundColor = .white
         ref = Database.database().reference()
 
@@ -40,7 +71,20 @@ class ChatLogVC : UIViewController, UITextFieldDelegate{
         return inputTextField
     }()
     
-
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 40)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ChatMessageCell
+        let message = messages[indexPath.item]
+        cell.textView.text = message.text
+        return cell
+    }
     
     func setupInputComponents(){
         let containerView = UIView()
