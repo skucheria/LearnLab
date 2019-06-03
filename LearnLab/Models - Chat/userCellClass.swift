@@ -31,7 +31,7 @@ class userCellClass : UITableViewCell{
     
     let timeLabel : UILabel = {
         let timeLabel = UILabel()
-        timeLabel.text = "HH:MM:SS"
+        timeLabel.text = "HH:MM:SS a"
         timeLabel.font = timeLabel.font.withSize(13)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         return timeLabel

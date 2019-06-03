@@ -82,25 +82,27 @@ class ChatLogVC : UIViewController, UITextFieldDelegate{
     
     @objc func handleSend(){
         let timestamp: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
-        let values = ["text" : inputTextField.text!, "fromID" : Auth.auth().currentUser?.uid, "toID" : toUser!.id!]
-        let values2 = ["timestamp" : timestamp]
+        let values = ["text" : inputTextField.text!, "fromID" : Auth.auth().currentUser!.uid, "toID" : toUser!.id!, "timestamp" : timestamp ] as [String : Any]
+//        let values2 = ["timestamp" : timestamp]
         let re = Database.database().reference().child("messages")
         let childRef = re.childByAutoId()
         childRef.updateChildValues(values)
-        childRef.updateChildValues(values2)
-        
-        groupMessages(key: childRef.key!)
-
+//        childRef.updateChildValues(values2)
+//        groupMessages(key: childRef.key!)
         inputTextField.text = ""
         
+        let groupRef = Database.database().reference().child("group-messages")
+        let child = groupRef.child((Auth.auth().currentUser?.uid)!)
+        child.updateChildValues([childRef.key! : 1])
+        
+        let recipientMessageRef = Database.database().reference().child("group-messages").child(toUser!.id!)
+        
+        recipientMessageRef.updateChildValues([childRef.key! : 1])
     }
     
     func groupMessages(key : String){
-        let groupRef = Database.database().reference().child("group-messages")
-        let child = groupRef.child((Auth.auth().currentUser?.uid)!)
-        child.updateChildValues([key : 1])
+        
     }
-    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handleSend()

@@ -46,10 +46,11 @@ class Tutors: UITableViewController {
                     if user.tutor == "yes"{
                         self.users.append(user)
                     }
-                
+                    
+                    DispatchQueue.main.async { self.tableView.reloadData() }
+
                 }
                 
-                DispatchQueue.main.async { self.tableView.reloadData() }
                 
         })
     }

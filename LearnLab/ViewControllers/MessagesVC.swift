@@ -26,7 +26,6 @@ class MessagesVC: UITableViewController {
     
     @objc func newPressed(){
         let newVC = NewChatVC()
-//        self.navigationController?.present(newVC, animated: true, completion: nil)
         newVC.messagesController = self
         let navController = UINavigationController(rootViewController: newVC)
         present(navController, animated: true, completion: nil)
@@ -35,30 +34,18 @@ class MessagesVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationItem.title = "Messages"
         ref = Database.database().reference()
         self.navigationItem.title = "Messages"
         self.navigationItem.rightBarButtonItem = newMessage
         
-
-//        ref?.child("user").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value
-//            , with: { (snapshot) in
-//
-//                if let dictionary = snapshot.value as? [String : Any]{
-//                    self.navigationItem.title = dictionary["name"] as? String
-//                }
-//        })
-        
         fetchUser()
         
-        fetchMessages()
+//        fetchMessages()
+        
+        print("anythnig happening")
+        observeUserMessages()
         
         tableView.register(userCellClass.self, forCellReuseIdentifier: "cellId")
-//        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     func fetchUser(){
@@ -82,6 +69,37 @@ class MessagesVC: UITableViewController {
         })
     }
 
+    func observeUserMessages(){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let msgRef = Database.database().reference().child("group-messages").child(uid)
+        
+        msgRef.observe(.childAdded) { (snapshot) in
+            let messageID = snapshot.key
+            let messageReference = Database.database().reference().child("messages").child(messageID)
+            messageReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String: Any]{
+                    let msg = Message()
+                    msg.fromID = dictionary["fromID"] as? String
+                    msg.toID = dictionary["toID"] as? String
+                    msg.text = dictionary["text"] as? String
+                    msg.timestamp = dictionary["timestamp"] as? NSNumber
+                    
+                    if let toID = msg.toID{ //put in dictionary message to that person
+                        self.msgsDict[toID] = msg
+                        self.msgs = Array(self.msgsDict.values)
+                        self.msgs.sort(by: { (m1, m2) -> Bool in
+                            return (m1.timestamp?.intValue)! > (m2.timestamp?.intValue)!
+                        })
+                    }
+                    DispatchQueue.main.async { self.tableView.reloadData() }
+                    
+                }
+            })
+        }
+        
+    }
+    
     func fetchMessages(){
         ref?.child("messages").observe(.childAdded, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: Any]{
@@ -91,15 +109,16 @@ class MessagesVC: UITableViewController {
                 msg.text = dictionary["text"] as? String
                 msg.timestamp = dictionary["timestamp"] as? NSNumber
 
-                if let toID = msg.toID{
+                if let toID = msg.toID{ //put in dictionary message to that person
                     self.msgsDict[toID] = msg
                     self.msgs = Array(self.msgsDict.values)
+                    self.msgs.sort(by: { (m1, m2) -> Bool in
+                        return (m1.timestamp?.intValue)! > (m2.timestamp?.intValue)!
+                    })
                 }
-                
-//                self.msgs.append(msg)
+                DispatchQueue.main.async { self.tableView.reloadData() }
 
             }
-            DispatchQueue.main.async { self.tableView.reloadData() }
 
         }, withCancel: nil)
     }
@@ -109,7 +128,7 @@ class MessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.msgsDict.count
+        return self.msgs.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -117,9 +136,18 @@ class MessagesVC: UITableViewController {
 //
         let msg = msgs[indexPath.row]
         
+        let chatPartnerID : String?
+        
+        if msg.fromID == Auth.auth().currentUser?.uid{
+            chatPartnerID = msg.toID
+        }
+        else{
+            chatPartnerID = msg.fromID
+        }
+        
         //get recipient user information
-        if let toID = msg.toID{
-            ref?.child("user").child(toID).observeSingleEvent(of: .value
+        if let id = chatPartnerID{
+            ref?.child("user").child(id).observeSingleEvent(of: .value
                 , with: { (snapshot) in
                     if let dictionary = snapshot.value as? [String : Any]{
                         cell.textLabel?.text = dictionary["name"] as? String

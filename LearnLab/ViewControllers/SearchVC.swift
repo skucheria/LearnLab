@@ -18,12 +18,13 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     
     var filteredData = [Course]()
 
+    var data = [Course]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.searchBarStyle = UISearchBar.Style.prominent
-            searchBar.placeholder = " Search..."
+            searchBar.placeholder = " Course code i.e. 'CSCI, MATH' "
             searchBar.sizeToFit()
             searchBar.isTranslucent = false
             searchBar.backgroundImage = UIImage()
@@ -43,9 +44,16 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
 
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        filteredData.removeAll()
+        self.tableView.reloadData()
+    }
+    
     func pullCourses(_ text : String){
         fstore?.collection("courses").whereField("department", isEqualTo: text).getDocuments(completion: { (snapshot, error) in
-            
+//            if snapshot == nil{
+//                self.filteredData = self.data
+//            }
             for doc in snapshot!.documents{
                 if let dictionary = doc.data() as? [String:String]{
                     let course = Course()
@@ -61,8 +69,12 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange textSearched: String)
     {
-        //query for courses and update the table view
+//        if (textSearched.isEmpty){
+//            filteredData = data
+//        }
         pullCourses(textSearched.uppercased())
+        
+        //query for courses and update the table view
         //sercah bar works
         tableView.reloadData()
     }
