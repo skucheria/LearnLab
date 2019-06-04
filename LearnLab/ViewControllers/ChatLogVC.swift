@@ -73,54 +73,29 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 40)
+        var height : CGFloat = 80
+        if let text = messages[indexPath.item].text {
+            height = estimateFrameForText(text).height + 25
+        }
+        return CGSize(width: view.frame.width, height: height)
     }
+    
+    private func estimateFrameForText(_ text : String) -> CGRect{
+        let size = CGSize(width: 200 , height: 1000)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 16)]), context: nil)
+        
+    }
+    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ChatMessageCell
         let message = messages[indexPath.item]
         cell.textView.text = message.text
         
-        setupCell(cell, message: message)
-
-        cell.bubbleWidthAnchor?.constant = estimateFrameForText(message.text!).width + 32
-
-        return cell
-    }
-    
-    fileprivate func estimateFrameForText(_ text: String) -> CGRect {
-        let size = CGSize(width: 200, height: 1000)
-        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        return NSString(string: text).boundingRect(with: size, options: options, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 16)]), context: nil)
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView?.collectionViewLayout.invalidateLayout()
-    }
-    
-    fileprivate func setupCell(_ cell: ChatMessageCell, message: Message) {
-        if let profileImageUrl = self.toUser?.profLinik {
-            cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
-        }
+        //need to modify the bubble views width
         
-        if message.fromID == Auth.auth().currentUser?.uid {
-            //outgoing blue
-            cell.bubbleView.backgroundColor = ChatMessageCell.blueColor
-            cell.textView.textColor = UIColor.white
-            cell.profileImageView.isHidden = true
-            
-            cell.bubbleViewRightAnchor?.isActive = true
-            cell.bubbleViewLeftAnchor?.isActive = false
-            
-        } else {
-            //incoming gray
-            cell.bubbleView.backgroundColor = UIColor(displayP3Red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-            cell.textView.textColor = UIColor.black
-            cell.profileImageView.isHidden = false
-            
-            cell.bubbleViewRightAnchor?.isActive = false
-            cell.bubbleViewLeftAnchor?.isActive = true
-        }
+        return cell
     }
     
     func setupInputComponents(){
@@ -189,6 +164,8 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         handleSend()
         return true
     }
+    
+    
 }
 
 
