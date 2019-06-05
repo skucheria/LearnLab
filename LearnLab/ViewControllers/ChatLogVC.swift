@@ -91,14 +91,34 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     }
     
     
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ChatMessageCell
         let message = messages[indexPath.item]
         cell.textView.text = message.text
         
+       setupCell(cell, message: message)
+        
         //need to modify the bubble views width
         cell.bubbleWidthAnchor?.constant = estimateFrameForText(message.text!).width + 32
         return cell
+    }
+    
+    private func setupCell(_ cell: ChatMessageCell, message: Message) {
+        if message.fromID == Auth.auth().currentUser?.uid{
+            cell.bubbleView.backgroundColor = ChatMessageCell.blueColor
+            cell.textView.textColor = .white
+            cell.bubbleViewRightAnchor?.isActive = true
+            
+            cell.bubbleViewLeftAnchor?.isActive = false
+        }
+        else{
+            //incoming grey
+            cell.bubbleView.backgroundColor = ChatMessageCell.greyColor
+            cell.textView.textColor = .black
+            cell.bubbleViewRightAnchor?.isActive = false
+            cell.bubbleViewLeftAnchor?.isActive = true
+        }
     }
     
     func setupInputComponents(){
