@@ -53,6 +53,9 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
 //        self.tabBarController?.tabBar.isHidden = true
         collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor.white
+        collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 60, right: 0)
+        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 52, right: 0)
+
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: "cellId")//        navigationItem.title = "Chat Log"
         self.view.backgroundColor = .white
         ref = Database.database().reference()
@@ -75,7 +78,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height : CGFloat = 80
         if let text = messages[indexPath.item].text {
-            height = estimateFrameForText(text).height + 25
+            height = estimateFrameForText(text).height + 20
         }
         return CGSize(width: view.frame.width, height: height)
     }
@@ -83,7 +86,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     private func estimateFrameForText(_ text : String) -> CGRect{
         let size = CGSize(width: 200 , height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        return NSString(string: text).boundingRect(with: size, options: options, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 16)]), context: nil)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16.0)]  , context: nil)
         
     }
     
@@ -94,7 +97,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         cell.textView.text = message.text
         
         //need to modify the bubble views width
-        
+        cell.bubbleWidthAnchor?.constant = estimateFrameForText(message.text!).width + 32
         return cell
     }
     

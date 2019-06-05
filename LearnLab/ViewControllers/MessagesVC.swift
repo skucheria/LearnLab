@@ -85,7 +85,17 @@ class MessagesVC: UITableViewController {
                     msg.text = dictionary["text"] as? String
                     msg.timestamp = dictionary["timestamp"] as? NSNumber
                     
-                    if let toID = msg.toID{ //put in dictionary message to that person
+                    
+                    let chatPartnerID : String?
+
+                    if msg.fromID == Auth.auth().currentUser?.uid{
+                        chatPartnerID = msg.toID
+                    }
+                    else{
+                        chatPartnerID = msg.fromID
+                    }
+                    
+                    if let toID = chatPartnerID{ //put in dictionary message to that person
                         self.msgsDict[toID] = msg
                         self.msgs = Array(self.msgsDict.values)
                         self.msgs.sort(by: { (m1, m2) -> Bool in
