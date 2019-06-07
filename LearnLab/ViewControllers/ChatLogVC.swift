@@ -61,6 +61,37 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         ref = Database.database().reference()
 
         setupInputComponents()
+        
+//        setupKeyboardObservers()
+        
+        collectionView?.keyboardDismissMode = .interactive
+
+    }
+    
+    func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func handleKeyboardWillShow(_ notification: Notification) {
+        let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        containerViewBottomAnchor?.constant = -keyboardFrame!.height
+        UIView.animate(withDuration: keyboardDuration!, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    @objc func handleKeyboardWillHide(_ notification: Notification) {
+        let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        
+        containerViewBottomAnchor?.constant = 0
+        UIView.animate(withDuration: keyboardDuration!, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
     
     lazy var inputTextField : UITextField = {
@@ -97,7 +128,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         let message = messages[indexPath.item]
         cell.textView.text = message.text
         
-       setupCell(cell, message: message)
+        setupCell(cell, message: message)
         
         //need to modify the bubble views width
         cell.bubbleWidthAnchor?.constant = estimateFrameForText(message.text!).width + 32
@@ -121,6 +152,8 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         }
     }
     
+    var containerViewBottomAnchor: NSLayoutConstraint?
+
     func setupInputComponents(){
         let containerView = UIView()
         containerView.backgroundColor = .white
@@ -128,7 +161,10 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         self.view.addSubview(containerView)
         let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
         containerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight).isActive = true
+        
+        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight)
+        containerViewBottomAnchor?.isActive = true
+//        containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight).isActive = true
         containerView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         

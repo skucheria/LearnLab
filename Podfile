@@ -14,6 +14,7 @@ target 'LearnLab' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
   pod 'MessageKit'
+  pod 'Stripe'
   target 'LearnLabTests' do
     inherit! :search_paths
     # Pods for testing
