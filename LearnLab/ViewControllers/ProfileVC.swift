@@ -8,9 +8,11 @@
 
 import UIKit
 import Firebase
+import Stripe
 
 
-class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, STPAddCardViewControllerDelegate {
+    
    
     var currUser : User?
     
@@ -175,7 +177,6 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
         }
-        
         if(indexPath.row == 0){
             cell.textLabel?.text = "section 2 #1"
             return cell
@@ -195,8 +196,13 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 let epVC = EditProfileVC()
                 self.navigationController?.pushViewController(epVC, animated: true)
             }
-            else if indexPath.row == 2{
+            else if indexPath.row == 1{ //add a credit card
+                let addCardViewController = STPAddCardViewController()
+                addCardViewController.delegate = self
                 
+                // Present add card view controller
+                let navigationController = UINavigationController(rootViewController: addCardViewController)
+                present(navigationController, animated: true)
             }
             else if indexPath.row == 3{
                 progressHUD.show()
@@ -207,6 +213,11 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
+    
+    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+        dismiss(animated: true)
+    }
+    
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()

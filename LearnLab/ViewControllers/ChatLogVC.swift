@@ -51,20 +51,22 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.tabBarController?.tabBar.isHidden = true
+        collectionView?.keyboardDismissMode = .interactive
         collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor.white
         collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 60, right: 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 52, right: 0)
-
+        
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: "cellId")//        navigationItem.title = "Chat Log"
         self.view.backgroundColor = .white
         ref = Database.database().reference()
 
         setupInputComponents()
         
-//        setupKeyboardObservers()
         
-        collectionView?.keyboardDismissMode = .interactive
+        let item = self.collectionView(self.collectionView!, numberOfItemsInSection: 0) - 1
+        let lastItemIndex = IndexPath(item: item, section: 0)
+        collectionView?.scrollToItem(at: lastItemIndex, at: UICollectionView.ScrollPosition.top, animated: true)
 
     }
     

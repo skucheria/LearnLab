@@ -17,5 +17,3 @@ class Session: NSObject {
 }
 
 // TODO: write global function to retrieve user data given userID
-// 
-

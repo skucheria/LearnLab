@@ -20,6 +20,7 @@
 		3560D85B22890C24003C12E0 /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D85A22890C24003C12E0 /* InfoVC.swift */; };
 		3560D85D228934F1003C12E0 /* user-silhouette.png in Resources */ = {isa = PBXBuildFile; fileRef = 3560D85C228934F1003C12E0 /* user-silhouette.png */; };
 		357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */; };
+		357D9ACD22AC2F9D005C4220 /* tutorCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */; };
 		35900FAA22893FF500D796D3 /* Tutors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FA922893FF500D796D3 /* Tutors.swift */; };
 		35900FAC2289401B00D796D3 /* tab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAB2289401B00D796D3 /* tab3.swift */; };
 		35900FAE2289402200D796D3 /* tab4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAD2289402200D796D3 /* tab4.swift */; };
@@ -80,6 +81,7 @@
 		3560D85A22890C24003C12E0 /* InfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
 		3560D85C228934F1003C12E0 /* user-silhouette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-silhouette.png"; sourceTree = "<group>"; };
 		357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHandlers.swift; sourceTree = "<group>"; };
+		357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutorCellClass.swift; sourceTree = "<group>"; };
 		35900FA922893FF500D796D3 /* Tutors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutors.swift; sourceTree = "<group>"; };
 		35900FAB2289401B00D796D3 /* tab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab3.swift; sourceTree = "<group>"; };
 		35900FAD2289402200D796D3 /* tab4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab4.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				35C1C79E228BB7EE0060AAA3 /* Message.swift */,
 				35C1C7A0228E24390060AAA3 /* User.swift */,
 				353AD7F9229797EA0063596E /* userCellClass.swift */,
+				357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */,
 				35B597CC22A48B6A00730535 /* Course.swift */,
 				35B597CE22A4F2CB00730535 /* ChatMessageCell.swift */,
 				35B597D022AA22DA00730535 /* Session.swift */,
@@ -592,6 +595,7 @@
 				35900FB22289409000D796D3 /* MessagesVC.swift in Sources */,
 				35900FAC2289401B00D796D3 /* tab3.swift in Sources */,
 				3560D85B22890C24003C12E0 /* InfoVC.swift in Sources */,
+				357D9ACD22AC2F9D005C4220 /* tutorCellClass.swift in Sources */,
 				35D2996222855346005DF851 /* LearnLab.xcdatamodeld in Sources */,
 				357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */,
 				35B597C922A22F4D00730535 /* RegisterTutorVC.swift in Sources */,
