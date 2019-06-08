@@ -12,7 +12,10 @@ import UIKit
 class Session: NSObject {
     var tutorID: String?
     var studentID: String?
-    var time : NSNumber?
+    var startTime : NSNumber?
     var duration : NSNumber?
 }
+
+// TODO: write global function to retrieve user data given userID
+// 
 
