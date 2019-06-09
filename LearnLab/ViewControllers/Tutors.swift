@@ -17,19 +17,23 @@ class Tutors: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Tutors"
-    
+//        self.tableView.estimatedRowHeight = 150
+//        self.tableView.rowHeight = UITableView.automaticDimension
         ref = Database.database().reference()
-        
+                
         fetchUser()
         
-        tableView.register(userCellClass.self, forCellReuseIdentifier: "cellId")
+
+        tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }   
+       
+    }
+
     
     func fetchUser(){
         ref?.child("user").observeSingleEvent(of: .value
@@ -70,23 +74,33 @@ class Tutors: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! userCellClass
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! TutorInfoCell
 //
         
-        cell.timeLabel.text = ""
+//        cell.timeLabel.text = ""
         let user = self.users[indexPath.row]
-        cell.textLabel?.text = user.name
-        cell.detailTextLabel?.text = user.email
-
+//        cell.textLabel?.text = user.name
+//        cell.detailTextLabel?.text = user.email
+//
         let profileImageUrl = user.profLinik
-
-        cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-        
+//
+//        cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+//
+        cell.nameLabel.text = user.name
+        cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 72
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = self.users[indexPath.row]
+        let tutorInfo = TutorInfoVC()
+        tutorInfo.currentTutor = user
+        self.navigationController?.pushViewController(tutorInfo, animated: true)
+        
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+//
 }

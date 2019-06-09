@@ -21,6 +21,9 @@
 		3560D85D228934F1003C12E0 /* user-silhouette.png in Resources */ = {isa = PBXBuildFile; fileRef = 3560D85C228934F1003C12E0 /* user-silhouette.png */; };
 		357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */; };
 		357D9ACD22AC2F9D005C4220 /* tutorCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */; };
+		357D9ACF22AC316C005C4220 /* TutorInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */; };
+		357D9AD122ACA57E005C4220 /* TutorsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9AD022ACA57E005C4220 /* TutorsVC.swift */; };
+		357D9AD722ACBC15005C4220 /* TutorInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9AD622ACBC15005C4220 /* TutorInfoCell.swift */; };
 		35900FAA22893FF500D796D3 /* Tutors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FA922893FF500D796D3 /* Tutors.swift */; };
 		35900FAC2289401B00D796D3 /* tab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAB2289401B00D796D3 /* tab3.swift */; };
 		35900FAE2289402200D796D3 /* tab4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAD2289402200D796D3 /* tab4.swift */; };
@@ -82,6 +85,9 @@
 		3560D85C228934F1003C12E0 /* user-silhouette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-silhouette.png"; sourceTree = "<group>"; };
 		357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHandlers.swift; sourceTree = "<group>"; };
 		357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutorCellClass.swift; sourceTree = "<group>"; };
+		357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorInfoVC.swift; sourceTree = "<group>"; };
+		357D9AD022ACA57E005C4220 /* TutorsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsVC.swift; sourceTree = "<group>"; };
+		357D9AD622ACBC15005C4220 /* TutorInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorInfoCell.swift; sourceTree = "<group>"; };
 		35900FA922893FF500D796D3 /* Tutors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutors.swift; sourceTree = "<group>"; };
 		35900FAB2289401B00D796D3 /* tab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab3.swift; sourceTree = "<group>"; };
 		35900FAD2289402200D796D3 /* tab4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab4.swift; sourceTree = "<group>"; };
@@ -191,6 +197,13 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		357D9AD822ACD681005C4220 /* Tutor Registration */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Tutor Registration";
+			sourceTree = "<group>";
+		};
 		35B33D21229CA97E00B207F4 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +220,8 @@
 			isa = PBXGroup;
 			children = (
 				35900FA922893FF500D796D3 /* Tutors.swift */,
+				357D9AD022ACA57E005C4220 /* TutorsVC.swift */,
+				357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */,
 				3560D8562288943D003C12E0 /* LoginVC.swift */,
 				3560D85A22890C24003C12E0 /* InfoVC.swift */,
 				35900FB12289409000D796D3 /* MessagesVC.swift */,
@@ -227,6 +242,7 @@
 				35C1C7A0228E24390060AAA3 /* User.swift */,
 				353AD7F9229797EA0063596E /* userCellClass.swift */,
 				357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */,
+				357D9AD622ACBC15005C4220 /* TutorInfoCell.swift */,
 				35B597CC22A48B6A00730535 /* Course.swift */,
 				35B597CE22A4F2CB00730535 /* ChatMessageCell.swift */,
 				35B597D022AA22DA00730535 /* Session.swift */,
@@ -261,6 +277,7 @@
 		35D2995822855346005DF851 /* LearnLab */ = {
 			isa = PBXGroup;
 			children = (
+				357D9AD822ACD681005C4220 /* Tutor Registration */,
 				35D2998A228553AD005DF851 /* GoogleService-Info.plist */,
 				35D2995922855346005DF851 /* AppDelegate.swift */,
 				3560D84922868EC3003C12E0 /* ViewController.swift */,
@@ -590,6 +607,7 @@
 				35900FB02289405500D796D3 /* Profile.swift in Sources */,
 				3560D8572288943D003C12E0 /* LoginVC.swift in Sources */,
 				35B33D20229CA5AC00B207F4 /* LoadingIndicator.swift in Sources */,
+				357D9ACF22AC316C005C4220 /* TutorInfoVC.swift in Sources */,
 				3560D85522889089003C12E0 /* tab2.swift in Sources */,
 				35900FB4228940AC00D796D3 /* SearchVC.swift in Sources */,
 				35900FB22289409000D796D3 /* MessagesVC.swift in Sources */,
@@ -598,6 +616,7 @@
 				357D9ACD22AC2F9D005C4220 /* tutorCellClass.swift in Sources */,
 				35D2996222855346005DF851 /* LearnLab.xcdatamodeld in Sources */,
 				357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */,
+				357D9AD122ACA57E005C4220 /* TutorsVC.swift in Sources */,
 				35B597C922A22F4D00730535 /* RegisterTutorVC.swift in Sources */,
 				35900FAE2289402200D796D3 /* tab4.swift in Sources */,
 				353AD7F6229515B70063596E /* Extensions.swift in Sources */,
@@ -607,6 +626,7 @@
 				3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */,
 				3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */,
 				35D2995A22855346005DF851 /* AppDelegate.swift in Sources */,
+				357D9AD722ACBC15005C4220 /* TutorInfoCell.swift in Sources */,
 				35BA1DC82299B79C00F0ADE3 /* ProfileVC.swift in Sources */,
 				35B597C7229F8E2000730535 /* EditProfileVC.swift in Sources */,
 				353AD7FA229797EA0063596E /* userCellClass.swift in Sources */,

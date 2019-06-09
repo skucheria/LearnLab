@@ -12,6 +12,9 @@ class tab1: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let tutorsVC = TutorsVC(collectionViewLayout: UICollectionViewFlowLayout())
+//        self.navigationController?.pushViewController(tutorsVC, animated: true)
+//        self.present(tutorsVC, animated: false, completion: nil)
         self.setViewControllers([Tutors()], animated: false)
         // Do any additional setup after loading the view.
     }

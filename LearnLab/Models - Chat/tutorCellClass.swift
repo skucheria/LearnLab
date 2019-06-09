@@ -37,10 +37,19 @@ class tutorCellClass: UITableViewCell {
         return timeLabel
     }()
     
+    let bioLabel : UILabel = {
+        let label = UILabel()
+        label.text = "This is a text label and I'm going to make it very long and just keep it going"
+        label.font = label.font.withSize(13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: "cellId")
         addSubview(profileImageView)
         addSubview(timeLabel)
+        addSubview(bioLabel)
         //constraints x,y,w,h
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -51,6 +60,11 @@ class tutorCellClass: UITableViewCell {
         timeLabel.centerYAnchor.constraint(equalTo: self.topAnchor, constant: 18).isActive = true
         timeLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         timeLabel.heightAnchor.constraint(equalTo: (textLabel?.heightAnchor)!).isActive = true
+        
+        bioLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
+        bioLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5).isActive = true
+        bioLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+    
     }
     
     required init?(coder aDecoder: NSCoder) {
