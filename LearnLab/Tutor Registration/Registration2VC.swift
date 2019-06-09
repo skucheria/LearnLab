@@ -22,6 +22,14 @@ class Registration2VC: UIViewController {
         return button
     }()
     
+    let pickClasses : UILabel = {
+        let label = UILabel()
+        label.text = "What clases or subjects can you tutor?"
+        return label
+    }()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
@@ -40,7 +48,7 @@ class Registration2VC: UIViewController {
         doneButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
-    @objc func donePressed(){
+    @objc func donePressed(){ //upload list of classes they picked
     
     
     }

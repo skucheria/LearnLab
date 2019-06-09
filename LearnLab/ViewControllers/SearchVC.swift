@@ -35,8 +35,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
+        tableView.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
+
         
         fstore = Firestore.firestore()
         
@@ -64,19 +64,20 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     self.filteredData.append(course)
                 }
             }
+            DispatchQueue.main.async { self.tableView.reloadData() }
         })
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange textSearched: String)
     {
-//        if (textSearched.isEmpty){
-//            filteredData = data
-//        }
-        pullCourses(textSearched.uppercased())
-        
-        //query for courses and update the table view
-        //sercah bar works
-        tableView.reloadData()
+        if (textSearched.isEmpty){
+            filteredData = data
+            tableView.reloadData()
+        }
+        else{
+            pullCourses(textSearched.uppercased())
+            tableView.reloadData()
+        }
     }
     
     // MARK: - Table view data source
@@ -94,9 +95,11 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ClassInfoCell
         cell.backgroundColor = UIColor.white
-        cell.textLabel?.text = filteredData[indexPath.row].title
+        let course = filteredData[indexPath.row]
+        cell.textLabel?.text = course.department! + " " + course.code!
+        cell.detailTextLabel?.text = course.title!
         return cell
     }
     
