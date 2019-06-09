@@ -57,7 +57,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     self.filteredData.append(course)
                 }
             }
-            
             self.filteredData.sort(by: { (m1, m2) -> Bool in
                 return (m1.code)! < (m2.code)!
             })

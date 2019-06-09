@@ -22,6 +22,14 @@ class Registration2VC: UIViewController {
         return button
     }()
     
+    let nextButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Done", for: .normal)
+        button.titleLabel?.textColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     let pickClasses : UILabel = {
         let label = UILabel()
         label.text = "What clases or subjects can you tutor?"
@@ -44,8 +52,8 @@ class Registration2VC: UIViewController {
     func setupDoneButton(){
         doneButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        doneButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        doneButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        doneButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        doneButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     @objc func donePressed(){ //upload list of classes they picked
