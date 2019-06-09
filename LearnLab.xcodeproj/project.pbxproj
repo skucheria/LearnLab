@@ -24,6 +24,8 @@
 		357D9ACF22AC316C005C4220 /* TutorInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */; };
 		357D9AD122ACA57E005C4220 /* TutorsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9AD022ACA57E005C4220 /* TutorsVC.swift */; };
 		357D9AD722ACBC15005C4220 /* TutorInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9AD622ACBC15005C4220 /* TutorInfoCell.swift */; };
+		357D9ADA22ACD790005C4220 /* Registration1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9AD922ACD790005C4220 /* Registration1VC.swift */; };
+		357D9ADC22ACFA33005C4220 /* Registration2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ADB22ACFA33005C4220 /* Registration2VC.swift */; };
 		35900FAA22893FF500D796D3 /* Tutors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FA922893FF500D796D3 /* Tutors.swift */; };
 		35900FAC2289401B00D796D3 /* tab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAB2289401B00D796D3 /* tab3.swift */; };
 		35900FAE2289402200D796D3 /* tab4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAD2289402200D796D3 /* tab4.swift */; };
@@ -88,6 +90,8 @@
 		357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorInfoVC.swift; sourceTree = "<group>"; };
 		357D9AD022ACA57E005C4220 /* TutorsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsVC.swift; sourceTree = "<group>"; };
 		357D9AD622ACBC15005C4220 /* TutorInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorInfoCell.swift; sourceTree = "<group>"; };
+		357D9AD922ACD790005C4220 /* Registration1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration1VC.swift; sourceTree = "<group>"; };
+		357D9ADB22ACFA33005C4220 /* Registration2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration2VC.swift; sourceTree = "<group>"; };
 		35900FA922893FF500D796D3 /* Tutors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutors.swift; sourceTree = "<group>"; };
 		35900FAB2289401B00D796D3 /* tab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab3.swift; sourceTree = "<group>"; };
 		35900FAD2289402200D796D3 /* tab4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab4.swift; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 		357D9AD822ACD681005C4220 /* Tutor Registration */ = {
 			isa = PBXGroup;
 			children = (
+				357D9AD922ACD790005C4220 /* Registration1VC.swift */,
+				357D9ADB22ACFA33005C4220 /* Registration2VC.swift */,
 			);
 			path = "Tutor Registration";
 			sourceTree = "<group>";
@@ -277,10 +283,10 @@
 		35D2995822855346005DF851 /* LearnLab */ = {
 			isa = PBXGroup;
 			children = (
-				357D9AD822ACD681005C4220 /* Tutor Registration */,
 				35D2998A228553AD005DF851 /* GoogleService-Info.plist */,
 				35D2995922855346005DF851 /* AppDelegate.swift */,
 				3560D84922868EC3003C12E0 /* ViewController.swift */,
+				357D9AD822ACD681005C4220 /* Tutor Registration */,
 				35B33D22229CA9B300B207F4 /* ViewControllers */,
 				35B33D21229CA97E00B207F4 /* Tabs */,
 				35C1C799228B7B2F0060AAA3 /* Models - Chat */,
@@ -610,10 +616,12 @@
 				357D9ACF22AC316C005C4220 /* TutorInfoVC.swift in Sources */,
 				3560D85522889089003C12E0 /* tab2.swift in Sources */,
 				35900FB4228940AC00D796D3 /* SearchVC.swift in Sources */,
+				357D9ADA22ACD790005C4220 /* Registration1VC.swift in Sources */,
 				35900FB22289409000D796D3 /* MessagesVC.swift in Sources */,
 				35900FAC2289401B00D796D3 /* tab3.swift in Sources */,
 				3560D85B22890C24003C12E0 /* InfoVC.swift in Sources */,
 				357D9ACD22AC2F9D005C4220 /* tutorCellClass.swift in Sources */,
+				357D9ADC22ACFA33005C4220 /* Registration2VC.swift in Sources */,
 				35D2996222855346005DF851 /* LearnLab.xcdatamodeld in Sources */,
 				357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */,
 				357D9AD122ACA57E005C4220 /* TutorsVC.swift in Sources */,

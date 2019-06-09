@@ -204,6 +204,10 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 let navigationController = UINavigationController(rootViewController: addCardViewController)
                 present(navigationController, animated: true)
             }
+            else if indexPath.row == 2{ //go into registration flow
+                let reg1VC = Registration1VC()
+                present(reg1VC, animated: true)
+            }
             else if indexPath.row == 3{
                 progressHUD.show()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {

@@ -75,17 +75,9 @@ class Tutors: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! TutorInfoCell
-//
-        
-//        cell.timeLabel.text = ""
+
         let user = self.users[indexPath.row]
-//        cell.textLabel?.text = user.name
-//        cell.detailTextLabel?.text = user.email
-//
         let profileImageUrl = user.profLinik
-//
-//        cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-//
         cell.nameLabel.text = user.name
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
         return cell
