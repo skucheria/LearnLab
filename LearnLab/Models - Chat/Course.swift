@@ -14,5 +14,6 @@ class Course: NSObject {
     var department: String?
     var school : String?
     var title : String?
+    var dbId : String?
 }
 

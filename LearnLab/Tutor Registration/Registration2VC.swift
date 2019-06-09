@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class Registration2VC: UIViewController {
+class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var ref : DatabaseReference?
     
@@ -22,46 +22,114 @@ class Registration2VC: UIViewController {
         return button
     }()
     
-    let nextButton : UIButton = {
-        let button = UIButton()
-        button.setTitle("Done", for: .normal)
-        button.titleLabel?.textColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     let pickClasses : UILabel = {
         let label = UILabel()
         label.text = "What clases or subjects can you tutor?"
         return label
     }()
     
+    let topView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
+    let bottomView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let classesTableViews : UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
         ref = Database.database().reference()
         
-        self.view.addSubview(doneButton)
-        setupDoneButton()
+        self.view.addSubview(topView)
+        self.view.addSubview(bottomView)
+        self.view.addSubview(classesTableViews)
         
+        setupTopView()
+        setupBottomView()
+        setupDoneButton()
+        setupTableViews()
+        
+        classesTableViews.delegate = self
+        classesTableViews.dataSource = self
+        classesTableViews.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         // Do any additional setup after loading the view.
     }
     
     func setupDoneButton(){
-        doneButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        doneButton.rightAnchor.constraint(equalTo: bottomView.rightAnchor, constant: -10).isActive = true
+        doneButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         doneButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
+    func setupTopView(){
+        topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        topView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        topView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+    }
+    
+    func setupBottomView(){
+        bottomView.addSubview(doneButton)
+        bottomView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        bottomView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        bottomView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        bottomView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+    }
+    
+    func setupTableViews(){
+        classesTableViews.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        classesTableViews.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        classesTableViews.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+//        classesTableViews.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        classesTableViews.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
+    }
+    
     @objc func donePressed(){ //upload list of classes they picked
-    
-    
+        //
+        
+        // dismiss the view
+        dismiss(animated: true, completion: nil)
     }
     
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        cell.selectionStyle = .blue
+//        cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+        cell.textLabel?.text = "cell " + String(indexPath.row)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = UITableViewCell.AccessoryType.checkmark
+    }
+    
     /*
     // MARK: - Navigation
 

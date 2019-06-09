@@ -21,7 +21,7 @@ class Tutors: UITableViewController {
 //        self.tableView.rowHeight = UITableView.automaticDimension
         ref = Database.database().reference()
                 
-        fetchUser()
+        refetchUsers()
         
 
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
@@ -31,10 +31,16 @@ class Tutors: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
        
     }
-
     
+    func refetchUsers(){
+        users.removeAll()
+        fetchUser()
+        self.tableView.reloadData()
+    }
+
     func fetchUser(){
         ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
