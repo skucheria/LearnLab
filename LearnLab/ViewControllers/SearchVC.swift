@@ -29,19 +29,15 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
             searchBar.isTranslucent = false
             searchBar.backgroundImage = UIImage()
             searchBar.delegate = self
+            searchBar.showsCancelButton = true
             navigationItem.titleView = searchBar
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         tableView.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
 
         
         fstore = Firestore.firestore()
-        
-//        pullCourses()
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -51,9 +47,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     
     func pullCourses(_ text : String){
         fstore?.collection("courses").whereField("department", isEqualTo: text).getDocuments(completion: { (snapshot, error) in
-//            if snapshot == nil{
-//                self.filteredData = self.data
-//            }
             for doc in snapshot!.documents{
                 if let dictionary = doc.data() as? [String:String]{
                     let course = Course()
@@ -64,6 +57,10 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     self.filteredData.append(course)
                 }
             }
+            
+            self.filteredData.sort(by: { (m1, m2) -> Bool in
+                return (m1.code)! < (m2.code)!
+            })
             DispatchQueue.main.async { self.tableView.reloadData() }
         })
     }
@@ -78,6 +75,15 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
             pullCourses(textSearched.uppercased())
             tableView.reloadData()
         }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        // Stop doing the search stuff
+        // and clear the text in the search bar
+        searchBar.text = ""
+        // Hide the cancel button
+        searchBar.showsCancelButton = false
+        // You could also change the position, frame etc of the searchBar
     }
     
     // MARK: - Table view data source
