@@ -12,6 +12,9 @@ import Firebase
 class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var ref : DatabaseReference?
+    var fstore : Firestore!
+    var filteredData = [Course]()
+    var data = [Course]()
     
     let doneButton : UIButton = {
         let button = UIButton()
@@ -48,11 +51,20 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         return tv
     }()
     
+    let searchTF : UITextField =  {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.backgroundColor = .white
+        tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        return tf
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
         ref = Database.database().reference()
-        
+        fstore = Firestore.firestore()
+
         self.view.addSubview(topView)
         self.view.addSubview(bottomView)
         self.view.addSubview(classesTableViews)
@@ -64,8 +76,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         
         classesTableViews.delegate = self
         classesTableViews.dataSource = self
-        classesTableViews.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-        // Do any additional setup after loading the view.
+        classesTableViews.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
     }
     
     func setupDoneButton(){
@@ -80,6 +91,12 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         topView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         topView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        topView.addSubview(searchTF)
+        searchTF.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        searchTF.topAnchor.constraint(equalTo: topView.topAnchor, constant: 50).isActive = true
+        searchTF.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        searchTF.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     func setupBottomView(){
@@ -94,8 +111,9 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         classesTableViews.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         classesTableViews.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         classesTableViews.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-//        classesTableViews.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         classesTableViews.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
+        
+        
     }
     
     @objc func donePressed(){ //upload list of classes they picked
@@ -105,20 +123,54 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func textFieldDidChange(){
+        let textSearched = searchTF.text
+        if (textSearched!.isEmpty){
+            filteredData = data
+            classesTableViews.reloadData()
+        }
+        else{
+            pullCourses(textSearched!.uppercased())
+            classesTableViews.reloadData()
+        }
+    }
 
+    func pullCourses(_ text : String){
+        fstore?.collection("courses").whereField("department", isEqualTo: text).getDocuments(completion: { (snapshot, error) in
+            for doc in snapshot!.documents{
+                if let dictionary = doc.data() as? [String:String]{
+                    let course = Course()
+                    course.code = dictionary["code"]
+                    course.school = dictionary["school"]
+                    course.department = dictionary["department"]
+                    course.title = dictionary["title"]
+                    self.filteredData.append(course)
+                }
+            }
+            self.filteredData.sort(by: { (m1, m2) -> Bool in
+                return (m1.code)! < (m2.code)!
+            })
+            DispatchQueue.main.async { self.classesTableViews.reloadData() }
+        })
+    }
+
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return filteredData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ClassInfoCell
+        
+        let course = filteredData[indexPath.row]
+        
         cell.selectionStyle = .blue
-//        cell.accessoryType = UITableViewCell.AccessoryType.checkmark
-        cell.textLabel?.text = "cell " + String(indexPath.row)
+        cell.textLabel?.text = course.department! + " " + course.code!
+        cell.detailTextLabel?.text = course.title!
         
         return cell
     }
@@ -129,15 +181,4 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         let cell = tableView.cellForRow(at: indexPath)
         cell?.accessoryType = UITableViewCell.AccessoryType.checkmark
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
