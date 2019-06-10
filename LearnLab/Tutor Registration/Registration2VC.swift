@@ -127,7 +127,9 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
             selectedCourses.append(filteredData[indexPath.row])
         }
         
-        print(selectedCourses)
+        for item in selectedCourses{
+            print (item.dbId)
+        }
         // dismiss the view
         dismiss(animated: true, completion: nil)
     }
@@ -153,6 +155,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
                     course.school = dictionary["school"]
                     course.department = dictionary["department"]
                     course.title = dictionary["title"]
+                    course.dbId = doc.documentID
                     self.filteredData.append(course)
                 }
             }
@@ -182,6 +185,11 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         cell.detailTextLabel?.text = course.title!
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = UITableViewCell.AccessoryType.none
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
