@@ -105,7 +105,7 @@ class Registration1VC: UIViewController {
     @objc func nextPressed(){
         let reg2 = Registration2VC()
         self.present(reg2, animated: false)
-//        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTF.text!, "gpa" : gpaTF.text!, "tutor" : "yes"])
+        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTF.text!, "tutor" : "yes"])
     }
 
 }

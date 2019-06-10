@@ -125,6 +125,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                         curr.name = item.value["name"]
                         curr.profLinik = item.value["profilePic"]
                         curr.id = item.key
+                        curr.bio = item.value["bio"]
                         self.name.text = curr.name
                         let profileImageUrl = curr.profLinik
                         self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)

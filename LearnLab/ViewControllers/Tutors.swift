@@ -17,29 +17,20 @@ class Tutors: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Tutors"
-//        self.tableView.estimatedRowHeight = 150
-//        self.tableView.rowHeight = UITableView.automaticDimension
         ref = Database.database().reference()
-                
-        refetchUsers()
         
-
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
+        fetchUser()
+
        
     }
     
-    func refetchUsers(){
-        users.removeAll()
-        fetchUser()
-        self.tableView.reloadData()
-    }
+//    func refetchUsers(){
+//        users.removeAll()
+//        fetchUser()
+//        self.tableView.reloadData()
+//    }
 
     func fetchUser(){
         ref?.child("user").observeSingleEvent(of: .value
@@ -48,20 +39,17 @@ class Tutors: UITableViewController {
                 let tester = snapshot.value as? [String : [String:String] ] ?? [:]
                 for item in tester{
                     let user = User()
-                    user.email = item.value["email"]
-                    user.name = item.value["name"]
-                    user.profLinik = item.value["profilePic"]
-                    user.id = item.key
                     user.tutor = item.value["tutor"]
                     if user.tutor == "yes"{
+                        user.email = item.value["email"]
+                        user.name = item.value["name"]
+                        user.profLinik = item.value["profilePic"]
+                        user.id = item.key
+                        user.bio = item.value["bio"]
                         self.users.append(user)
                     }
-                    
                     DispatchQueue.main.async { self.tableView.reloadData() }
-
                 }
-                
-                
         })
     }
 

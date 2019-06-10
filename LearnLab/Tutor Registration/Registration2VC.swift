@@ -15,7 +15,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     var fstore : Firestore!
     var filteredData = [Course]()
     var data = [Course]()
-    var selectedCourses = [Course]()
+    var selectedCourses = [String]()
 
     
     let doneButton : UIButton = {
@@ -124,12 +124,11 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
         
         for indexPath in selected_indexPaths! {
-            selectedCourses.append(filteredData[indexPath.row])
+            selectedCourses.append(filteredData[indexPath.row].dbId!)
         }
         
-        for item in selectedCourses{
-            print (item.dbId)
-        }
+        ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
+        
         // dismiss the view
         dismiss(animated: true, completion: nil)
     }

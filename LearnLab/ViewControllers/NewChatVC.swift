@@ -45,6 +45,7 @@ class NewChatVC: UITableViewController {
                     user.name = item.value["name"]
                     user.profLinik = item.value["profilePic"]
                     user.id = item.key
+                    user.bio = item.value["bio"]
                     user.tutor = item.value["tutor"]
                     if user.tutor == "yes"{
                         self.users.append(user)

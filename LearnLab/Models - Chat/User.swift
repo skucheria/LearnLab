@@ -15,4 +15,5 @@ class User: NSObject {
     var profLinik : String?
     var id : String?
     var tutor : String?
+    var bio : String?
 }
