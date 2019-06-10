@@ -15,6 +15,8 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     var fstore : Firestore!
     var filteredData = [Course]()
     var data = [Course]()
+    var selectedCourses = [Course]()
+
     
     let doneButton : UIButton = {
         let button = UIButton()
@@ -113,12 +115,19 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         classesTableViews.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         classesTableViews.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
         
-        
+        classesTableViews.allowsMultipleSelection = true
     }
     
     @objc func donePressed(){ //upload list of classes they picked
         //
         
+        let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
+        
+        for indexPath in selected_indexPaths! {
+            selectedCourses.append(filteredData[indexPath.row])
+        }
+        
+        print(selectedCourses)
         // dismiss the view
         dismiss(animated: true, completion: nil)
     }
@@ -176,8 +185,8 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         
+       
         let cell = tableView.cellForRow(at: indexPath)
         cell?.accessoryType = UITableViewCell.AccessoryType.checkmark
     }

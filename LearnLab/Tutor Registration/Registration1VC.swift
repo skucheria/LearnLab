@@ -20,6 +20,7 @@ class Registration1VC: UIViewController {
     
     let gpaLabel : UILabel = {
         let label = UILabel()
+        label.text = "Enter your GPA: "
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -33,9 +34,9 @@ class Registration1VC: UIViewController {
     
     let gpaTF : UITextField = {
         let tf = UITextField()
-        tf.text = "Enter you GPA: "
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .white
+        tf.keyboardType = UIKeyboardType.decimalPad
         return tf
     }()
     
