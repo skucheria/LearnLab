@@ -36,17 +36,19 @@ class Tutors: UITableViewController {
         ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
                 
-                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
-                for item in tester{
-                    let user = User()
-                    user.tutor = item.value["tutor"]
-                    if user.tutor == "yes"{
-                        user.email = item.value["email"]
-                        user.name = item.value["name"]
-                        user.profLinik = item.value["profilePic"]
-                        user.id = item.key
-                        user.bio = item.value["bio"]
-                        self.users.append(user)
+                if let dictionary = snapshot.value as? [String : [String:Any]]{
+                    for item in dictionary{
+                        let user = User()
+                        user.tutor = item.value["tutor"] as? String
+                        if(user.tutor == "yes"){
+                            user.email = item.value["email"] as? String
+                            user.name = item.value["name"] as? String
+                            user.profLinik = item.value["profilePic"] as? String
+                            user.id = item.key
+                            user.bio = item.value["bio"] as? String
+                            user.courses = item.value["classes"] as? [String]
+                            self.users.append(user)
+                        }
                     }
                     DispatchQueue.main.async { self.tableView.reloadData() }
                 }
