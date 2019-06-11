@@ -16,5 +16,5 @@ class User: NSObject {
     var id : String?
     var tutor : String?
     var bio : String?
-    var courses : [String]?
+    var courses : [String]? //array of course id's that user tutors 
 }

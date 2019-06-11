@@ -29,16 +29,27 @@ class TutorInfoCell: UITableViewCell {
     
     let ratingLabel : UILabel = {
         let label = UILabel()
+        label.text = "Rating 5 Star"
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let classLabel : UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Classes that I tutor"
         return label
     }()
     
     let bioLabel : UILabel = {
         let label = UILabel()
+        return label
+    }()
+    
+    let reviewsLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "# Reviews"
         return label
     }()
     
@@ -50,6 +61,7 @@ class TutorInfoCell: UITableViewCell {
         self.addSubview(ratingLabel)
         self.addSubview(classLabel)
         self.addSubview(bioLabel)
+        self.addSubview(reviewsLabel)
         //constraints
         
         picImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
@@ -62,6 +74,20 @@ class TutorInfoCell: UITableViewCell {
         nameLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
+        ratingLabel.leftAnchor.constraint(equalTo: picImageView.rightAnchor, constant: 8).isActive = true
+        ratingLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+        ratingLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        ratingLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        reviewsLabel.leftAnchor.constraint(equalTo: ratingLabel.rightAnchor, constant: 8).isActive = true
+        reviewsLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+        reviewsLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        reviewsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        classLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
+        classLabel.topAnchor.constraint(equalTo: picImageView.bottomAnchor, constant: 15).isActive = true
+        classLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        classLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
     }
     

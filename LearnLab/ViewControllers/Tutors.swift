@@ -22,20 +22,11 @@ class Tutors: UITableViewController {
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
         
         fetchUser()
-
-       
     }
-    
-//    func refetchUsers(){
-//        users.removeAll()
-//        fetchUser()
-//        self.tableView.reloadData()
-//    }
 
     func fetchUser(){
         ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
-                
                 if let dictionary = snapshot.value as? [String : [String:Any]]{
                     for item in dictionary{
                         let user = User()
