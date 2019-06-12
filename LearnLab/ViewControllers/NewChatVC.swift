@@ -38,15 +38,15 @@ class NewChatVC: UITableViewController {
         ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
                 
-                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+                let tester = snapshot.value as? [String : [String:Any] ] ?? [:]
                 for item in tester{
                     let user = User()
-                    user.email = item.value["email"]
-                    user.name = item.value["name"]
-                    user.profLinik = item.value["profilePic"]
+                    user.email = item.value["email"] as? String
+                    user.name = item.value["name"] as? String
+                    user.profLinik = item.value["profilePic"] as? String
                     user.id = item.key
-                    user.bio = item.value["bio"]
-                    user.tutor = item.value["tutor"]
+                    user.bio = item.value["bio"] as? String
+                    user.tutor = item.value["tutor"] as? String
                     if user.tutor == "yes"{
                         self.users.append(user)
                     }

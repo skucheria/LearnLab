@@ -63,8 +63,9 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
 
         setupTopView()
         setupTableView()
-        getCurrentUserInfo()
-        
+//        getCurrentUserInfo()
+        fetchUser()
+//
         options.delegate = self
         options.dataSource = self
         options.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
@@ -115,17 +116,17 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         let curr = User()
         ref.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
-                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+                let tester = snapshot.value as? [String : [String:Any]] ?? [:]
                 for item in tester{
 //                    print("Key AKA UID: ", item.key)
 //                    print("My UID: ", uid!)
                     if item.key == (uid!){
 //                        print("every going in here")
-                        curr.email = item.value["email"]
-                        curr.name = item.value["name"]
-                        curr.profLinik = item.value["profilePic"]
+                        curr.email = item.value["email"] as? String
+                        curr.name = item.value["name"]as? String
+                        curr.profLinik = item.value["profilePic"] as? String
                         curr.id = item.key
-                        curr.bio = item.value["bio"]
+                        curr.bio = item.value["bio"] as? String
                         self.name.text = curr.name
                         let profileImageUrl = curr.profLinik
                         self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
@@ -135,6 +136,32 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 }
         })
         
+    }
+    
+    func fetchUser(){
+        let ref = Database.database().reference()
+        let uid = Auth.auth().currentUser?.uid
+        let curr = User()
+        ref.child("user").observeSingleEvent(of: .value
+            , with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String : [String:Any]]{
+                    for item in dictionary{
+                        print(item.key)
+                        print(uid!)
+                        if(item.key == (uid!)){
+                            curr.email = item.value["email"] as? String
+                            curr.name = item.value["name"]as? String
+                            curr.profLinik = item.value["profilePic"] as? String
+                            curr.id = item.key
+                            curr.bio = item.value["bio"] as? String
+                            curr.courses =  item.value["classes"] as? [String]
+                            self.name.text = curr.name
+                            let profileImageUrl = curr.profLinik
+                            self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+                        }
+                    }
+                }
+        })
     }
     
     func setupTableView(){
