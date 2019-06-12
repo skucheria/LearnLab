@@ -9,17 +9,24 @@
 import UIKit
 import Firebase
 
+
 class Tutors: UITableViewController {
 
     var ref : DatabaseReference?
     var users = [User]()
+    var fstore : Firestore!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Tutors"
         ref = Database.database().reference()
-        
+        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
+        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
+        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
+        fstore = Firestore.firestore()
+
         
         fetchUser()
     }
@@ -67,6 +74,25 @@ class Tutors: UITableViewController {
         let profileImageUrl = user.profLinik
         cell.nameLabel.text = user.name
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+        var coursesLabel = String()
+        var titles = [String]()
+        for c in user.courses!{
+            fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
+                if let dict = snapshot?.data() as? [String:String]{
+                    coursesLabel += (dict["title"]! + " ")
+                    titles.append(dict["title"]!)
+                    (cell.classLabel.text)! += (dict["title"]!)
+                }
+            })
+
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
+            // Put your code which should be executed with a delay here
+            print("courses: ", coursesLabel)
+//            cell.classLabel.text = coursesLabel
+        })
+
+//        cell.classLabel.text = coursesLabel
         return cell
     }
     

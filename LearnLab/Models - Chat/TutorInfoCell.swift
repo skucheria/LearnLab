@@ -37,7 +37,7 @@ class TutorInfoCell: UITableViewCell {
     let classLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Classes that I tutor"
+        label.text = " "
         return label
     }()
     
@@ -62,6 +62,7 @@ class TutorInfoCell: UITableViewCell {
         self.addSubview(classLabel)
         self.addSubview(bioLabel)
         self.addSubview(reviewsLabel)
+        self.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         //constraints
         
         picImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
@@ -86,8 +87,9 @@ class TutorInfoCell: UITableViewCell {
         
         classLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         classLabel.topAnchor.constraint(equalTo: picImageView.bottomAnchor, constant: 15).isActive = true
-        classLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        classLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        classLabel.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -16).isActive = true
+        classLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        classLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
         
     }
     
