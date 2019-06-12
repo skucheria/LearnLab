@@ -76,15 +76,19 @@ class Tutors: UITableViewController {
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
         var coursesLabel = String()
         var titles = [String]()
+        var counter = 0
         for c in user.courses!{
             fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
                 if let dict = snapshot?.data() as? [String:String]{
+                    counter+=1
                     coursesLabel += (dict["title"]! + " ")
                     titles.append(dict["title"]!)
-                    (cell.classLabel.text)! += (dict["title"]!)
+                    (cell.classLabel.text)! += ((dict["department"]! + dict["code"]!))
+                    if(counter != user.courses?.count){
+                        (cell.classLabel.text)! += ", "
+                    }
                 }
             })
-
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
             // Put your code which should be executed with a delay here
