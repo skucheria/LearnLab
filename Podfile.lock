@@ -72,6 +72,7 @@ PODS:
   - FirebaseUI/Google (5.2.2):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 4.0)
+  - FoldingCell (4.0.2)
   - GoogleAppMeasurement (5.3.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
@@ -165,6 +166,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseUI/Auth
   - FirebaseUI/Google
+  - FoldingCell
   - MessageKit
   - Stripe
 
@@ -181,6 +183,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FirebaseStorage
     - FirebaseUI
+    - FoldingCell
     - GoogleAppMeasurement
     - GoogleSignIn
     - GoogleToolboxForMac
@@ -211,6 +214,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   FirebaseStorage: 3d22c041370593e639fba013d1eb698a8dae2881
   FirebaseUI: 09519bf436a055cd696bf68687d624423150e4c0
+  FoldingCell: 352f0211a53f957b885a1b37d5ffa875da90bca5
   GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleSignIn: 11183592dc63e105475c7305a325045ff95e02b7
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
@@ -229,6 +233,6 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: e384e4c3faf765ee1e6b353e3ee4cea05d50a2a4
+PODFILE CHECKSUM: 3facd1b82dbe9f7a340d3757e7f3c6bea12ae078
 
 COCOAPODS: 1.5.3

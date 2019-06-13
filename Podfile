@@ -15,6 +15,7 @@ target 'LearnLab' do
   pod 'Firebase/Storage'
   pod 'MessageKit'
   pod 'Stripe'
+  pod 'FoldingCell'
   target 'LearnLabTests' do
     inherit! :search_paths
     # Pods for testing
