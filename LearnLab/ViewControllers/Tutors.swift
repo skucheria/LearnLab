@@ -72,6 +72,7 @@ class Tutors: UITableViewController {
 
         let user = self.users[indexPath.row]
         let profileImageUrl = user.profLinik
+        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.nameLabel.text = user.name
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
         var coursesLabel = String()
