@@ -22,11 +22,15 @@ class MainTabController: UITabBarController {
         let thirdVC = tab3()
         thirdVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
         
+        let fifthVC = tab5()
+        fifthVC.tabBarItem = UITabBarItem(tabBarSystemItem: .mostRecent, tag: 3)
+        
         let fourthVC = tab4()
-        fourthVC.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 3)
+        fourthVC.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 4)
 
-         
-        let tabBarList = [firstVC, secondVC, thirdVC, fourthVC]
+        
+        
+        let tabBarList = [firstVC, secondVC, thirdVC, fifthVC, fourthVC]
         
         viewControllers = tabBarList
         // Do any additional setup after loading the view.

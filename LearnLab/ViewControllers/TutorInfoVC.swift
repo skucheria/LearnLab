@@ -44,7 +44,7 @@ class TutorInfoVC: UIViewController {
         //first put the session in the sessions tree
         let ref = Database.database().reference().child("sessions")
         let childRef = ref.childByAutoId()
-        childRef.updateChildValues(["tutorID" : tutorID, "studentID" : studentID, "active" : "no"])
+        childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no"])
         
         //wanna also create a tree for sessions by user --> do it for both tutor and students
         let ref2 = Database.database().reference().child("grouped-sessions").child(studentID)
