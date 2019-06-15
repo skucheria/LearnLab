@@ -39,6 +39,8 @@ class userCellClass : UITableViewCell{
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: "cellId")
+        self.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+
         addSubview(profileImageView)
         addSubview(timeLabel)
         //constraints x,y,w,h

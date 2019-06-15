@@ -46,6 +46,10 @@ class MessagesVC: UITableViewController {
         observeUserMessages()
         
         tableView.register(userCellClass.self, forCellReuseIdentifier: "cellId")
+        
+        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
+        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
     }
     
     func fetchUser(){
@@ -197,14 +201,15 @@ class MessagesVC: UITableViewController {
         
         let dbRef = Database.database().reference().child("user")
         
+        
         dbRef.observeSingleEvent(of: .value) { (snapshot) in
             let curr = User()
-            let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+            let tester = snapshot.value as? [String : [String:Any] ] ?? [:]
             for item in tester{
                 if item.key == (chatPartnerID!){
-                    curr.email = item.value["email"]
-                    curr.name = item.value["name"]
-                    curr.profLinik = item.value["profilePic"]
+                    curr.email = item.value["email"] as? String
+                    curr.name = item.value["name"] as? String
+                    curr.profLinik = item.value["profilePic"] as? String
                     curr.id = chatPartnerID
                     self.showChatVC(curr)
                 }

@@ -23,8 +23,9 @@ class Tutors: UITableViewController {
         ref = Database.database().reference()
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
         self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
-        tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
         tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
+        tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
+
         fstore = Firestore.firestore()
 
         
