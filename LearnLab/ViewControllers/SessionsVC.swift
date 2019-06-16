@@ -12,6 +12,9 @@ import Firebase
 class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var sessions = [Session]()
+    var pending = [Session]()
+    var past = [Session]()
+    var upcoming = [Session]()
     var cellUser : User?
 
     let sessionSegment : UISegmentedControl = {
@@ -93,6 +96,10 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     session.active = dictionary["active"] as? String
                     session.tutorID = dictionary["tutorID"] as? String
                     session.studentID = dictionary["studentID"] as? String
+                    session.startTime = dictionary["startTime"] as? NSNumber
+                    if session.active == "no"{
+                        self.pending.append(session)
+                    }
                     self.sessions.append(session)
                 }
                 DispatchQueue.main.async { self.sessionsTV.reloadData() }
@@ -105,17 +112,50 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0{
+            return "Pending"
+        }
+        return "Upcoming"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return pending.count
+        }
         return sessions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
-        let session = sessions[indexPath.row]
+        
+        var session = Session()
+        
+        if(indexPath.section == 0){
+            session = pending[indexPath.row]
+        }
+        else{
+            session = sessions[indexPath.row]
+        }
+        
+        
+//        let session = sessions[indexPath.row]
+        
+        let seconds = session.startTime?.doubleValue
+        var timeStamp = "TIME"
+        if(seconds != nil){
+            let date = NSDate(timeIntervalSince1970: seconds!)
+            let format = DateFormatter()
+            format.dateFormat = "dd hh:mm a"
+            timeStamp = format.string(from: date as Date)
+        }
+        
+        
+        
         var tLabel : String?
         if session.tutorID == Auth.auth().currentUser!.uid{
             tLabel = session.studentID
@@ -126,10 +166,10 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         let user = getUserForUID(tLabel!)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { 
-            cell.textLabel?.text = user.name
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            cell.textLabel?.text = user.name! + " " + timeStamp
         }
-
+        
         return cell
     }
     
