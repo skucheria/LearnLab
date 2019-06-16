@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 
     var ref : DatabaseReference?
     var fstore : Firestore!
@@ -53,11 +53,12 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         return tv
     }()
     
-    let searchTF : UITextField =  {
+    lazy var searchTF : UITextField =  {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .white
         tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        tf.delegate = self
         return tf
     }()
     
@@ -192,9 +193,12 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-       
         let cell = tableView.cellForRow(at: indexPath)
         cell?.accessoryType = UITableViewCell.AccessoryType.checkmark
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 }

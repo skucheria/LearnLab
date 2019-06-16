@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class EditProfileVC: UIViewController {
+class EditProfileVC: UIViewController, UITextFieldDelegate {
 
 //    var ref = Database.database().reference()
     
@@ -41,11 +41,12 @@ class EditProfileVC: UIViewController {
         return label
     }()
     
-    let bioText : UITextField = {
+    lazy var bioText : UITextField = {
         let tf = UITextField()
         tf.placeholder = "Sell yourself! Include any experience tutoring or TA'ing, qualifications, awards or something interesting about yourself."
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .white
+        tf.delegate = self
         return tf
     }()
     
@@ -136,6 +137,8 @@ class EditProfileVC: UIViewController {
 
     
     }
+    
+    
     
     /*
     // MARK: - Navigation

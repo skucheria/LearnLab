@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class Registration1VC: UIViewController {
+class Registration1VC: UIViewController, UITextFieldDelegate {
     
     let bioLabel : UILabel = {
         let label = UILabel()
@@ -25,10 +25,11 @@ class Registration1VC: UIViewController {
         return label
     }()
     
-    let bioTF : UITextField = {
+    lazy var bioTF : UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .white
+        tf.delegate = self
         return tf
     }()
     
@@ -106,6 +107,11 @@ class Registration1VC: UIViewController {
         let reg2 = Registration2VC()
         self.present(reg2, animated: false)
         ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTF.text!, "tutor" : "yes"])
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 
 }
