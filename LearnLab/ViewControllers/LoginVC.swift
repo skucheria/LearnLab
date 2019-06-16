@@ -251,7 +251,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         if textField == nameTextField{
             emailTextField.becomeFirstResponder()
         }
@@ -263,14 +262,5 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         }
         return true
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
