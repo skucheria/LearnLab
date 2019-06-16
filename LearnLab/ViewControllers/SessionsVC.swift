@@ -57,9 +57,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         sessionsTV.dataSource = self
         sessionsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         
-        print("testing global uid function")
-        
-
+        sessionRemoved()
     }
     
     func setupSegment(){
@@ -84,6 +82,32 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         sessionsTV.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
+    func sessionRemoved(){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let seshRef = Database.database().reference().child("grouped-sessions").child(uid)
+        seshRef.observe(.childRemoved) { (snapshot) in
+            self.pending.removeAll()
+            self.sessions.removeAll()
+            let sessionID = snapshot.key
+            let indRef = Database.database().reference().child("sessions").child(sessionID)
+            indRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String:Any]{
+                    let session = Session()
+                    session.active = dictionary["active"] as? String
+                    session.tutorID = dictionary["tutorID"] as? String
+                    session.studentID = dictionary["studentID"] as? String
+                    session.startTime = dictionary["startTime"] as? NSNumber
+                    if session.active == "no"{
+                        self.pending.append(session)
+                    }
+                    else{
+                        self.sessions.append(session)
+                    }                }
+                DispatchQueue.main.async { self.sessionsTV.reloadData() }
+            })
+        }
+    }
+    
     func getSessions(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let seshRef = Database.database().reference().child("grouped-sessions").child(uid)
@@ -100,7 +124,9 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     if session.active == "no"{
                         self.pending.append(session)
                     }
-                    self.sessions.append(session)
+                    else{
+                        self.sessions.append(session)
+                    }
                 }
                 DispatchQueue.main.async { self.sessionsTV.reloadData() }
             })
@@ -141,10 +167,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         else{
             session = sessions[indexPath.row]
         }
-        
-        
-//        let session = sessions[indexPath.row]
-        
+
         let seconds = session.startTime?.doubleValue
         var timeStamp = "TIME"
         if(seconds != nil){
@@ -153,9 +176,6 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             format.dateFormat = "dd hh:mm a"
             timeStamp = format.string(from: date as Date)
         }
-        
-        
-        
         var tLabel : String?
         if session.tutorID == Auth.auth().currentUser!.uid{
             tLabel = session.studentID

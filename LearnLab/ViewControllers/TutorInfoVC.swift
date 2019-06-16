@@ -108,7 +108,7 @@ class TutorInfoVC: UIViewController {
     @objc func donedatePicker(){
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/YYYY HH:MM  a"
+        formatter.dateFormat = "dd/MM/YYYY HH:mm  a"
         dateTextField.text = formatter.string(from: datePicker.date)
         time = (datePicker.date.timeIntervalSince1970 as AnyObject as! NSNumber)
         self.view.endEditing(true)

@@ -94,7 +94,6 @@ class Tutors: UITableViewController {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
             // Put your code which should be executed with a delay here
-            print("courses: ", coursesLabel)
 //            cell.classLabel.text = coursesLabel
         })
 
