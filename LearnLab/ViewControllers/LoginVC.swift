@@ -11,7 +11,7 @@ import Firebase
 import FirebaseUI
 import FirebaseDatabase
 
-class LoginVC: UIViewController, FUIAuthDelegate {
+class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
 
     let tfEmail = UITextField()
     let tfPassword = UITextField()
@@ -52,11 +52,13 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return button
     }()
     
-    let nameTextField : UITextField = {
+    lazy var nameTextField : UITextField = {
         let tf = UITextField()
         tf.placeholder = "Name"
         tf.textColor = .black
         tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.returnKeyType = .next
+        tf.delegate = self
         return tf
     }()
     
@@ -67,11 +69,13 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return view
     }()
     
-    let emailTextField : UITextField = {
+    lazy var emailTextField : UITextField = {
         let tf = UITextField()
         tf.placeholder = "Email"
         tf.textColor = .black
         tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.returnKeyType = .next
+        tf.delegate = self
         return tf
     }()
     
@@ -82,12 +86,14 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         return view
     }()
     
-    let passwordTextField : UITextField = {
+    lazy var passwordTextField : UITextField = {
         let tf = UITextField()
         tf.placeholder = "Password"
         tf.textColor = .black
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.isSecureTextEntry = true
+        tf.returnKeyType = .done
+        tf.delegate = self
         return tf
     }()
     
@@ -244,6 +250,19 @@ class LoginVC: UIViewController, FUIAuthDelegate {
         loginRegSegment.heightAnchor.constraint(equalToConstant: 35).isActive=true
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if textField == nameTextField{
+            emailTextField.becomeFirstResponder()
+        }
+        else if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        }
+        else{
+            self.view.endEditing(true)
+        }
+        return true
+    }
     /*
     // MARK: - Navigation
 

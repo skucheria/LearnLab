@@ -109,15 +109,15 @@ class EditProfileVC: UIViewController {
         let curr = User()
         ref.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
-                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
+                let tester = snapshot.value as? [String : [String:Any] ] ?? [:]
                 for item in tester{
                     //                    print("Key AKA UID: ", item.key)
                     //                    print("My UID: ", uid!)
                     if item.key == (uid!){
                         //                        print("every going in here")
-                        curr.email = item.value["email"]
-                        curr.name = item.value["name"]
-                        curr.profLinik = item.value["profilePic"]
+                        curr.email = item.value["email"] as? String
+                        curr.name = item.value["name"] as? String
+                        curr.profLinik = item.value["profilePic"] as? String 
                         curr.id = item.key
                         self.name.text = curr.name
                         self.email.text = curr.email
