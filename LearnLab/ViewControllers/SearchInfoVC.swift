@@ -9,29 +9,86 @@
 import UIKit
 import Firebase
 
-class SearchInfoVC: UIViewController {
-
+class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var users = [User]()
+    
     var currentCourse : Course? {
         didSet{
             navigationItem.title = currentCourse?.title
         }
     }
     
+    lazy var tableview : UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        setupTV()
+        getUsersForCouse()
+        self.tableview.delegate = self
+        self.tableview.dataSource = self
         // Do any additional setup after loading the view.
+        tableview.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setupTV(){
+        self.view.addSubview(tableview)
+        let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
+        tableview.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        tableview.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableview.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        tableview.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
-    */
+    
+    func getUsersForCouse(){
+        let ref = Database.database().reference().child("user")
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            if let dictionary = snapshot.value as? [String : [String : Any]]{
+                for item in dictionary{
+                    let courses = item.value["classes"] as? [String]
+                    if((courses?.contains((self.currentCourse?.dbId)!))!){ //if this user is a tutor for the course, then add to users
+                        print("Found match")
+                        let user = User()
+                        user.tutor = item.value["tutor"] as? String
+                        user.email = item.value["email"] as? String
+                        user.name = item.value["name"] as? String
+                        user.profLinik = item.value["profilePic"] as? String
+                        user.id = item.key
+                        user.bio = item.value["bio"] as? String
+                        user.courses = item.value["classes"] as? [String]
+                        self.users.append(user)
+                    }
+                    DispatchQueue.main.async { self.tableview.reloadData() }
+                }
+            }
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.users.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! TutorInfoCell
+        let user = self.users[indexPath.row]
+        let profileImageUrl = user.profLinik
+        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+        cell.nameLabel.text = user.name
+        cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
 
 }

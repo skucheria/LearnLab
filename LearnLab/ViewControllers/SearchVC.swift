@@ -57,6 +57,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     course.school = dictionary["school"]
                     course.department = dictionary["department"]
                     course.title = dictionary["title"]
+                    course.dbId = doc.documentID
                     self.filteredData.append(course)
                 }
             }
