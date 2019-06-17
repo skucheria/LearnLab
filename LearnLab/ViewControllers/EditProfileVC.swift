@@ -56,13 +56,41 @@ class EditProfileVC: UIViewController, UITextFieldDelegate {
         return edit
     }()
     
+    lazy var profileImageView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Sensei")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 2
+        imageView.layer.cornerRadius = 125/2
+        imageView.layer.borderColor = UIColor.black.cgColor
+
+        let gest = UITapGestureRecognizer(target: self, action: #selector(uploadPic))
+        gest.numberOfTapsRequired = 1
+        imageView.addGestureRecognizer(gest)
+        return imageView
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = editButton
         self.view.backgroundColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 204/255, alpha: 1)
         self.title = "Edit Profile"
+        setupPicView()
         setupBioFields()
         setupTfs()
+    }
+    
+    func setupPicView(){
+        self.view.addSubview(profileImageView)
+        let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
+        profileImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: barHeight + 15).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 125).isActive = true
     }
     
     func setupBioFields(){
@@ -81,9 +109,8 @@ class EditProfileVC: UIViewController, UITextFieldDelegate {
     
     func setupTfs(){
         self.view.addSubview(accountDetails)
-        let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
         accountDetails.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-        accountDetails.topAnchor.constraint(equalTo: view.topAnchor, constant: barHeight + 20).isActive = true
+        accountDetails.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20).isActive = true
         accountDetails.widthAnchor.constraint(equalToConstant: 200).isActive = true
         accountDetails.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
@@ -122,6 +149,8 @@ class EditProfileVC: UIViewController, UITextFieldDelegate {
                         curr.id = item.key
                         self.name.text = curr.name
                         self.email.text = curr.email
+                        let profileImageUrl = curr.profLinik
+                        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
                     }
                 }
         })
@@ -134,20 +163,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate {
         let vals = ["name" : nameText, "email": emailText]
         var ref = Database.database().reference()
         ref.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals) //updating with url link for image
-
-    
     }
     
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func uploadPic(){
+        print("Upload pic")
     }
-    */
 
 }

@@ -19,6 +19,20 @@ class TutorInfoVC: UIViewController {
         }
     }
     
+    //order of fields:
+    // pic with name, rating, num of ratings
+    // About/bio
+    // Availability
+    // Subjects --> tvcells with rates to click and book sessions
+    // Reviews
+    
+    let scrollView: UIScrollView = {
+        let v = UIScrollView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = .cyan
+        return v
+    }()
+    
     let bookSessionButton  : UIButton = {
         let button = UIButton()
         button.setTitle("Book Session", for: .normal)
@@ -73,15 +87,12 @@ class TutorInfoVC: UIViewController {
         let studentID = Auth.auth().currentUser!.uid
         let tutorID = currentTutor!.id
         //first put the session in the sessions tree
-        let timestamp: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
         let ref = Database.database().reference().child("sessions")
         let childRef = ref.childByAutoId()
         childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time])
-        
         //wanna also create a tree for sessions by user --> do it for both tutor and students
         let ref2 = Database.database().reference().child("grouped-sessions").child(studentID)
         ref2.updateChildValues([childRef.key! : 1])
-        
         let ref3 = Database.database().reference().child("grouped-sessions").child(tutorID!)
         ref3.updateChildValues([childRef.key! : 1])
     }
@@ -106,7 +117,6 @@ class TutorInfoVC: UIViewController {
     }
     
     @objc func donedatePicker(){
-        
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/YYYY HH:mm  a"
         dateTextField.text = formatter.string(from: datePicker.date)
