@@ -100,10 +100,17 @@ class TutorInfoVC: UIViewController {
         return label
     }()
     
+    let aboutText : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        navigationController?.navigationBar.barTintColor = .white
+
         setupInfoView()
 //        setupSessionButton()
 //        setupTF()
@@ -128,8 +135,12 @@ class TutorInfoVC: UIViewController {
         bioLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
         bioLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         bioLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
-        
+        self.view.addSubview(aboutText)
+        aboutText.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        aboutText.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 5).isActive = true
+        aboutText.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        aboutText.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        aboutText.text = currentTutor!.bio
     }
     
     

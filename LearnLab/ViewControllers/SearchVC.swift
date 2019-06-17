@@ -114,6 +114,12 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        //pull up a tableview of tutors for that subject
+        let course = self.filteredData[indexPath.row]
+        let searchInfo = SearchInfoVC()
+        searchInfo.currentCourse = course
+        self.navigationController?.pushViewController(searchInfo, animated: true)
+        
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

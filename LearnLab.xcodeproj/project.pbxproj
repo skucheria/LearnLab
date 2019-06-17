@@ -19,6 +19,7 @@
 		3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D8582289030C003C12E0 /* SettingsVC.swift */; };
 		3560D85B22890C24003C12E0 /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D85A22890C24003C12E0 /* InfoVC.swift */; };
 		3560D85D228934F1003C12E0 /* user-silhouette.png in Resources */ = {isa = PBXBuildFile; fileRef = 3560D85C228934F1003C12E0 /* user-silhouette.png */; };
+		3571CFF822B76C7C008B5D11 /* SearchInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571CFF722B76C7C008B5D11 /* SearchInfoVC.swift */; };
 		357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */; };
 		357D9ACD22AC2F9D005C4220 /* tutorCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */; };
 		357D9ACF22AC316C005C4220 /* TutorInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */; };
@@ -89,6 +90,7 @@
 		3560D8582289030C003C12E0 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		3560D85A22890C24003C12E0 /* InfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
 		3560D85C228934F1003C12E0 /* user-silhouette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-silhouette.png"; sourceTree = "<group>"; };
+		3571CFF722B76C7C008B5D11 /* SearchInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInfoVC.swift; sourceTree = "<group>"; };
 		357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHandlers.swift; sourceTree = "<group>"; };
 		357D9ACC22AC2F9D005C4220 /* tutorCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutorCellClass.swift; sourceTree = "<group>"; };
 		357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorInfoVC.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				35B597CA22A4577E00730535 /* NewChatVC.swift */,
 				353AD7F722952D420063596E /* ChatLogVC.swift */,
 				35900FB3228940AC00D796D3 /* SearchVC.swift */,
+				3571CFF722B76C7C008B5D11 /* SearchInfoVC.swift */,
 				35BA1DC72299B79C00F0ADE3 /* ProfileVC.swift */,
 				35B597C822A22F4D00730535 /* RegisterTutorVC.swift */,
 				35B597C6229F8E2000730535 /* EditProfileVC.swift */,
@@ -641,6 +644,7 @@
 				357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */,
 				3590022522B596C6005D60A7 /* SessionsVC.swift in Sources */,
 				357D9AD122ACA57E005C4220 /* TutorsVC.swift in Sources */,
+				3571CFF822B76C7C008B5D11 /* SearchInfoVC.swift in Sources */,
 				35B597C922A22F4D00730535 /* RegisterTutorVC.swift in Sources */,
 				35900FAE2289402200D796D3 /* tab4.swift in Sources */,
 				3590022322B596AF005D60A7 /* tab5.swift in Sources */,
