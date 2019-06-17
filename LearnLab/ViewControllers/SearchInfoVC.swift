@@ -38,7 +38,6 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func setupTV(){
         self.view.addSubview(tableview)
-        let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
         tableview.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         tableview.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableview.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -89,6 +88,10 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //need to go to tutorInfoVC, where they can look at bio, rating, reviews, and classes and then book session
     }
 
 }

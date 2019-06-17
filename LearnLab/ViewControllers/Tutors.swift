@@ -21,7 +21,8 @@ class Tutors: UITableViewController {
         self.title = "Tutors"
         ref = Database.database().reference()
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
-        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+//        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+        self.view.backgroundColor = .white
         tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
 
@@ -58,19 +59,19 @@ class Tutors: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return self.users.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.users.count
+        return 1
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! TutorInfoCell
 
-        let user = self.users[indexPath.row]
+        let user = self.users[indexPath.section]
         let profileImageUrl = user.profLinik
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.nameLabel.text = user.name
@@ -110,6 +111,12 @@ class Tutors: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "    "
+        return label
     }
 //
 }
