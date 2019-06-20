@@ -24,13 +24,13 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         super.viewDidLoad()
         
         searchBar.searchBarStyle = UISearchBar.Style.prominent
-            searchBar.placeholder = " Course code i.e. 'CSCI, MATH' "
-            searchBar.sizeToFit()
-            searchBar.isTranslucent = false
-            searchBar.backgroundImage = UIImage()
-            searchBar.delegate = self
-            searchBar.showsCancelButton = true
-            navigationItem.titleView = searchBar
+        searchBar.placeholder = " Course code i.e. 'CSCI, MATH' "
+        searchBar.sizeToFit()
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
+        navigationItem.titleView = searchBar
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -84,8 +84,11 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         // Stop doing the search stuff
         // and clear the text in the search bar
         searchBar.text = ""
+        searchBar.endEditing(true)
         // Hide the cancel button
-        searchBar.showsCancelButton = false
+        searchBar.showsCancelButton = true
+    filteredData.removeAll()
+    self.tableView.reloadData()
         // You could also change the position, frame etc of the searchBar
     }
     
@@ -120,12 +123,10 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         let searchInfo = SearchInfoVC()
         searchInfo.currentCourse = course
         self.navigationController?.pushViewController(searchInfo, animated: true)
-        
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.searchBar.endEditing(true)
     }
-    
     
 }

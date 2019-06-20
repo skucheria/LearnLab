@@ -20,10 +20,11 @@ class Tutors: UITableViewController {
         super.viewDidLoad()
         self.title = "Tutors"
         ref = Database.database().reference()
-        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
-//        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+//        self.view.backgroundColor = .white
         tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
+        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
+
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
 
         fstore = Firestore.firestore()
@@ -102,7 +103,8 @@ class Tutors: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = self.users[indexPath.row]
+        let user = self.users[indexPath.section]
+        print("User tapped: ", user.name)
         let tutorInfo = TutorInfoVC()
         tutorInfo.currentTutor = user
         self.navigationController?.pushViewController(tutorInfo, animated: true)
