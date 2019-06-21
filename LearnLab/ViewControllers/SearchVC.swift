@@ -22,7 +22,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchBar.searchBarStyle = UISearchBar.Style.prominent
         searchBar.placeholder = " Course code i.e. 'CSCI, MATH' "
         searchBar.sizeToFit()
