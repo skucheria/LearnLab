@@ -65,9 +65,10 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         
         setupKeyboardObservers()
         
-        let item = self.collectionView(self.collectionView!, numberOfItemsInSection: 0) - 1
-        let lastItemIndex = IndexPath(item: item, section: 0)
-        collectionView?.scrollToItem(at: lastItemIndex, at: UICollectionView.ScrollPosition.bottom, animated: true)
+//        let item = self.collectionView(self.collectionView!, numberOfItemsInSection: 0) - 1
+//        let lastItemIndex = IndexPath(item: item, section: 0)
+//        collectionView?.scrollToItem(at: lastItemIndex, at: UICollectionView.ScrollPosition.bottom, animated: true)
+        
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
     }

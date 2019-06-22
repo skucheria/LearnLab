@@ -20,8 +20,7 @@ class Tutors: UITableViewController {
         super.viewDidLoad()
         self.title = "Tutors"
         ref = Database.database().reference()
-        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
-//        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(displayP3Red: 234/255, green: 234/255, blue: 234/255, alpha: 1)
         tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
 
@@ -47,6 +46,7 @@ class Tutors: UITableViewController {
                             user.id = item.key
                             user.bio = item.value["bio"] as? String
                             user.courses = item.value["classes"] as? [String]
+                            user.rating = item.value["rating"] as? NSNumber
                             self.users.append(user)
                         }
                     }
@@ -77,9 +77,16 @@ class Tutors: UITableViewController {
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.nameLabel.text = user.name
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+        if (user.rating == nil){
+            cell.ratingLabel.text = "No Ratings"
+        }
+        else{
+            cell.ratingLabel.text = (user.rating?.stringValue)! + " ⭐️ "
+        }
         var coursesLabel = String()
         var titles = [String]()
         var counter = 0
+        cell.classLabel.text?.removeAll()
         for c in user.courses!{
             fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
                 if let dict = snapshot?.data() as? [String:String]{

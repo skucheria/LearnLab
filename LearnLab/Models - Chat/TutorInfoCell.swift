@@ -64,6 +64,10 @@ class TutorInfoCell: UITableViewCell {
         self.addSubview(reviewsLabel)
 //        self.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         self.backgroundColor = .white
+        self.layer.borderColor = (UIColor.lightGray).cgColor
+        self.layer.borderWidth = 0.5
+        
+        
         //constraints
         
         picImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true

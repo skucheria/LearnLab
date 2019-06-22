@@ -74,7 +74,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                     imageRef.downloadURL(completion: { (url, error) in
                         if error == nil{
                             let urlString = url?.absoluteString
-                            let vals = ["profilePic" : urlString, "tutor" : "no", "bio" : " "]
+                            let vals = ["profilePic" : urlString, "tutor" : "no", "bio" : " ", "rating" : 0] as [String : Any]
                             self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals) //updating with url link for image
                         }
                     })
