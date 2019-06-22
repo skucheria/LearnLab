@@ -104,7 +104,6 @@ class Tutors: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = self.users[indexPath.section]
-        print("User tapped: ", user.name)
         let tutorInfo = TutorInfoVC()
         tutorInfo.currentTutor = user
         self.navigationController?.pushViewController(tutorInfo, animated: true)

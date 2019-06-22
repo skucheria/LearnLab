@@ -38,11 +38,10 @@ class MessagesVC: UITableViewController {
         self.navigationItem.title = "Messages"
         self.navigationItem.rightBarButtonItem = newMessage
         
-        fetchUser()
+//        fetchUser()
         
 //        fetchMessages()
         
-        print("anythnig happening")
         observeUserMessages()
         
         tableView.register(userCellClass.self, forCellReuseIdentifier: "cellId")
@@ -106,12 +105,21 @@ class MessagesVC: UITableViewController {
                             return (m1.timestamp?.intValue)! > (m2.timestamp?.intValue)!
                         })
                     }
-                    DispatchQueue.main.async { self.tableView.reloadData() }
                     
+                    self.timer?.invalidate()
+                    self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.handleTableReload), userInfo: nil, repeats: false)
+                
                 }
             })
         }
-        
+    }
+    var timer : Timer?
+    
+    @objc func handleTableReload(){
+        DispatchQueue.main.async {
+            print("we reloaded the table view")
+            self.tableView.reloadData()
+        }
     }
     
     func fetchMessages(){
