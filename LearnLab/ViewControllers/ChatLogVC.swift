@@ -63,23 +63,22 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
 
         setupInputComponents()
         
+        setupKeyboardObservers()
         
         let item = self.collectionView(self.collectionView!, numberOfItemsInSection: 0) - 1
         let lastItemIndex = IndexPath(item: item, section: 0)
-        collectionView?.scrollToItem(at: lastItemIndex, at: UICollectionView.ScrollPosition.top, animated: true)
+        collectionView?.scrollToItem(at: lastItemIndex, at: UICollectionView.ScrollPosition.bottom, animated: true)
 
     }
     
     func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func handleKeyboardWillShow(_ notification: Notification) {
         let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
         let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        
         containerViewBottomAnchor?.constant = -keyboardFrame!.height
         UIView.animate(withDuration: keyboardDuration!, animations: {
             self.view.layoutIfNeeded()
@@ -87,10 +86,9 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     }
     
     @objc func handleKeyboardWillHide(_ notification: Notification) {
+        let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
         let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        
-        
-        containerViewBottomAnchor?.constant = 0
+        containerViewBottomAnchor?.constant = barHeight
         UIView.animate(withDuration: keyboardDuration!, animations: {
             self.view.layoutIfNeeded()
         })
