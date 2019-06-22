@@ -51,6 +51,8 @@ class MessagesVC: UITableViewController {
         tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
     }
     
+    
+    
     func fetchUser(){
      ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
@@ -229,9 +231,12 @@ class MessagesVC: UITableViewController {
     
     func showChatVC(_ user : User){
         print("show called")
+//        present(navController, animated: true, completion: nil)
         let chatVC = ChatLogVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let navController = UINavigationController(rootViewController: chatVC)
         chatVC.toUser = user
-        self.navigationController?.pushViewController(chatVC, animated: true)
+        self.navigationController?.present(navController, animated: true, completion: nil)
+//        self.navigationController?.pushViewController(chatVC, animated: true)
     }
     
     

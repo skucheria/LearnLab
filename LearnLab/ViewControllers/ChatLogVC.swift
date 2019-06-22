@@ -68,7 +68,12 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         let item = self.collectionView(self.collectionView!, numberOfItemsInSection: 0) - 1
         let lastItemIndex = IndexPath(item: item, section: 0)
         collectionView?.scrollToItem(at: lastItemIndex, at: UICollectionView.ScrollPosition.bottom, animated: true)
-
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+    }
+    
+    @objc func handleCancel() {
+        dismiss(animated: true, completion: nil)
     }
     
     func setupKeyboardObservers() {
@@ -86,9 +91,9 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     }
     
     @objc func handleKeyboardWillHide(_ notification: Notification) {
-        let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
+//        let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
         let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        containerViewBottomAnchor?.constant = barHeight
+        containerViewBottomAnchor?.constant = 0
         UIView.animate(withDuration: keyboardDuration!, animations: {
             self.view.layoutIfNeeded()
         })
@@ -159,10 +164,12 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         containerView.backgroundColor = .white
         containerView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(containerView)
-        let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
+//        let barHeight = -1 * (self.tabBarController?.tabBar.frame.size.height)!
         containerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         
-        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight)
+//        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight)
+        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+
         containerViewBottomAnchor?.isActive = true
 //        containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight).isActive = true
         containerView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
