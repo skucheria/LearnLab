@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TestScrollView: UIViewController {
+class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var currentTutor : User? {
         didSet{
@@ -63,6 +63,20 @@ class TestScrollView: UIViewController {
         return label
     }()
     
+    let subjectsLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Subjects"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let subjectsTV : UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+        return tv
+    }()
+    
     let labelOne: UILabel = {
         let label = UILabel()
         label.text = "Scroll Top"
@@ -101,6 +115,9 @@ class TestScrollView: UIViewController {
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
         setupScrollViews()
+        subjectsTV.delegate = self
+        subjectsTV.dataSource = self
+        subjectsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
     }
     
     func setupScrollViews(){
@@ -139,16 +156,25 @@ class TestScrollView: UIViewController {
         availText.topAnchor.constraint(equalTo: availLabel.bottomAnchor, constant: 5).isActive = true
         availText.widthAnchor.constraint(equalToConstant: 150).isActive = true
         availText.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
+        self.scrollView.addSubview(subjectsLabel)
+        subjectsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: 10).isActive = true
+        subjectsLabel.topAnchor.constraint(equalTo: availText.bottomAnchor, constant: 10).isActive = true
+        subjectsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        subjectsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.scrollView.addSubview(subjectsTV)
+        subjectsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
+        subjectsTV.topAnchor.constraint(equalTo: subjectsLabel.bottomAnchor, constant: 5).isActive = true
+        subjectsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        subjectsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
         
         
         
         // add labelTwo to the scroll view
         scrollView.addSubview(labelTwo)
         // constrain labelTwo at 400-pts from the left
-        labelTwo.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 400.0).isActive = true
+        labelTwo.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 40.0).isActive = true
         // constrain labelTwo at 1000-pts from the top
-        labelTwo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 500).isActive = true
+        labelTwo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 800).isActive = true
         // constrain labelTwo to right & bottom with 16-pts padding
         labelTwo.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16.0).isActive = true
         labelTwo.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16.0).isActive = true
@@ -156,4 +182,19 @@ class TestScrollView: UIViewController {
     }
 
 
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 12
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        cell.textLabel?.text = "Cell"
+        return cell
+    }
+    
 }
