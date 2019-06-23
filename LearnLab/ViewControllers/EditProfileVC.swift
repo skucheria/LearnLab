@@ -88,7 +88,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate {
         self.view.addSubview(profileImageView)
         let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
         profileImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
-        profileImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: barHeight + 15).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 125).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 125).isActive = true
     }

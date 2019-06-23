@@ -96,7 +96,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         //constraints x,y,w,h
         let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
         topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        topView.topAnchor.constraint(equalTo: view.topAnchor, constant: barHeight).isActive = true
+        topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         topView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
