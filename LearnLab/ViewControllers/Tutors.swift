@@ -86,7 +86,7 @@ class Tutors: UITableViewController {
         var coursesLabel = String()
         var titles = [String]()
         var counter = 0
-        cell.classLabel.text?.removeAll()
+//        cell.classLabel.text?.removeAll()
         for c in user.courses!{
             fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
                 if let dict = snapshot?.data() as? [String:String]{
@@ -113,7 +113,8 @@ class Tutors: UITableViewController {
         let user = self.users[indexPath.section]
         let tutorInfo = TutorInfoVC()
         tutorInfo.currentTutor = user
-        self.navigationController?.pushViewController(tutorInfo, animated: true)
+        let test = TestScrollView()
+        self.navigationController?.pushViewController(test, animated: true)
         
     }
     
