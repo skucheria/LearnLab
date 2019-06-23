@@ -10,11 +10,11 @@ import UIKit
 
 class TestScrollView: UIViewController {
 
-//    var currentTutor : User? {
-//        didSet{
-//            navigationItem.title = currentTutor?.name
-//        }
-//    }
+    var currentTutor : User? {
+        didSet{
+            navigationItem.title = currentTutor?.name
+        }
+    }
     
     lazy var profileImageView : UIImageView = {
         let imageView = UIImageView()
@@ -27,6 +27,40 @@ class TestScrollView: UIViewController {
         imageView.layer.cornerRadius = 125/2
         imageView.layer.borderColor = UIColor.black.cgColor
         return imageView
+    }()
+    
+    let nameLabel : UILabel = {
+        let label = UILabel()
+        label.text = "NAME"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let bioLabel : UILabel = {
+        let label = UILabel()
+        label.text = "ABOUT"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let aboutText : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let availLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Availaility"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let availText : UILabel = {
+        let label = UILabel()
+        label.text = "MWF Afternoons"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     let labelOne: UILabel = {
@@ -61,10 +95,10 @@ class TestScrollView: UIViewController {
         self.view.addSubview(scrollView)
         
         // constrain the scroll view to 8-pts on each side
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8.0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8.0).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
         setupScrollViews()
     }
@@ -78,16 +112,43 @@ class TestScrollView: UIViewController {
         profileImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16.0).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 125).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 125).isActive = true
+        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: currentTutor!.profLinik!)
+        self.scrollView.addSubview(nameLabel)
+        nameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 10).isActive = true
+        nameLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.scrollView.addSubview(bioLabel)
+        bioLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: 10).isActive = true
+        bioLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
+        bioLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        bioLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.scrollView.addSubview(aboutText)
+        aboutText.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: 10).isActive = true
+        aboutText.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 5).isActive = true
+        aboutText.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        aboutText.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        aboutText.text = currentTutor!.bio
+        self.scrollView.addSubview(availLabel)
+        availLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: 10).isActive = true
+        availLabel.topAnchor.constraint(equalTo: aboutText.bottomAnchor, constant: 10).isActive = true
+        availLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        availLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.scrollView.addSubview(availText)
+        availText.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: 10).isActive = true
+        availText.topAnchor.constraint(equalTo: availLabel.bottomAnchor, constant: 5).isActive = true
+        availText.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        availText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        
+        
         
         // add labelTwo to the scroll view
         scrollView.addSubview(labelTwo)
-
         // constrain labelTwo at 400-pts from the left
         labelTwo.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 400.0).isActive = true
-
         // constrain labelTwo at 1000-pts from the top
-        labelTwo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 1000).isActive = true
-
+        labelTwo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 500).isActive = true
         // constrain labelTwo to right & bottom with 16-pts padding
         labelTwo.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16.0).isActive = true
         labelTwo.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16.0).isActive = true

@@ -111,10 +111,10 @@ class Tutors: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = self.users[indexPath.section]
-        let tutorInfo = TutorInfoVC()
+        let tutorInfo = TestScrollView()
         tutorInfo.currentTutor = user
-        let test = TestScrollView()
-        self.navigationController?.pushViewController(test, animated: true)
+//        let test = TestScrollView()
+        self.navigationController?.pushViewController(tutorInfo, animated: true)
         
     }
     
