@@ -9,7 +9,8 @@
 import UIKit
 import Firebase
 
-class TutorInfoVC: UIViewController {
+class TutorInfoVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
     
     var time : NSNumber?
     
@@ -106,12 +107,43 @@ class TutorInfoVC: UIViewController {
         return label
     }()
     
+    let availLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Availaility"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let availText : UILabel = {
+        let label = UILabel()
+        label.text = "MWF Afternoons"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let subjectsLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Subjects"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let subjectsTV : UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+        return tv
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
 
         setupInfoView()
+        subjectsTV.delegate = self
+        subjectsTV.dataSource = self
+        subjectsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
 //        setupSessionButton()
 //        setupTF()
     }
@@ -141,6 +173,40 @@ class TutorInfoVC: UIViewController {
         aboutText.widthAnchor.constraint(equalToConstant: 150).isActive = true
         aboutText.heightAnchor.constraint(equalToConstant: 50).isActive = true
         aboutText.text = currentTutor!.bio
+        self.view.addSubview(availLabel)
+        availLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        availLabel.topAnchor.constraint(equalTo: aboutText.bottomAnchor, constant: 10).isActive = true
+        availLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        availLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.view.addSubview(availText)
+        availText.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        availText.topAnchor.constraint(equalTo: availLabel.bottomAnchor, constant: 5).isActive = true
+        availText.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        availText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.view.addSubview(subjectsLabel)
+        subjectsLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        subjectsLabel.topAnchor.constraint(equalTo: availText.bottomAnchor, constant: 10).isActive = true
+        subjectsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        subjectsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.view.addSubview(subjectsTV)
+        subjectsTV.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        subjectsTV.topAnchor.constraint(equalTo: subjectsLabel.bottomAnchor, constant: 5).isActive = true
+        subjectsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        subjectsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        cell.textLabel?.text = "Cell"
+        return cell
     }
     
     
@@ -149,13 +215,7 @@ class TutorInfoVC: UIViewController {
     
     
     
-    
-    
-    
-    
-    
-    
-    
+    //for booking session view
     
     @objc func bookSession(){
         let studentID = Auth.auth().currentUser!.uid
@@ -202,6 +262,7 @@ class TutorInfoVC: UIViewController {
         self.view.endEditing(true)
     }
 
+    
     
     
 }
