@@ -80,6 +80,19 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         return tv
     }()
     
+    let reviewsLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Reviews"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let reviewsTV : UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
+    }()
+    
     let labelOne: UILabel = {
         let label = UILabel()
         label.text = "Scroll Top"
@@ -190,18 +203,29 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         subjectsTV.topAnchor.constraint(equalTo: subjectsLabel.bottomAnchor, constant: 5).isActive = true
         subjectsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         subjectsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        self.scrollView.addSubview(reviewsLabel)
+        reviewsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: 10).isActive = true
+        reviewsLabel.topAnchor.constraint(equalTo: subjectsTV.bottomAnchor, constant: 100).isActive = true
+        reviewsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        reviewsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.scrollView.addSubview(reviewsTV)
+        reviewsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
+        reviewsTV.topAnchor.constraint(equalTo: reviewsLabel.bottomAnchor, constant: 5).isActive = true
+        reviewsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        reviewsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        reviewsTV.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         
         
         
         // add labelTwo to the scroll view
-        scrollView.addSubview(labelTwo)
-        // constrain labelTwo at 400-pts from the left
-        labelTwo.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        // constrain labelTwo at 1000-pts from the top
-        labelTwo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 800).isActive = true
-        // constrain labelTwo to right & bottom with 16-pts padding
-        labelTwo.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16.0).isActive = true
-        labelTwo.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16.0).isActive = true
+//        scrollView.addSubview(labelTwo)
+//        // constrain labelTwo at 400-pts from the left
+//        labelTwo.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+//        // constrain labelTwo at 1000-pts from the top
+//        labelTwo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 800).isActive = true
+//        // constrain labelTwo to right & bottom with 16-pts padding
+//        labelTwo.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16.0).isActive = true
+//        labelTwo.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16.0).isActive = true
 //
     }
 
