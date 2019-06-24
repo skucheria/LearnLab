@@ -135,6 +135,10 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         subjectsTV.dataSource = self
         subjectsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         
+        reviewsTV.delegate = self
+        reviewsTV.dataSource = self
+        reviewsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+    
         pullCourses()
 
     }
@@ -212,7 +216,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         reviewsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
         reviewsTV.topAnchor.constraint(equalTo: reviewsLabel.bottomAnchor, constant: 5).isActive = true
         reviewsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        reviewsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        reviewsTV.heightAnchor.constraint(equalToConstant: 174).isActive = true
         reviewsTV.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         
         
@@ -226,7 +230,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        // constrain labelTwo to right & bottom with 16-pts padding
 //        labelTwo.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16.0).isActive = true
 //        labelTwo.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16.0).isActive = true
-//
     }
 
 
@@ -237,11 +240,19 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("NUMBER OF CLASSES ", classes.count)
+        if tableView == reviewsTV{
+            return 4
+        }
         return classes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+
+        if tableView == reviewsTV{
+            cell.textLabel?.text = "Reviews"
+            return cell
+        }
         let course = classes[indexPath.row]
         cell.textLabel?.text = course.department! + " " + course.code! + ", " + course.title!
         return cell
