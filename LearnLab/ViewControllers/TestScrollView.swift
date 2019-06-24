@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import Firebase
 
 class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var classes = [Course]()
+    
     var currentTutor : User? {
         didSet{
             navigationItem.title = currentTutor?.name
@@ -73,7 +76,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     let subjectsTV : UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+//        tv.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         return tv
     }()
     
@@ -118,6 +121,26 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         subjectsTV.delegate = self
         subjectsTV.dataSource = self
         subjectsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        
+        pullCourses()
+
+    }
+    
+    func pullCourses(){
+        for c in currentTutor!.courses!{
+            Firestore.firestore().collection("courses").document(c).getDocument(completion: { (snapshot, error) in
+                if let dict = snapshot?.data() as? [String:String]{
+                    let course = Course()
+                    course.code = dict["code"]
+                    course.department = dict["department"]
+                    course.title = dict["title"]
+                    course.school = dict["school"]
+                    course.dbId = c
+                    self.classes.append(course)
+                }
+                DispatchQueue.main.async { self.subjectsTV.reloadData() }
+            })
+        }
     }
     
     func setupScrollViews(){
@@ -135,6 +158,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         nameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 10).isActive = true
         nameLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        nameLabel.text = currentTutor?.name
         self.scrollView.addSubview(bioLabel)
         bioLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: 10).isActive = true
         bioLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
@@ -172,7 +196,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         // add labelTwo to the scroll view
         scrollView.addSubview(labelTwo)
         // constrain labelTwo at 400-pts from the left
-        labelTwo.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 40.0).isActive = true
+        labelTwo.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         // constrain labelTwo at 1000-pts from the top
         labelTwo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 800).isActive = true
         // constrain labelTwo to right & bottom with 16-pts padding
@@ -188,12 +212,14 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12
+        print("NUMBER OF CLASSES ", classes.count)
+        return classes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.textLabel?.text = "Cell"
+        let course = classes[indexPath.row]
+        cell.textLabel?.text = course.department! + " " + course.code! + ", " + course.title!
         return cell
     }
     
