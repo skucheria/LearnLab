@@ -43,8 +43,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        filteredData.removeAll()
-        self.tableView.reloadData()
+        self.searchBar.endEditing(true)
+
     }
     
     func pullCourses(_ text : String){

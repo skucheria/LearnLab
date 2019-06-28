@@ -109,7 +109,7 @@ class MessagesVC: UITableViewController {
                     }
                     
                     self.timer?.invalidate()
-                    self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.handleTableReload), userInfo: nil, repeats: false)
+                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleTableReload), userInfo: nil, repeats: false)
                 
                 }
             })
