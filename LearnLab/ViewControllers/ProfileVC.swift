@@ -61,7 +61,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         self.view.isUserInteractionEnabled = true
         view.addSubview(options)
 
-        setupTopView()
+//        setupTopView()
         setupTableView()
 //        getCurrentUserInfo()
         fetchUser()
@@ -89,12 +89,11 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     
     func setupTopView(){
         
-        view.addSubview(topView)
-        view.addSubview(profileImageView)
-        view.addSubview(name)
+//        view.addSubview(topView)
+//        view.addSubview(profileImageView)
+//        view.addSubview(name)
         
         //constraints x,y,w,h
-        let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
         topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -130,9 +129,9 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                         curr.profLinik = item.value["profilePic"] as? String
                         curr.id = item.key
                         curr.bio = item.value["bio"] as? String
-                        self.name.text = curr.name
+//                        self.name.text = curr.name
                         let profileImageUrl = curr.profLinik
-                        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+//                        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
 //                        self.topView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
 
                     }
@@ -170,20 +169,20 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     func setupTableView(){
 //        view.addSubview(options)
         options.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        options.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        options.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         options.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         options.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (section == 0){
+//        if (section == 0){
             return 4
-        }
-        return 2
+//        }
+//        return 2
         
     }
     
@@ -209,14 +208,14 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 return cell
             }
         }
-        if(indexPath.row == 0){
-            cell.textLabel?.text = "section 2 #1"
-            return cell
-        }
-        else if(indexPath.row == 1){
-            cell.textLabel?.text = "section 2 #2"
-            return cell
-        }
+//        if(indexPath.row == 0){
+//            cell.textLabel?.text = "section 2 #1"
+//            return cell
+//        }
+//        else if(indexPath.row == 1){
+//            cell.textLabel?.text = "section 2 #2"
+//            return cell
+//        }
         
         return cell
     }

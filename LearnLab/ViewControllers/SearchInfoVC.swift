@@ -92,6 +92,10 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //need to go to tutorInfoVC, where they can look at bio, rating, reviews, and classes and then book session
+        let user = self.users[indexPath.row]
+        let tutorInfo = TestScrollView()
+        tutorInfo.currentTutor = user
+        self.navigationController?.pushViewController(tutorInfo, animated: true)
     }
 
 }

@@ -230,7 +230,6 @@ class MessagesVC: UITableViewController {
     }
     
     func showChatVC(_ user : User){
-        print("show called")
 //        present(navController, animated: true, completion: nil)
         let chatVC = ChatLogVC(collectionViewLayout: UICollectionViewFlowLayout())
         let navController = UINavigationController(rootViewController: chatVC)

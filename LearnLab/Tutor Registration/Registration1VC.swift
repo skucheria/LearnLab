@@ -50,6 +50,15 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         return button
     }()
     
+    let cancelButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Cancel", for: .normal)
+        button.titleLabel?.textColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
+        return button
+    }()
+    
     var ref : DatabaseReference?
 
     override func viewDidLoad() {
@@ -61,6 +70,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         self.view.addSubview(bioTF)
         self.view.addSubview(gpaTF)
         self.view.addSubview(nextButton)
+        self.view.addSubview(cancelButton)
         
         ref = Database.database().reference()
         
@@ -101,12 +111,21 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         nextButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        cancelButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
     }
     
     @objc func nextPressed(){
         let reg2 = Registration2VC()
         self.present(reg2, animated: false)
         ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTF.text!, "tutor" : "yes"])
+    }
+    
+    @objc func cancelPressed(){
+        dismiss(animated: true, completion: nil)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

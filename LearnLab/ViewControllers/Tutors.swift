@@ -52,6 +52,7 @@ class Tutors: UITableViewController {
                     }
                     DispatchQueue.main.async { self.tableView.reloadData() }
                 }
+                //maybe add code here for pulling the courses too? jsut so the label stuff isn't all messed up
         })
     }
 
@@ -86,7 +87,7 @@ class Tutors: UITableViewController {
         var coursesLabel = String()
         var titles = [String]()
         var counter = 0
-//        cell.classLabel.text?.removeAll()
+        cell.classLabel.text?.removeAll()
         for c in user.courses!{
             fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
                 if let dict = snapshot?.data() as? [String:String]{
@@ -117,6 +118,17 @@ class Tutors: UITableViewController {
         self.navigationController?.pushViewController(tutorInfo, animated: true)
         
     }
+    
+    /*
+     override fun tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = self.users[indexPath.section]
+        let tutorInfo = TestScrollView()
+        tutorInfo.currentTutor = user
+     self.navigationController?.present(tutorInfo, animated: true, completion: nil)
+        let dbReference = Database.database().reference.child("user").child(Auth.auth().currentUser!.uid)
+     
+ 
+    */
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150

@@ -15,8 +15,8 @@ class TutorInfoCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "person")
         imageView.layer.cornerRadius = 36
-        imageView.layer.borderColor = (UIColor.red).cgColor
-        imageView.layer.borderWidth = 2
+//        imageView.layer.borderColor = (UIColor.red).cgColor
+//        imageView.layer.borderWidth = 2
         imageView.layer.masksToBounds = true
         return imageView
     }()
