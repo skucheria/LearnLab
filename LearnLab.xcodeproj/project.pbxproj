@@ -110,6 +110,7 @@
 		35900FAF2289405500D796D3 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		35900FB12289409000D796D3 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		35900FB3228940AC00D796D3 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		35A5154222C88B90005C1EEB /* LearnLab.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LearnLab.entitlements; sourceTree = "<group>"; };
 		35B33D1F229CA5AC00B207F4 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		35B597C6229F8E2000730535 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		35B597C822A22F4D00730535 /* RegisterTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTutorVC.swift; sourceTree = "<group>"; };
@@ -301,6 +302,7 @@
 		35D2995822855346005DF851 /* LearnLab */ = {
 			isa = PBXGroup;
 			children = (
+				35A5154222C88B90005C1EEB /* LearnLab.entitlements */,
 				35D2998A228553AD005DF851 /* GoogleService-Info.plist */,
 				35D2995922855346005DF851 /* AppDelegate.swift */,
 				3560D84922868EC3003C12E0 /* ViewController.swift */,
@@ -409,6 +411,11 @@
 				TargetAttributes = {
 					35D2995522855346005DF851 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					35D2996C22855348005DF851 = {
 						CreatedOnToolsVersion = 10.1;
@@ -831,6 +838,7 @@
 			baseConfigurationReference = 0AE6AF16688589330F827671 /* Pods-LearnLab.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LearnLab/LearnLab.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4MEVZCD4E9;
 				INFOPLIST_FILE = LearnLab/Info.plist;
@@ -850,6 +858,7 @@
 			baseConfigurationReference = 639ABDF1604B21E6C1B3DB73 /* Pods-LearnLab.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LearnLab/LearnLab.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4MEVZCD4E9;
 				INFOPLIST_FILE = LearnLab/Info.plist;
