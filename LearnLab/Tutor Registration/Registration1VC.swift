@@ -30,6 +30,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .white
         tf.delegate = self
+        tf.addTarget(self, action: #selector(checkField(_:)), for: .editingChanged)
         return tf
     }()
     
@@ -116,6 +117,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         cancelButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        cancelButton.isEnabled = false
     }
     
     @objc func nextPressed(){
@@ -131,6 +133,15 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
+    }
+    
+    @objc func checkField(_ sender: UITextField) {
+        if bioTF.text!.isEmpty{
+            cancelButton.isEnabled = false
+        }
+        else{
+            cancelButton.isEnabled = true
+        }
     }
 
 }
