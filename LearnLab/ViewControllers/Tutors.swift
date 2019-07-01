@@ -19,11 +19,12 @@ class Tutors: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Tutors"
+        
         ref = Database.database().reference()
         self.view.backgroundColor = UIColor(displayP3Red: 234/255, green: 234/255, blue: 234/255, alpha: 1)
 //        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
-
+//        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Quicksand-Regular", size: 20)!]
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
 
         fstore = Firestore.firestore()
@@ -94,7 +95,7 @@ class Tutors: UITableViewController {
                     counter+=1
                     coursesLabel += (dict["title"]! + " ")
                     titles.append(dict["title"]!)
-                    (cell.classLabel.text)! += ((dict["department"]! + dict["code"]!))
+                    (cell.classLabel.text)! += ((dict["department"]! + " " + dict["code"]!))
                     if(counter != user.courses?.count){
                         (cell.classLabel.text)! += ", "
                     }

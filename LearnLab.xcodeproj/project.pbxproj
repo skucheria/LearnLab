@@ -38,6 +38,7 @@
 		35900FB02289405500D796D3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAF2289405500D796D3 /* Profile.swift */; };
 		35900FB22289409000D796D3 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB12289409000D796D3 /* MessagesVC.swift */; };
 		35900FB4228940AC00D796D3 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB3228940AC00D796D3 /* SearchVC.swift */; };
+		35A5154522C9B978005C1EEB /* Quicksand-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35A5154422C9B978005C1EEB /* Quicksand-Regular.otf */; };
 		35B33D20229CA5AC00B207F4 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B33D1F229CA5AC00B207F4 /* LoadingIndicator.swift */; };
 		35B597C7229F8E2000730535 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B597C6229F8E2000730535 /* EditProfileVC.swift */; };
 		35B597C922A22F4D00730535 /* RegisterTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B597C822A22F4D00730535 /* RegisterTutorVC.swift */; };
@@ -111,6 +112,7 @@
 		35900FB12289409000D796D3 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		35900FB3228940AC00D796D3 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		35A5154222C88B90005C1EEB /* LearnLab.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LearnLab.entitlements; sourceTree = "<group>"; };
+		35A5154422C9B978005C1EEB /* Quicksand-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.otf"; sourceTree = "<group>"; };
 		35B33D1F229CA5AC00B207F4 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		35B597C6229F8E2000730535 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		35B597C822A22F4D00730535 /* RegisterTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTutorVC.swift; sourceTree = "<group>"; };
@@ -223,6 +225,14 @@
 			path = "Tutor Registration";
 			sourceTree = "<group>";
 		};
+		35A5154322C9B953005C1EEB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				35A5154422C9B978005C1EEB /* Quicksand-Regular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		35B33D21229CA97E00B207F4 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +288,7 @@
 		35D2994D22855346005DF851 = {
 			isa = PBXGroup;
 			children = (
+				35A5154322C9B953005C1EEB /* Fonts */,
 				353AD7F4229515A70063596E /* Helpers */,
 				3560D84D2286ACB6003C12E0 /* Images */,
 				35D2995822855346005DF851 /* LearnLab */,
@@ -456,6 +467,7 @@
 				35D2998B228553AE005DF851 /* GoogleService-Info.plist in Resources */,
 				3560D85D228934F1003C12E0 /* user-silhouette.png in Resources */,
 				3560D84F2286ACD7003C12E0 /* Sensei.jpg in Resources */,
+				35A5154522C9B978005C1EEB /* Quicksand-Regular.otf in Resources */,
 				35D2996422855348005DF851 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

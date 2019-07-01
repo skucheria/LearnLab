@@ -130,7 +130,6 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                         curr.id = item.key
                         curr.bio = item.value["bio"] as? String
 //                        self.name.text = curr.name
-                        let profileImageUrl = curr.profLinik
 //                        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
 //                        self.topView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
 
@@ -148,8 +147,8 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
             , with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String : [String:Any]]{
                     for item in dictionary{
-                        print(item.key)
-                        print(uid!)
+//                        print(item.key)
+//                        print(uid!)
                         if(item.key == (uid!)){
                             curr.email = item.value["email"] as? String
                             curr.name = item.value["name"]as? String
