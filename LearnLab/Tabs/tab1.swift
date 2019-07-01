@@ -16,6 +16,9 @@ class tab1: UINavigationController {
 //        self.navigationController?.pushViewController(tutorsVC, animated: true)
 //        self.present(tutorsVC, animated: false, completion: nil)
         self.setViewControllers([Tutors()], animated: false)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for:.selected)
+
         // Do any additional setup after loading the view.
     }
     

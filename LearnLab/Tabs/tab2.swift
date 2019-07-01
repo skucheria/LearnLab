@@ -13,7 +13,8 @@ class tab2: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setViewControllers([MessagesVC()], animated: false)
-
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for:.selected)
         
         // Do any additional setup after loading the view.
     }

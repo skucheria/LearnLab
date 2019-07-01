@@ -120,7 +120,8 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
+        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+
         // add the scroll view to self.view
         self.view.addSubview(scrollView)
         
@@ -239,7 +240,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("NUMBER OF CLASSES ", classes.count)
         if tableView == reviewsTV{
             return 4
         }

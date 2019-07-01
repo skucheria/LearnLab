@@ -13,8 +13,10 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
     
     let bioLabel : UILabel = {
         let label = UILabel()
-        label.text = "Enter your bio: "
+        label.text = "Create your short bio (between 70 and 125 characters) "
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
         return label
     }()
     
@@ -25,13 +27,14 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    lazy var bioTF : UITextField = {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.backgroundColor = .white
-        tf.delegate = self
-        tf.addTarget(self, action: #selector(checkField(_:)), for: .editingChanged)
-        return tf
+
+    lazy var bioTV : UITextView = {
+        let tv = UITextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+//        tv.backgroundColor = .clear
+        tv.isScrollEnabled = false
+
+        return tv
     }()
     
     let gpaTF : UITextField = {
@@ -67,44 +70,26 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = .red
         // Do any additional setup after loading the view.
         self.view.addSubview(bioLabel)
-        self.view.addSubview(gpaLabel)
-        self.view.addSubview(bioTF)
-        self.view.addSubview(gpaTF)
+        self.view.addSubview(bioTV)
         self.view.addSubview(nextButton)
         self.view.addSubview(cancelButton)
         
         ref = Database.database().reference()
         
         setupBio()
-        setupGpa()
         setupButton()
-        
-        
     }
     
     func setupBio(){
         //setup constraints for bio labe and textfield
         bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         bioLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        bioLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        bioLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
+        bioLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         
-        bioTF.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-        bioTF.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 10).isActive = true
-        bioTF.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        bioTF.heightAnchor.constraint(equalToConstant: 200).isActive = true
-    }
-    
-    func setupGpa(){
-        gpaLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-        gpaLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        gpaLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        gpaLabel.topAnchor.constraint(equalTo: bioTF.bottomAnchor, constant: 15).isActive = true
-        
-        gpaTF.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-        gpaTF.topAnchor.constraint(equalTo: gpaLabel.bottomAnchor, constant: 10).isActive = true
-//        gpaTF.widthAnchor.constraint(equalToConstant: 200).isActive = true
-//        gpaTF.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        bioTV.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        bioTV.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 5).isActive = true
+        bioTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        bioTV.heightAnchor.constraint(equalToConstant: 75).isActive = true
     }
     
     func setupButton(){
@@ -123,7 +108,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
     @objc func nextPressed(){
         let reg2 = Registration2VC()
         self.present(reg2, animated: false)
-        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTF.text!, "tutor" : "yes"])
+//        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTV.text!, "tutor" : "yes"])
     }
     
     @objc func cancelPressed(){
@@ -135,8 +120,8 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @objc func checkField(_ sender: UITextField) {
-        if bioTF.text!.isEmpty{
+    @objc func checkField(_ sender: UITextView) {
+        if bioTV.text!.isEmpty{
             cancelButton.isEnabled = false
         }
         else{

@@ -14,11 +14,13 @@ class MainTabController: UITabBarController {
         super.viewDidLoad()
         
         let firstVC = tab1()
-        firstVC.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 0)
+        firstVC.tabBarItem = UITabBarItem(title: "Tutors", image: UIImage(named: "tutor_norm"), selectedImage: UIImage(named: "tutor_select")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
+        firstVC.tabBarItem.tag = 0
+
         
         let secondVC = tab2()
-        secondVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
-        
+        secondVC.tabBarItem = UITabBarItem(title: "Messages", image: UIImage(named: "messages_normal"), selectedImage: UIImage(named: "messages_selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
+        secondVC.tabBarItem.tag = 1
         let thirdVC = tab3()
         thirdVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
         

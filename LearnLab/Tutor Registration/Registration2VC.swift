@@ -124,14 +124,24 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         
         let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
         
-        for indexPath in selected_indexPaths! {
-            selectedCourses.append(filteredData[indexPath.row].dbId!)
+        if selected_indexPaths!.count < 1{
+            for indexPath in selected_indexPaths! {
+                selectedCourses.append(filteredData[indexPath.row].dbId!)
+            }
         }
         
-        ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
         
-        // dismiss the view
-        dismiss(animated: true, completion: nil)
+//        ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
+        
+        //need to fix this so tab bar comes up
+        let prof = tab4()
+        prof.navigationItem.setHidesBackButton(true, animated: false)
+        self.present(prof, animated: false)
+
+//        prof.nva«setHidesBackButton(true, animated:false);
+//        dismiss(animated: true, completion: nil)
+//        dismiss(animated: true, completion: nil)
+
     }
     
     @objc func textFieldDidChange(){
