@@ -57,6 +57,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .white
+        tf.placeholder = "Enter course code (BUAD, MATH, CSCI, etc.)"
         tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         tf.delegate = self
         return tf

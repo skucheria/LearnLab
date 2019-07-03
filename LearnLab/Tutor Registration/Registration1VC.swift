@@ -19,14 +19,6 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         return label
     }()
-    
-    let gpaLabel : UILabel = {
-        let label = UILabel()
-        label.text = "Enter your GPA: "
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
 
     lazy var bioTV : UITextView = {
         let tv = UITextView()
@@ -35,14 +27,6 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         tv.isScrollEnabled = false
 
         return tv
-    }()
-    
-    let gpaTF : UITextField = {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.backgroundColor = .white
-        tf.keyboardType = UIKeyboardType.decimalPad
-        return tf
     }()
     
     let nextButton : UIButton = {
@@ -102,7 +86,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         cancelButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        cancelButton.isEnabled = false
+//        cancelButton.isEnabled = false
     }
     
     @objc func nextPressed(){

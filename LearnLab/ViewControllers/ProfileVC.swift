@@ -132,7 +132,6 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
 //                        self.name.text = curr.name
 //                        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
 //                        self.topView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-
                     }
                 }
         })

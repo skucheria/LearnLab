@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3501305E22BDFE4A00A5DB9C /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3501305D22BDFE4A00A5DB9C /* Reviews.swift */; };
+		352C9D5922CC7AF80094B775 /* BookSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352C9D5822CC7AF80094B775 /* BookSessionVC.swift */; };
 		353AD7F6229515B70063596E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F5229515B70063596E /* Extensions.swift */; };
 		353AD7F822952D420063596E /* ChatLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F722952D420063596E /* ChatLogVC.swift */; };
 		353AD7FA229797EA0063596E /* userCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F9229797EA0063596E /* userCellClass.swift */; };
@@ -81,6 +82,7 @@
 /* Begin PBXFileReference section */
 		0AE6AF16688589330F827671 /* Pods-LearnLab.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLab.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLab/Pods-LearnLab.debug.xcconfig"; sourceTree = "<group>"; };
 		3501305D22BDFE4A00A5DB9C /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
+		352C9D5822CC7AF80094B775 /* BookSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSessionVC.swift; sourceTree = "<group>"; };
 		353AD7F5229515B70063596E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		353AD7F722952D420063596E /* ChatLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogVC.swift; sourceTree = "<group>"; };
 		353AD7F9229797EA0063596E /* userCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userCellClass.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 			children = (
 				35900FA922893FF500D796D3 /* Tutors.swift */,
 				355F193922C00BD5002703E6 /* TestScrollView.swift */,
+				352C9D5822CC7AF80094B775 /* BookSessionVC.swift */,
 				357D9AD022ACA57E005C4220 /* TutorsVC.swift */,
 				357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */,
 				3560D8562288943D003C12E0 /* LoginVC.swift */,
@@ -680,6 +683,7 @@
 				35D2995A22855346005DF851 /* AppDelegate.swift in Sources */,
 				357D9AD722ACBC15005C4220 /* TutorInfoCell.swift in Sources */,
 				35BA1DC82299B79C00F0ADE3 /* ProfileVC.swift in Sources */,
+				352C9D5922CC7AF80094B775 /* BookSessionVC.swift in Sources */,
 				35B597C7229F8E2000730535 /* EditProfileVC.swift in Sources */,
 				353AD7FA229797EA0063596E /* userCellClass.swift in Sources */,
 				357D9AE022B1E1A1005C4220 /* FoldCell.swift in Sources */,
