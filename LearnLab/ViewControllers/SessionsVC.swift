@@ -55,7 +55,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         sessionsTV.delegate = self
         sessionsTV.dataSource = self
-        sessionsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellId")
         
         sessionRemoved()
     }
@@ -149,49 +149,78 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return pending.count
-        }
-        return sessions.count
+//        if section == 0 {
+//            return pending.count
+//        }
+//        return sessions.count
+        return pending.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        let pendingCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! PendingSessionCell
+
+//        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         
         var session = Session()
         
         if(indexPath.section == 0){
             session = pending[indexPath.row]
+            
+            let seconds = session.startTime?.doubleValue
+            var timeStamp = "TIME"
+            if(seconds != nil){
+                let date = NSDate(timeIntervalSince1970: seconds!)
+                let format = DateFormatter()
+                format.dateFormat = "dd hh:mm a"
+                timeStamp = format.string(from: date as Date)
+            }
+            
+            var tLabel : String?
+            if session.tutorID == Auth.auth().currentUser!.uid{
+                tLabel = session.studentID
+            }
+            else{
+                tLabel = session.tutorID
+            }
+            
+            let user = getUserForUID(tLabel!)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                pendingCell.infoLabel.text = user.name! + " " + timeStamp
+            }
+            return pendingCell
         }
-        else{
-            session = sessions[indexPath.row]
-        }
-
-        let seconds = session.startTime?.doubleValue
-        var timeStamp = "TIME"
-        if(seconds != nil){
-            let date = NSDate(timeIntervalSince1970: seconds!)
-            let format = DateFormatter()
-            format.dateFormat = "dd hh:mm a"
-            timeStamp = format.string(from: date as Date)
-        }
-        var tLabel : String?
-        if session.tutorID == Auth.auth().currentUser!.uid{
-            tLabel = session.studentID
-        }
-        else{
-            tLabel = session.tutorID
-        }
+//        else{
+//            session = sessions[indexPath.row]
+//        }
+//
+//        let seconds = session.startTime?.doubleValue
+//        var timeStamp = "TIME"
+//        if(seconds != nil){
+//            let date = NSDate(timeIntervalSince1970: seconds!)
+//            let format = DateFormatter()
+//            format.dateFormat = "dd hh:mm a"
+//            timeStamp = format.string(from: date as Date)
+//        }
+//        var tLabel : String?
+//        if session.tutorID == Auth.auth().currentUser!.uid{
+//            tLabel = session.studentID
+//        }
+//        else{
+//            tLabel = session.tutorID
+//        }
+//
+//        let user = getUserForUID(tLabel!)
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            cell.textLabel?.text = user.name! + " " + timeStamp
+//        }
         
-        let user = getUserForUID(tLabel!)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            cell.textLabel?.text = user.name! + " " + timeStamp
-        }
-        
-        return cell
+        return pendingCell
     }
     
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
 }
