@@ -149,11 +149,11 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if section == 0 {
-//            return pending.count
-//        }
-//        return sessions.count
-        return pending.count
+        if section == 0 {
+            return pending.count
+        }
+        return sessions.count
+//        return pending.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -167,55 +167,57 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if(indexPath.section == 0){
             session = pending[indexPath.row]
             
-            let seconds = session.startTime?.doubleValue
-            var timeStamp = "TIME"
-            if(seconds != nil){
-                let date = NSDate(timeIntervalSince1970: seconds!)
-                let format = DateFormatter()
-                format.dateFormat = "dd hh:mm a"
-                timeStamp = format.string(from: date as Date)
-            }
-            
-            var tLabel : String?
-            if session.tutorID == Auth.auth().currentUser!.uid{
-                tLabel = session.studentID
-            }
-            else{
-                tLabel = session.tutorID
-            }
-            
-            let user = getUserForUID(tLabel!)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                pendingCell.infoLabel.text = user.name! + " " + timeStamp
-            }
-            return pendingCell
+//            let seconds = session.startTime?.doubleValue
+//            var timeStamp = "TIME"
+//            if(seconds != nil){
+//                let date = NSDate(timeIntervalSince1970: seconds!)
+//                let format = DateFormatter()
+//                format.dateFormat = "dd hh:mm a"
+//                timeStamp = format.string(from: date as Date)
+//            }
+//
+//            var tLabel : String?
+//            if session.tutorID == Auth.auth().currentUser!.uid{
+//                tLabel = session.studentID
+//            }
+//            else{
+//                tLabel = session.tutorID
+//            }
+//
+//            let user = getUserForUID(tLabel!)
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                pendingCell.infoLabel.text = user.name! + " " + timeStamp
+//            }
+//            return pendingCell
         }
-//        else{
-//            session = sessions[indexPath.row]
-//        }
-//
-//        let seconds = session.startTime?.doubleValue
-//        var timeStamp = "TIME"
-//        if(seconds != nil){
-//            let date = NSDate(timeIntervalSince1970: seconds!)
-//            let format = DateFormatter()
-//            format.dateFormat = "dd hh:mm a"
-//            timeStamp = format.string(from: date as Date)
-//        }
-//        var tLabel : String?
-//        if session.tutorID == Auth.auth().currentUser!.uid{
-//            tLabel = session.studentID
-//        }
-//        else{
-//            tLabel = session.tutorID
-//        }
-//
-//        let user = getUserForUID(tLabel!)
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//            cell.textLabel?.text = user.name! + " " + timeStamp
-//        }
+        else{
+            session = sessions[indexPath.row]
+            pendingCell.confirmButton.isHidden = true
+            pendingCell.declineButton.isHidden = true
+        }
+
+        let seconds = session.startTime?.doubleValue
+        var timeStamp = "TIME"
+        if(seconds != nil){
+            let date = NSDate(timeIntervalSince1970: seconds!)
+            let format = DateFormatter()
+            format.dateFormat = "dd hh:mm a"
+            timeStamp = format.string(from: date as Date)
+        }
+        var tLabel : String?
+        if session.tutorID == Auth.auth().currentUser!.uid{
+            tLabel = session.studentID
+        }
+        else{
+            tLabel = session.tutorID
+        }
+
+        let user = getUserForUID(tLabel!)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            pendingCell.infoLabel.text = user.name! + " " + timeStamp
+        }
         
         return pendingCell
     }
