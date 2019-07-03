@@ -38,6 +38,9 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             profileImageView.image = selectedImage
         }
         
+        if selectedImage != nil {
+            profImageButton.titleLabel?.text = "Image selected!"
+        }
         dismiss(animated: true, completion: nil)
     }
     

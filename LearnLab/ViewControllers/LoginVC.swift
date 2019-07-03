@@ -120,6 +120,16 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         return segment
     }()
     
+    let profImageButton : UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 43/255, alpha: 1)
+        button.setTitle("Select profile image", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.addTarget(self, action:#selector(uploadPic), for: .touchUpInside)
+        return button
+    }()
     
     @objc func segChanged(){
         let title = loginRegSegment.titleForSegment(at: loginRegSegment.selectedSegmentIndex)
@@ -138,15 +148,15 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
             passHeight?.isActive = true
         }
         else{
-            inputsHeightConstraint?.constant = 150
+            inputsHeightConstraint?.constant = 200
             nameHeightConstraint?.isActive = false
-            nameHeightConstraint = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+            nameHeightConstraint = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
             nameHeightConstraint?.isActive = true
             emailHeight?.isActive = false
-            emailHeight = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+            emailHeight = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
             emailHeight?.isActive = true
             passHeight?.isActive = false
-            passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+            passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
             passHeight?.isActive = true
 
         }
@@ -179,13 +189,14 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
     var nameHeightConstraint : NSLayoutConstraint?
     var emailHeight : NSLayoutConstraint?
     var passHeight : NSLayoutConstraint?
+    var imageButton : NSLayoutConstraint?
     
     func setupInputsContainerView(){
         //x,y,width,height
         inputsContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         inputsContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         inputsContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
-        inputsHeightConstraint = inputsContainerView.heightAnchor.constraint(equalToConstant: 150)
+        inputsHeightConstraint = inputsContainerView.heightAnchor.constraint(equalToConstant: 200)
         inputsHeightConstraint?.isActive = true
         
         inputsContainerView.addSubview(nameTextField)
@@ -193,12 +204,13 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         inputsContainerView.addSubview(emailTextField)
         inputsContainerView.addSubview(emailSeparatorView)
         inputsContainerView.addSubview(passwordTextField)
+        inputsContainerView.addSubview(profImageButton)
 
         //constraints for textfield
         nameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         nameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
         nameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        nameHeightConstraint = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+        nameHeightConstraint = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
         nameHeightConstraint?.isActive = true
         
         //name separator constraints
@@ -211,7 +223,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         emailTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         emailTextField.topAnchor.constraint(equalTo: nameSeparatorView.topAnchor).isActive = true
         emailTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        emailHeight = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+        emailHeight = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
         emailHeight?.isActive = true
         
         //email separator constraints
@@ -224,8 +236,15 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         passwordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: emailSeparatorView.topAnchor).isActive = true
         passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+        passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
         passHeight?.isActive = true
+        
+        //select image button constraints
+        profImageButton.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
+        profImageButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor).isActive = true
+        profImageButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        imageButton = profImageButton.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
+        imageButton?.isActive = true
     }
     
     func setupLoginResgiterButton(){
