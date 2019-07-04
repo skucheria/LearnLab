@@ -31,6 +31,7 @@ class Tutors: UITableViewController {
 
         
         fetchUser()
+        listenNewUser()
     }
 
     func fetchUser(){
@@ -55,6 +56,29 @@ class Tutors: UITableViewController {
                 }
                 //maybe add code here for pulling the courses too? jsut so the label stuff isn't all messed up
         })
+    }
+    
+    func listenNewUser(){
+        var reference = Database.database().reference().child("user")
+        reference.observe(.childAdded) { (snapshot) in
+            if let dictionary = snapshot.value as? [String : [String:Any]]{
+                for item in dictionary{
+                    let user = User()
+                    user.tutor = item.value["tutor"] as? String
+//                    if(user.tutor == "yes"){
+                        user.email = item.value["email"] as? String
+                        user.name = item.value["name"] as? String
+                        user.profLinik = item.value["profilePic"] as? String
+                        user.id = item.key
+                        user.bio = item.value["bio"] as? String
+                        user.courses = item.value["classes"] as? [String]
+                        user.rating = item.value["rating"] as? NSNumber
+                        self.users.append(user)
+//                    }
+                }
+                DispatchQueue.main.async { self.tableView.reloadData() }
+            }
+        }
     }
 
 
@@ -89,18 +113,20 @@ class Tutors: UITableViewController {
         var titles = [String]()
         var counter = 0
         cell.classLabel.text?.removeAll()
-        for c in user.courses!{
-            fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
-                if let dict = snapshot?.data() as? [String:String]{
-                    counter+=1
-                    coursesLabel += (dict["title"]! + " ")
-                    titles.append(dict["title"]!)
-                    (cell.classLabel.text)! += ((dict["department"]! + " " + dict["code"]!))
-                    if(counter != user.courses?.count){
-                        (cell.classLabel.text)! += ", "
+        if user.courses != nil{
+            for c in user.courses!{
+                fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
+                    if let dict = snapshot?.data() as? [String:String]{
+                        counter+=1
+                        coursesLabel += (dict["title"]! + " ")
+                        titles.append(dict["title"]!)
+                        (cell.classLabel.text)! += ((dict["department"]! + " " + dict["code"]!))
+                        if(counter != user.courses?.count){
+                            (cell.classLabel.text)! += ", "
+                        }
                     }
-                }
-            })
+                })
+            }
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
             // Put your code which should be executed with a delay here

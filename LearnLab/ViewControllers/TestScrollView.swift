@@ -145,19 +145,21 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func pullCourses(){
-        for c in currentTutor!.courses!{
-            Firestore.firestore().collection("courses").document(c).getDocument(completion: { (snapshot, error) in
-                if let dict = snapshot?.data() as? [String:String]{
-                    let course = Course()
-                    course.code = dict["code"]
-                    course.department = dict["department"]
-                    course.title = dict["title"]
-                    course.school = dict["school"]
-                    course.dbId = c
-                    self.classes.append(course)
-                }
-                DispatchQueue.main.async { self.subjectsTV.reloadData() }
-            })
+        if currentTutor?.courses != nil{
+            for c in currentTutor!.courses!{
+                Firestore.firestore().collection("courses").document(c).getDocument(completion: { (snapshot, error) in
+                    if let dict = snapshot?.data() as? [String:String]{
+                        let course = Course()
+                        course.code = dict["code"]
+                        course.department = dict["department"]
+                        course.title = dict["title"]
+                        course.school = dict["school"]
+                        course.dbId = c
+                        self.classes.append(course)
+                    }
+                    DispatchQueue.main.async { self.subjectsTV.reloadData() }
+                })
+            }
         }
     }
     
