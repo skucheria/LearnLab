@@ -69,12 +69,10 @@ class PendingSessionCell : UITableViewCell{
     var delegate: CustomCellDelegate?
     
     @objc func didTapConfirm() {
-        print("in deleate")
         delegate?.confirmPressed(cell: self)
     }
     
     @objc func didTapDecline(){
-        print("in delegate")
         delegate?.declinePressed(cell: self)
     }
     

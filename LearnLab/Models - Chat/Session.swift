@@ -15,6 +15,7 @@ class Session: NSObject {
     var startTime : NSNumber?
     var duration : NSNumber?
     var active : String?
+    var confirmed : String?
 }
 
 // TODO: write global function to retrieve user data given userID

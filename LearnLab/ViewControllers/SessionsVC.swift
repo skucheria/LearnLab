@@ -84,28 +84,54 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func sessionRemoved(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let seshRef = Database.database().reference().child("grouped-sessions").child(uid)
-        seshRef.observe(.childRemoved) { (snapshot) in
+        let changedRef = Database.database().reference().child("sessions")
+        changedRef.observe(.childChanged) { (snapshot) in
             self.pending.removeAll()
             self.sessions.removeAll()
-            let sessionID = snapshot.key
-            let indRef = Database.database().reference().child("sessions").child(sessionID)
-            indRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let dictionary = snapshot.value as? [String:Any]{
-                    let session = Session()
-                    session.active = dictionary["active"] as? String
-                    session.tutorID = dictionary["tutorID"] as? String
-                    session.studentID = dictionary["studentID"] as? String
-                    session.startTime = dictionary["startTime"] as? NSNumber
-                    if session.active == "no"{
-                        self.pending.append(session)
-                    }
-                    else{
-                        self.sessions.append(session)
-                    }                }
-                DispatchQueue.main.async { self.sessionsTV.reloadData() }
-            })
+            if let dictionary = snapshot.value as? [String:Any]{
+                let session = Session()
+                session.active = dictionary["active"] as? String
+                session.tutorID = dictionary["tutorID"] as? String
+                session.studentID = dictionary["studentID"] as? String
+                session.startTime = dictionary["startTime"] as? NSNumber
+                session.confirmed = dictionary["confirmed"] as? String
+                if session.active == "no"{
+                    self.pending.append(session)
+                }
+                else{
+                    self.sessions.append(session)
+                }
+                
+            }
+            DispatchQueue.main.async { self.sessionsTV.reloadData() }
         }
+       
+//
+//        let seshRef = Database.database().reference().child("grouped-sessions").child(uid)
+//        seshRef.observe(.childRemoved) { (snapshot) in
+//            self.pending.removeAll()
+//            self.sessions.removeAll()
+//            let sessionID = snapshot.key
+//            let indRef = Database.database().reference().child("sessions").child(sessionID)
+//            indRef.observeSingleEvent(of: .value, with: { (snapshot) in
+//                if let dictionary = snapshot.value as? [String:Any]{
+//                    let session = Session()
+//                    session.active = dictionary["active"] as? String
+//                    session.tutorID = dictionary["tutorID"] as? String
+//                    session.studentID = dictionary["studentID"] as? String
+//                    session.startTime = dictionary["startTime"] as? NSNumber
+//                    session.confirmed = dictionary["confirmed"] as? String
+//                    if session.active == "no"{
+//                        self.pending.append(session)
+//                    }
+//                    else{
+//                        self.sessions.append(session)
+//                    }
+//
+//                }
+//                DispatchQueue.main.async { self.sessionsTV.reloadData() }
+//            })
+//        }
     }
     
     func getSessions(){
@@ -121,6 +147,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     session.tutorID = dictionary["tutorID"] as? String
                     session.studentID = dictionary["studentID"] as? String
                     session.startTime = dictionary["startTime"] as? NSNumber
+                    session.confirmed = dictionary["confirmed"] as? String
                     if session.active == "no"{
                         self.pending.append(session)
                     }
@@ -157,14 +184,15 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         let pendingCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! PendingSessionCell
         pendingCell.delegate = self
-//        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+        pendingCell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         var session = Session()
         
         if(indexPath.section == 0){
             session = pending[indexPath.row]
+            pendingCell.confirmButton.isHidden = false
+            pendingCell.declineButton.isHidden = false
         }
         else{
             session = sessions[indexPath.row]
