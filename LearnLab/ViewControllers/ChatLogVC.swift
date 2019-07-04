@@ -50,15 +50,14 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
         collectionView?.keyboardDismissMode = .interactive
         collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor.white
         collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 60, right: 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 52, right: 0)
-        
-        collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: "cellId")//        navigationItem.title = "Chat Log"
+        collectionView?.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: "cellId")
         self.view.backgroundColor = .white
         ref = Database.database().reference()
 
@@ -170,6 +169,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         containerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         
 //        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: barHeight)
+//        containerViewBottomAnchor = containerView.bottomAnchor.constraint()
         containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
 
         containerViewBottomAnchor?.isActive = true

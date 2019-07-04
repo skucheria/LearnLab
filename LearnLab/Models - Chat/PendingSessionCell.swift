@@ -22,7 +22,6 @@ class PendingSessionCell : UITableViewCell{
         button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 43/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Confirm Session", for: .normal)
-
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -33,6 +32,7 @@ class PendingSessionCell : UITableViewCell{
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Decline Session", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+
         return button
     }()
     
@@ -58,11 +58,34 @@ class PendingSessionCell : UITableViewCell{
         declineButton.topAnchor.constraint(equalTo: self.infoLabel.bottomAnchor, constant: 10).isActive = true
         declineButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
         declineButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        confirmButton.addTarget(self, action:#selector(didTapConfirm), for: .touchUpInside)
+        
+        declineButton.addTarget(self, action:#selector(didTapDecline), for: .touchUpInside)
+
+
     }
     
+    var delegate: CustomCellDelegate?
+    
+    @objc func didTapConfirm() {
+        print("in deleate")
+        delegate?.confirmPressed(cell: self)
+    }
+    
+    @objc func didTapDecline(){
+        print("in delegate")
+        delegate?.declinePressed(cell: self)
+    }
+    
+        
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+protocol CustomCellDelegate: class {
+    func confirmPressed(cell: PendingSessionCell)
     
+    func declinePressed(cell: PendingSessionCell)
 }
