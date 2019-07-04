@@ -50,19 +50,21 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             if let dictionary = snapshot.value as? [String : [String : Any]]{
                 for item in dictionary{
                     let courses = item.value["classes"] as? [String]
-                    if((courses?.contains((self.currentCourse?.dbId)!))!){ //if this user is a tutor for the course, then add to users
-                        print("Found match")
-                        let user = User()
-                        user.tutor = item.value["tutor"] as? String
-                        user.email = item.value["email"] as? String
-                        user.name = item.value["name"] as? String
-                        user.profLinik = item.value["profilePic"] as? String
-                        user.id = item.key
-                        user.bio = item.value["bio"] as? String
-                        user.courses = item.value["classes"] as? [String]
-                        self.users.append(user)
+                    if courses != nil{
+                        if((courses?.contains((self.currentCourse?.dbId)!))!){ //if this user is a tutor for the course, then add to users
+                            print("Found match")
+                            let user = User()
+                            user.tutor = item.value["tutor"] as? String
+                            user.email = item.value["email"] as? String
+                            user.name = item.value["name"] as? String
+                            user.profLinik = item.value["profilePic"] as? String
+                            user.id = item.key
+                            user.bio = item.value["bio"] as? String
+                            user.courses = item.value["classes"] as? [String]
+                            self.users.append(user)
+                        }
+                        DispatchQueue.main.async { self.tableview.reloadData() }
                     }
-                    DispatchQueue.main.async { self.tableview.reloadData() }
                 }
             }
         }

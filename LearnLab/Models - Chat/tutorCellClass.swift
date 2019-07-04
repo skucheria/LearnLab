@@ -24,6 +24,7 @@ class tutorCellClass: UITableViewCell {
         imageView.image = UIImage(named: "person")
         imageView.layer.cornerRadius = 24
 //        imageView.layer.borderColor = (UIColor.red).cgColor
+//        imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 2
         imageView.layer.masksToBounds = true
         return imageView
