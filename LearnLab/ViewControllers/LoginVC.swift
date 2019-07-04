@@ -43,11 +43,13 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
     
     let loginRegisterButton : UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 43/255, alpha: 1)
+        button.backgroundColor = UIColor(red: 1, green: 1, blue: 212/255, alpha: 1)
         button.setTitle("Register", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.cornerRadius = 5
+        button.layer.masksToBounds = true
         button.addTarget(self, action:#selector(handleRegister), for: .touchUpInside)
         return button
     }()
@@ -120,11 +122,18 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         return segment
     }()
     
+    let picSeparaterView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .red
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let profImageButton : UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 43/255, alpha: 1)
+        button.backgroundColor = UIColor(red: 1, green: 1, blue: 212/255, alpha: 1)
         button.setTitle("Select profile image", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.addTarget(self, action:#selector(uploadPic), for: .touchUpInside)
@@ -164,7 +173,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(red: 61/255, green: 91/255, blue: 151/255, alpha: 1)
+        self.view.backgroundColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.view.isUserInteractionEnabled = true
 
         authUI = FUIAuth.defaultAuthUI()
@@ -204,6 +213,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         inputsContainerView.addSubview(emailTextField)
         inputsContainerView.addSubview(emailSeparatorView)
         inputsContainerView.addSubview(passwordTextField)
+        inputsContainerView.addSubview(picSeparaterView)
         inputsContainerView.addSubview(profImageButton)
 
         //constraints for textfield
@@ -239,9 +249,14 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         passHeight = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
         passHeight?.isActive = true
         
+        picSeparaterView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
+        picSeparaterView.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor).isActive = true
+        picSeparaterView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        picSeparaterView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
         //select image button constraints
         profImageButton.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        profImageButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor).isActive = true
+        profImageButton.topAnchor.constraint(equalTo: picSeparaterView.topAnchor).isActive = true
         profImageButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         imageButton = profImageButton.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
         imageButton?.isActive = true
