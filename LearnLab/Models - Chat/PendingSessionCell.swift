@@ -10,6 +10,8 @@ import UIKit
 
 class PendingSessionCell : UITableViewCell{
     
+    var confirmIndex : Int?
+    
     let infoLabel : UILabel = {
         let label = UILabel()
         label.text = "Session info"
@@ -66,7 +68,7 @@ class PendingSessionCell : UITableViewCell{
 
     }
     
-    var delegate: CustomCellDelegate?
+    weak var delegate: CustomCellDelegate?
     
     @objc func didTapConfirm() {
         delegate?.confirmPressed(cell: self)

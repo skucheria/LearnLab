@@ -86,8 +86,8 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let changedRef = Database.database().reference().child("sessions")
         changedRef.observe(.childChanged) { (snapshot) in
-            self.pending.removeAll()
-            self.sessions.removeAll()
+//            self.pending.removeAll()
+//            self.sessions.removeAll()
             if let dictionary = snapshot.value as? [String:Any]{
                 let session = Session()
                 session.active = dictionary["active"] as? String
@@ -95,13 +95,15 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 session.studentID = dictionary["studentID"] as? String
                 session.startTime = dictionary["startTime"] as? NSNumber
                 session.confirmed = dictionary["confirmed"] as? String
-                if session.active == "no"{
-                    self.pending.append(session)
+                session.sessionID = dictionary["sessionID"] as? String
+                self.sessions.append(session)
+                var counter = 0
+                for s in self.pending{
+                    if s.sessionID == session.sessionID{
+                        self.pending.remove(at: counter)
+                    }
+                    counter+=1
                 }
-                else{
-                    self.sessions.append(session)
-                }
-                
             }
             DispatchQueue.main.async { self.sessionsTV.reloadData() }
         }
@@ -148,6 +150,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     session.studentID = dictionary["studentID"] as? String
                     session.startTime = dictionary["startTime"] as? NSNumber
                     session.confirmed = dictionary["confirmed"] as? String
+                    session.sessionID = dictionary["sessionID"] as? String
                     if session.active == "no"{
                         self.pending.append(session)
                     }
@@ -186,11 +189,12 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let pendingCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! PendingSessionCell
         pendingCell.delegate = self
-        pendingCell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+//        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         var session = Session()
         
         if(indexPath.section == 0){
             session = pending[indexPath.row]
+            pendingCell.confirmIndex = indexPath.row
             pendingCell.confirmButton.isHidden = false
             pendingCell.declineButton.isHidden = false
         }
@@ -231,10 +235,19 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
 extension SessionsVC: CustomCellDelegate {
     func confirmPressed(cell: PendingSessionCell) {
-        print("pressed the confirm")
+        print("Getting here")
+        let session = pending[cell.confirmIndex!]
+        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
+        ref.updateChildValues(["active" : "yes"])
     }
     
     func declinePressed(cell: PendingSessionCell) {
         print("pressed the decline")
+    }
+}
+
+extension Session{
+    static func == (lhs: Session, rhs: Session) -> Bool {
+        return lhs.sessionID == rhs.sessionID
     }
 }
