@@ -119,7 +119,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .red
 //        navigationController?.navigationBar.barTintColor = .green
         addSubviews()
         // Do any additional setup after loading the view.
@@ -201,8 +201,14 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
     }
     
     @objc func nextPressed(){
-        let reg2 = Registration2VC()
-        self.present(reg2, animated: false)
+        if bioTV.text!.isEmpty || availTV.text!.isEmpty || rateTV.text!.isEmpty{
+            print("add an alertview telling them to finish up fields")
+        }
+        else{
+            let reg2 = Registration2VC()
+            self.present(reg2, animated: false)
+        }
+        
 //        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTV.text!, "tutor" : "yes"])
     }
     
@@ -228,17 +234,6 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
         }
         return true
     }
-
-    
-    @objc func checkField(_ sender: UITextView) {
-        if bioTV.text!.isEmpty{
-            cancelButton.isEnabled = false
-        }
-        else{
-            cancelButton.isEnabled = true
-        }
-    }
-
     
     @objc func doneRate(){
         self.view.endEditing(true)
