@@ -77,7 +77,15 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
         tv.isScrollEnabled = false
         tv.returnKeyType = .done
         tv.keyboardType = .decimalPad
+        tv.inputAccessoryView = toolbar
         return tv
+    }()
+    
+    let rateSep : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let nextButton : UIButton = {
@@ -98,8 +106,17 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
         return button
     }()
     
+    let toolbar : UIToolbar = {
+        let bar = UIToolbar()
+        bar.sizeToFit()
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneRate));
+        bar.setItems([spaceButton, doneButton], animated: false)
+        return bar
+    }()
+    
     var ref : DatabaseReference?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -125,6 +142,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
         self.view.addSubview(availSep)
         self.view.addSubview(rateLabel)
         self.view.addSubview(rateTV)
+        self.view.addSubview(rateSep)
     }
     
     func setupBio(){
@@ -162,6 +180,11 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
         rateTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
         rateTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
         rateTV.topAnchor.constraint(equalTo: rateLabel.bottomAnchor, constant: 5).isActive = true
+        
+        rateSep.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        rateSep.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+        rateSep.topAnchor.constraint(equalTo: rateTV.bottomAnchor).isActive = true
+        rateSep.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
     func setupButton(){
@@ -194,7 +217,13 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            textView.resignFirstResponder()
+            if textView == bioTV{
+                availTV.becomeFirstResponder()
+            }
+            else if availTV == textView {
+                rateTV.becomeFirstResponder()
+            }
+//            textView.resignFirstResponder()
             return false
         }
         return true
@@ -210,4 +239,9 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
         }
     }
 
+    
+    @objc func doneRate(){
+        self.view.endEditing(true)
+    }
+    
 }
