@@ -91,7 +91,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
     let nextButton : UIButton = {
         let button = UIButton()
         button.setTitle("Next", for: .normal)
-        button.titleLabel?.textColor = .black
+        button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(nextPressed), for: .touchUpInside)
         return button
@@ -100,7 +100,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
     let cancelButton : UIButton = {
         let button = UIButton()
         button.setTitle("Cancel", for: .normal)
-        button.titleLabel?.textColor = .black
+        button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
         return button
@@ -119,7 +119,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .white
 //        navigationController?.navigationBar.barTintColor = .green
         addSubviews()
         // Do any additional setup after loading the view.

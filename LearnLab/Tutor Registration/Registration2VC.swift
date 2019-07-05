@@ -35,14 +35,14 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     let topView : UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let bottomView : UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -56,11 +56,18 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     lazy var searchTF : UITextField =  {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.backgroundColor = .white
+        tf.backgroundColor = .clear
         tf.placeholder = "Enter course code (BUAD, MATH, CSCI, etc.)"
         tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         tf.delegate = self
         return tf
+    }()
+    
+    let separatorView : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override func viewDidLoad() {
@@ -72,6 +79,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         self.view.addSubview(topView)
         self.view.addSubview(bottomView)
         self.view.addSubview(classesTableViews)
+        self.view.addSubview(separatorView)
         
         setupTopView()
         setupBottomView()
@@ -97,10 +105,15 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         topView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
         topView.addSubview(searchTF)
-        searchTF.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        searchTF.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
         searchTF.topAnchor.constraint(equalTo: topView.topAnchor, constant: 50).isActive = true
         searchTF.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        searchTF.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        searchTF.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        separatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+        separatorView.topAnchor.constraint(equalTo: searchTF.bottomAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
     func setupBottomView(){
