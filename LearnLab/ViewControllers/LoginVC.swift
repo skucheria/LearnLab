@@ -78,6 +78,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.returnKeyType = .next
         tf.delegate = self
+        tf.keyboardType = .emailAddress
         return tf
     }()
     

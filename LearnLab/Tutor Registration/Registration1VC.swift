@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class Registration1VC: UIViewController, UITextFieldDelegate {
+class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     let bioLabel : UILabel = {
         let label = UILabel()
@@ -25,7 +25,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .clear
         tv.isScrollEnabled = false
-
+        tv.returnKeyType = .next
         return tv
     }()
     
@@ -36,10 +36,54 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         return view
     }()
     
+    let availLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Describe your availability"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        return label
+    }()
+    
+    lazy var availTV : UITextView = {
+        let tv = UITextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.backgroundColor = .clear
+        tv.isScrollEnabled = false
+        tv.returnKeyType = .next
+        return tv
+    }()
+    
+    let availSep : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let rateLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Enter your hourly rate"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        return label
+    }()
+
+    lazy var rateTV : UITextView = {
+        let tv = UITextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.backgroundColor = .clear
+        tv.isScrollEnabled = false
+        tv.returnKeyType = .done
+        tv.keyboardType = .decimalPad
+        return tv
+    }()
+    
     let nextButton : UIButton = {
         let button = UIButton()
         button.setTitle("Next", for: .normal)
-        button.titleLabel?.textColor = .white
+        button.titleLabel?.textColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(nextPressed), for: .touchUpInside)
         return button
@@ -48,7 +92,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
     let cancelButton : UIButton = {
         let button = UIButton()
         button.setTitle("Cancel", for: .normal)
-        button.titleLabel?.textColor = .white
+        button.titleLabel?.textColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
         return button
@@ -58,20 +102,29 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .green
+        self.view.backgroundColor = .white
 //        navigationController?.navigationBar.barTintColor = .green
-
+        addSubviews()
         // Do any additional setup after loading the view.
+        
+        bioTV.delegate = self
+        availTV.delegate = self
+        ref = Database.database().reference()
+        setupBio()
+        setupButton()
+    }
+    
+    func addSubviews(){
         self.view.addSubview(bioLabel)
         self.view.addSubview(bioTV)
         self.view.addSubview(nextButton)
         self.view.addSubview(cancelButton)
         self.view.addSubview(separatorView)
-        
-        ref = Database.database().reference()
-        
-        setupBio()
-        setupButton()
+        self.view.addSubview(availLabel)
+        self.view.addSubview(availTV)
+        self.view.addSubview(availSep)
+        self.view.addSubview(rateLabel)
+        self.view.addSubview(rateTV)
     }
     
     func setupBio(){
@@ -82,16 +135,33 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         
         bioTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
         bioTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
-
         bioTV.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 5).isActive = true
-//        bioTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         
         separatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
         separatorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
         separatorView.topAnchor.constraint(equalTo: bioTV.bottomAnchor).isActive = true
-//        separatorView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-//        bioTV.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        
+        availLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
+        availLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        availLabel.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 20).isActive = true
+        
+        availTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        availTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+        availTV.topAnchor.constraint(equalTo: availLabel.bottomAnchor, constant: 5).isActive = true
+        
+        availSep.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        availSep.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+        availSep.topAnchor.constraint(equalTo: availTV.bottomAnchor).isActive = true
+        availSep.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        rateLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
+        rateLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        rateLabel.topAnchor.constraint(equalTo: availSep.bottomAnchor, constant: 20).isActive = true
+        
+        rateTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        rateTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+        rateTV.topAnchor.constraint(equalTo: rateLabel.bottomAnchor, constant: 5).isActive = true
     }
     
     func setupButton(){
@@ -121,6 +191,15 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
         return true
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+
     
     @objc func checkField(_ sender: UITextView) {
         if bioTV.text!.isEmpty{
