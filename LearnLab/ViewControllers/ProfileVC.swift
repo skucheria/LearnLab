@@ -235,7 +235,13 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
             }
             else if indexPath.row == 2{ //go into registration flow
                 let reg1VC = Registration1VC()
-                present(reg1VC, animated: true)
+//                let newVC = NewChatVC()
+//                newVC.messagesController = self
+                let navController = UINavigationController(rootViewController: reg1VC)
+                present(navController, animated: true, completion: nil)
+                
+                
+//                present(reg1VC, animated: true)
             }
             else if indexPath.row == 3{
                 progressHUD.show()

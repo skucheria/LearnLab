@@ -86,8 +86,6 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let changedRef = Database.database().reference().child("sessions")
         changedRef.observe(.childChanged) { (snapshot) in
-//            self.pending.removeAll()
-//            self.sessions.removeAll()
             if let dictionary = snapshot.value as? [String:Any]{
                 let session = Session()
                 session.active = dictionary["active"] as? String
@@ -107,33 +105,6 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }
             DispatchQueue.main.async { self.sessionsTV.reloadData() }
         }
-       
-//
-//        let seshRef = Database.database().reference().child("grouped-sessions").child(uid)
-//        seshRef.observe(.childRemoved) { (snapshot) in
-//            self.pending.removeAll()
-//            self.sessions.removeAll()
-//            let sessionID = snapshot.key
-//            let indRef = Database.database().reference().child("sessions").child(sessionID)
-//            indRef.observeSingleEvent(of: .value, with: { (snapshot) in
-//                if let dictionary = snapshot.value as? [String:Any]{
-//                    let session = Session()
-//                    session.active = dictionary["active"] as? String
-//                    session.tutorID = dictionary["tutorID"] as? String
-//                    session.studentID = dictionary["studentID"] as? String
-//                    session.startTime = dictionary["startTime"] as? NSNumber
-//                    session.confirmed = dictionary["confirmed"] as? String
-//                    if session.active == "no"{
-//                        self.pending.append(session)
-//                    }
-//                    else{
-//                        self.sessions.append(session)
-//                    }
-//
-//                }
-//                DispatchQueue.main.async { self.sessionsTV.reloadData() }
-//            })
-//        }
     }
     
     func getSessions(){
@@ -243,6 +214,9 @@ extension SessionsVC: CustomCellDelegate {
     
     func declinePressed(cell: PendingSessionCell) {
         print("pressed the decline")
+        let session = pending[cell.confirmIndex!]
+        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
+        ref.updateChildValues(["confirmed" : "no"])
     }
 }
 

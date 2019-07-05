@@ -23,10 +23,17 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
     lazy var bioTV : UITextView = {
         let tv = UITextView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-//        tv.backgroundColor = .clear
+        tv.backgroundColor = .clear
         tv.isScrollEnabled = false
 
         return tv
+    }()
+    
+    let separatorView : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let nextButton : UIButton = {
@@ -51,12 +58,15 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .green
+//        navigationController?.navigationBar.barTintColor = .green
+
         // Do any additional setup after loading the view.
         self.view.addSubview(bioLabel)
         self.view.addSubview(bioTV)
         self.view.addSubview(nextButton)
         self.view.addSubview(cancelButton)
+        self.view.addSubview(separatorView)
         
         ref = Database.database().reference()
         
@@ -70,9 +80,17 @@ class Registration1VC: UIViewController, UITextFieldDelegate {
         bioLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         bioLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         
-        bioTV.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        bioTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        bioTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+
         bioTV.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 5).isActive = true
-        bioTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        bioTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        
+        separatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+        separatorView.topAnchor.constraint(equalTo: bioTV.bottomAnchor).isActive = true
+//        separatorView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
 //        bioTV.heightAnchor.constraint(equalToConstant: 75).isActive = true
     }
     
