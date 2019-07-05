@@ -23,10 +23,18 @@ class ClassInfoCell: UITableViewCell {
         return label
     }()
     
+    let rateLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: "cellId")
         self.addSubview(codeLabel)
         self.addSubview(titleLabel)
+        self.addSubview(rateLabel)
         
         codeLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         codeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
@@ -37,6 +45,11 @@ class ClassInfoCell: UITableViewCell {
         titleLabel.topAnchor.constraint(equalTo: codeLabel.bottomAnchor, constant: 3).isActive = true
         titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        rateLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
+        codeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        codeLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        codeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

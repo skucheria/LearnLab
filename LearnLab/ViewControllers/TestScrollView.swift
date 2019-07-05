@@ -134,11 +134,11 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         setupScrollViews()
         subjectsTV.delegate = self
         subjectsTV.dataSource = self
-        subjectsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        subjectsTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
         
         reviewsTV.delegate = self
         reviewsTV.dataSource = self
-        reviewsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        reviewsTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
     
         pullCourses()
 
@@ -249,14 +249,16 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ClassInfoCell
+        
         if tableView == reviewsTV{
             cell.textLabel?.text = "Review # " + String(indexPath.row)
             return cell
         }
         let course = classes[indexPath.row]
-        cell.textLabel?.text = course.department! + " " + course.code! + ", " + course.title!
+        cell.textLabel?.text = course.department! + " " + course.code!
+        cell.rateLabel.text = "$$$"
+        cell.detailTextLabel?.text = course.title!
         return cell
     }
     
