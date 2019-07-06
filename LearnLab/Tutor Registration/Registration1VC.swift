@@ -201,26 +201,26 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
     }
     
     @objc func nextPressed(){
-        if bioTV.text!.isEmpty || availTV.text!.isEmpty || rateTV.text!.isEmpty{
-            print("add an alertview telling them to finish up fields")
-            let alert = UIAlertController(title: "You must enter all fields before continuing", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                switch action.style{
-                case .default:
-                    print("default")
-                case .cancel:
-                    print("cancel")
-                case .destructive:
-                    print("destructive")
-                }}))
-            self.present(alert, animated: true, completion: nil)
-        }
-        else{
-            let reg2 = Registration2VC()
+//        if bioTV.text!.isEmpty || availTV.text!.isEmpty || rateTV.text!.isEmpty{
+//            print("add an alertview telling them to finish up fields")
+//            let alert = UIAlertController(title: "You must enter all fields before continuing", message: nil, preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                switch action.style{
+//                case .default:
+//                    print("default")
+//                case .cancel:
+//                    print("cancel")
+//                case .destructive:
+//                    print("destructive")
+//                }}))
+//            self.present(alert, animated: true, completion: nil)
+//        }
+//        else{
+            let reg2 = Registration3VC()
             self.present(reg2, animated: false)
-        }
+//        }
         
-        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTV.text!, "tutor" : "yes", "availability" : availTV.text!, "rate" : rateTV.text!])
+//        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTV.text!, "tutor" : "yes", "availability" : availTV.text!, "rate" : rateTV.text!])
     }
     
     @objc func cancelPressed(){
