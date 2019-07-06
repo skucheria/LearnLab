@@ -22,7 +22,7 @@ class Tutors: UITableViewController {
         
         ref = Database.database().reference()
         self.view.backgroundColor = UIColor(displayP3Red: 234/255, green: 234/255, blue: 234/255, alpha: 1)
-//        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
+//        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
 //        self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedString.Key.font: UIFont(name: "Quicksand-Regular", size: 20)!]
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")

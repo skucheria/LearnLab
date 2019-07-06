@@ -14,7 +14,7 @@ class MainTabController: UITabBarController {
         super.viewDidLoad()
         
         let firstVC = tab1()
-        firstVC.tabBarItem = UITabBarItem(title: "Tutors", image: UIImage(named: "tutor_norm"), selectedImage: UIImage(named: "tutor_select")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
+        firstVC.tabBarItem = UITabBarItem(title: "Tutors", image: UIImage(named: "tutor_normal"), selectedImage: UIImage(named: "tutor_selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
         firstVC.tabBarItem.tag = 0
         
         let secondVC = tab2()
@@ -22,10 +22,12 @@ class MainTabController: UITabBarController {
         secondVC.tabBarItem.tag = 1
         
         let thirdVC = tab3()
-        thirdVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
+        thirdVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(named: "search_normal"), selectedImage: UIImage(named: "search_selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
+        thirdVC.tabBarItem.tag = 2
         
         let fifthVC = tab5()
-        fifthVC.tabBarItem = UITabBarItem(tabBarSystemItem: .mostRecent, tag: 3)
+        fifthVC.tabBarItem = UITabBarItem(title: "Sessions", image: UIImage(named: "sessions_normal"), selectedImage: UIImage(named: "sessions_selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
+        fifthVC.tabBarItem.tag = 3
         
         let fourthVC = tab4()
         fourthVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "avatar_normal"), selectedImage: UIImage(named: "avatar")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))

@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "tutor_select.png",
+      "filename" : "sessions_normal-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "tutor_select-1.png",
+      "filename" : "sessions_normal-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "tutor_select-2.png",
+      "filename" : "sessions_normal.png",
       "scale" : "3x"
     }
   ],
