@@ -20,7 +20,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let sessionSegment : UISegmentedControl = {
         let segment = UISegmentedControl(items: ["Current", "Past"])
         segment.translatesAutoresizingMaskIntoConstraints = false
-        segment.tintColor = UIColor(displayP3Red: 254/255, green: 74/255, blue: 26/355, alpha: 1)
+        segment.tintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(segChanged), for: .valueChanged )
         segment.isUserInteractionEnabled = true
@@ -166,8 +166,14 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if(indexPath.section == 0){
             session = pending[indexPath.row]
             pendingCell.confirmIndex = indexPath.row
-            pendingCell.confirmButton.isHidden = false
-            pendingCell.declineButton.isHidden = false
+            if Auth.auth().currentUser?.uid == session.studentID{
+                pendingCell.confirmButton.isHidden = true
+                pendingCell.declineButton.isHidden = true
+            }
+            else{
+                pendingCell.confirmButton.isHidden = false
+                pendingCell.declineButton.isHidden = false
+            }
         }
         else{
             session = sessions[indexPath.row]
@@ -208,6 +214,7 @@ extension SessionsVC: CustomCellDelegate {
     func confirmPressed(cell: PendingSessionCell) {
         print("Getting here")
         let session = pending[cell.confirmIndex!]
+        print("Session : ", session)
         let ref = Database.database().reference().child("sessions").child(session.sessionID!)
         ref.updateChildValues(["active" : "yes"])
     }
