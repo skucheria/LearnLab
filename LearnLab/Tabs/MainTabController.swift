@@ -16,11 +16,11 @@ class MainTabController: UITabBarController {
         let firstVC = tab1()
         firstVC.tabBarItem = UITabBarItem(title: "Tutors", image: UIImage(named: "tutor_norm"), selectedImage: UIImage(named: "tutor_select")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
         firstVC.tabBarItem.tag = 0
-
         
         let secondVC = tab2()
         secondVC.tabBarItem = UITabBarItem(title: "Messages", image: UIImage(named: "messages_normal"), selectedImage: UIImage(named: "messages_selected")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
         secondVC.tabBarItem.tag = 1
+        
         let thirdVC = tab3()
         thirdVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
         
@@ -28,8 +28,8 @@ class MainTabController: UITabBarController {
         fifthVC.tabBarItem = UITabBarItem(tabBarSystemItem: .mostRecent, tag: 3)
         
         let fourthVC = tab4()
-        fourthVC.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 4)
-
+        fourthVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "avatar_normal"), selectedImage: UIImage(named: "avatar")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal))
+        fourthVC.tabBarItem.tag = 4
         
         
         let tabBarList = [firstVC, secondVC, thirdVC, fifthVC, fourthVC]

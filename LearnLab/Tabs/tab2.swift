@@ -14,7 +14,7 @@ class tab2: UINavigationController {
         super.viewDidLoad()
         self.setViewControllers([MessagesVC()], animated: false)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for:.normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for:.selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)], for:.selected)
         
         // Do any additional setup after loading the view.
     }

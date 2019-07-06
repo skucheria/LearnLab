@@ -70,6 +70,15 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         return view
     }()
     
+    let cancelButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Cancel", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
@@ -80,7 +89,8 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         self.view.addSubview(bottomView)
         self.view.addSubview(classesTableViews)
         self.view.addSubview(separatorView)
-        
+        self.view.addSubview(cancelButton)
+
         setupTopView()
         setupBottomView()
         setupDoneButton()
@@ -96,6 +106,11 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         doneButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         doneButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        cancelButton.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 10).isActive = true
+        cancelButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        cancelButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
     }
     
     func setupTopView(){
@@ -215,5 +230,9 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
+    }
+    
+    @objc func cancelPressed(){
+        dismiss(animated: true, completion: nil)
     }
 }
