@@ -47,9 +47,9 @@ class ClassInfoCell: UITableViewCell {
         titleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         rateLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
-        codeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
-        codeLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        codeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        rateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+//        rateLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+//        rateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
