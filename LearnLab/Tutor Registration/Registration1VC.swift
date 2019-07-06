@@ -220,7 +220,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
             self.present(reg2, animated: false)
         }
         
-//        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTV.text!, "tutor" : "yes", "availability" : availTV.text!, "rate" : rateTV.text!])
+        ref?.child("user").child((Auth.auth().currentUser!.uid)).updateChildValues(["bio" : bioTV.text!, "tutor" : "yes", "availability" : availTV.text!, "rate" : rateTV.text!])
     }
     
     @objc func cancelPressed(){

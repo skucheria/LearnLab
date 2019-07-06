@@ -49,7 +49,12 @@ class Tutors: UITableViewController {
                             user.bio = item.value["bio"] as? String
                             user.courses = item.value["classes"] as? [String]
                             user.rating = item.value["rating"] as? NSNumber
+                            user.rate = item.value["rate"] as? String
+                            user.availability = item.value["availability"] as? String
                             self.users.append(user)
+                            self.users.sort(by: { (u1, u2) -> Bool in
+                                return (u1.name)! < (u2.name)!
+                            })
                         }
                     }
                     DispatchQueue.main.async { self.tableView.reloadData() }
@@ -66,14 +71,19 @@ class Tutors: UITableViewController {
                     let user = User()
                     user.tutor = item.value["tutor"] as? String
 //                    if(user.tutor == "yes"){
-                        user.email = item.value["email"] as? String
-                        user.name = item.value["name"] as? String
-                        user.profLinik = item.value["profilePic"] as? String
-                        user.id = item.key
-                        user.bio = item.value["bio"] as? String
-                        user.courses = item.value["classes"] as? [String]
-                        user.rating = item.value["rating"] as? NSNumber
-                        self.users.append(user)
+                    user.email = item.value["email"] as? String
+                    user.name = item.value["name"] as? String
+                    user.profLinik = item.value["profilePic"] as? String
+                    user.id = item.key
+                    user.bio = item.value["bio"] as? String
+                    user.courses = item.value["classes"] as? [String]
+                    user.rating = item.value["rating"] as? NSNumber
+                    user.rate = item.value["rate"] as? String
+                    user.availability = item.value["availability"] as? String
+                    self.users.append(user)
+                    self.users.sort(by: { (u1, u2) -> Bool in
+                        return (u1.name)! < (u2.name)!
+                    })
 //                    }
                 }
                 DispatchQueue.main.async { self.tableView.reloadData() }

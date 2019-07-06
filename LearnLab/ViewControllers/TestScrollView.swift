@@ -49,19 +49,20 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     let aboutText : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
         return label
     }()
     
     let availLabel : UILabel = {
         let label = UILabel()
-        label.text = "Availaility"
+        label.text = "Availability"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let availText : UILabel = {
         let label = UILabel()
-        label.text = "MWF Afternoons"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -187,12 +188,12 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.scrollView.addSubview(aboutText)
         aboutText.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
         aboutText.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 5).isActive = true
-        aboutText.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        aboutText.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        aboutText.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        aboutText.heightAnchor.constraint(equalToConstant: 50).isActive = true
         aboutText.text = currentTutor!.bio
         self.scrollView.addSubview(availLabel)
         availLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
-        availLabel.topAnchor.constraint(equalTo: aboutText.bottomAnchor, constant: 10).isActive = true
+        availLabel.topAnchor.constraint(equalTo: aboutText.bottomAnchor, constant: 25).isActive = true
         availLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         availLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         self.scrollView.addSubview(availText)
@@ -200,9 +201,10 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         availText.topAnchor.constraint(equalTo: availLabel.bottomAnchor, constant: 5).isActive = true
         availText.widthAnchor.constraint(equalToConstant: 150).isActive = true
         availText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        availText.text = currentTutor!.availability
         self.scrollView.addSubview(subjectsLabel)
         subjectsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
-        subjectsLabel.topAnchor.constraint(equalTo: availText.bottomAnchor, constant: 10).isActive = true
+        subjectsLabel.topAnchor.constraint(equalTo: availText.bottomAnchor, constant: 25).isActive = true
         subjectsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         subjectsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         self.scrollView.addSubview(subjectsTV)
@@ -212,7 +214,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         subjectsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
         self.scrollView.addSubview(reviewsLabel)
         reviewsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
-        reviewsLabel.topAnchor.constraint(equalTo: subjectsTV.bottomAnchor, constant: 10).isActive = true
+        reviewsLabel.topAnchor.constraint(equalTo: subjectsTV.bottomAnchor, constant: 25).isActive = true
         reviewsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         reviewsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         self.scrollView.addSubview(reviewsTV)
@@ -257,7 +259,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         let course = classes[indexPath.row]
         cell.textLabel?.text = course.department! + " " + course.code!
-        cell.rateLabel.text = "$$$"
+        cell.rateLabel.text = "$ " + currentTutor!.rate!
         cell.detailTextLabel?.text = course.title!
         return cell
     }
