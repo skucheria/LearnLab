@@ -186,8 +186,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
-
+//        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         if (indexPath.section == 0){
             if(indexPath.row == 0){
                 cell.textLabel?.text = "View & Edit Profile"
@@ -206,14 +205,6 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 return cell
             }
         }
-//        if(indexPath.row == 0){
-//            cell.textLabel?.text = "section 2 #1"
-//            return cell
-//        }
-//        else if(indexPath.row == 1){
-//            cell.textLabel?.text = "section 2 #2"
-//            return cell
-//        }
         
         return cell
     }
@@ -258,16 +249,16 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     }
     
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        if (section == 1){
-            label.text = "    "
-            return label
-        }
-        label.text = "First one"
-        return label
-    }
-    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let label = UILabel()
+//        if (section == 1){
+//            label.text = "    "
+//            return label
+//        }
+//        label.text = "First one"
+//        return label
+//    }
+//
     func logout(){
         do{
             try Auth.auth().signOut()
