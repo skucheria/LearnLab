@@ -16,6 +16,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     var filteredData = [Course]()
     var data = [Course]()
     var selectedCourses = [String]()
+    var trackingCourses = [Course]()
 
     
     let doneButton : UIButton = {
@@ -45,6 +46,16 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    let trackingLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.text = " "
+        label.textColor = .black
+        return label
     }()
     
     let classesTableViews : UITableView = {
@@ -137,6 +148,12 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         bottomView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         bottomView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         bottomView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        bottomView.addSubview(trackingLabel)
+        trackingLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 10).isActive = true
+        trackingLabel.topAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
+//        trackingLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 5).isActive = true
+//        trackingLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 5).isActive = true
+
     }
     
     func setupTableViews(){
@@ -151,23 +168,28 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     @objc func donePressed(){ //upload list of classes they picked
         //
         
-        let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
-        
-        if selected_indexPaths!.count > 1{
-            for indexPath in selected_indexPaths! {
-                selectedCourses.append(filteredData[indexPath.row].dbId!)
-            }
+        for item in trackingCourses{
+            print(item.department! + " " + item.code!)
         }
-        ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
         
-        let main = MainTabController()
-        self.present(main, animated: false)
+//        let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
+//
+//        if selected_indexPaths!.count > 1{
+//            for indexPath in selected_indexPaths! {
+//                selectedCourses.append(filteredData[indexPath.row].dbId!)
+//            }
+//        }
+//        ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
+//
+//        let main = MainTabController()
+//        self.present(main, animated: false)
     }
     
     @objc func textFieldDidChange(){
         let textSearched = searchTF.text
         if (textSearched!.isEmpty){
-            filteredData = data
+            filteredData.removeAll()
+//            filteredData = data
             classesTableViews.reloadData()
         }
         else{
@@ -224,6 +246,8 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
+        trackingCourses.append(filteredData[indexPath.row])
+        trackingLabel.text = trackingLabel.text! + " " + filteredData[indexPath.row].department!
         cell?.accessoryType = UITableViewCell.AccessoryType.checkmark
     }
     

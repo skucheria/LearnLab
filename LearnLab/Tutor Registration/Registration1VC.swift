@@ -216,7 +216,7 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
 //            self.present(alert, animated: true, completion: nil)
 //        }
 //        else{
-            let reg2 = Registration3VC()
+            let reg2 = Registration2VC()
             self.present(reg2, animated: false)
 //        }
         
