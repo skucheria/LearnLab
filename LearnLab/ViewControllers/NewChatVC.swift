@@ -22,6 +22,7 @@ class NewChatVC: UITableViewController {
         self.navigationItem.title = "New Message"
         self.view.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+        self.navigationController?.navigationBar.tintColor = .white
 
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         // Do any additional setup after loading the view.

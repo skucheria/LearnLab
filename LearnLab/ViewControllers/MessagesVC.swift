@@ -37,7 +37,8 @@ class MessagesVC: UITableViewController {
         ref = Database.database().reference()
         self.navigationItem.title = "Messages"
         self.navigationItem.rightBarButtonItem = newMessage
-        
+        self.navigationController?.navigationBar.tintColor = .white
+
 //        fetchUser()
         
 //        fetchMessages()

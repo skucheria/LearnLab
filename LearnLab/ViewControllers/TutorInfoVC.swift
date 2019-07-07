@@ -139,6 +139,7 @@ class TutorInfoVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         super.viewDidLoad()
         self.view.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
+        self.navigationController?.navigationBar.tintColor = .white
 
         setupInfoView()
         subjectsTV.delegate = self

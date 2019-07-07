@@ -64,6 +64,8 @@ class BookSessionVC: UIViewController {
         self.view.backgroundColor = .white
         setupSessionButton()
         setupTF()
+        self.navigationController?.navigationBar.tintColor = .white
+
         // Do any additional setup after loading the view.
     }
 

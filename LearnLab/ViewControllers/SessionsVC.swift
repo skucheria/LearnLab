@@ -51,8 +51,8 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         getSessions()
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
-//        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
-        
+        self.navigationController?.navigationBar.tintColor = .white
+
         sessionsTV.delegate = self
         sessionsTV.dataSource = self
         sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellId")

@@ -243,7 +243,10 @@ class Registration1VC: UIViewController, UITextFieldDelegate, UITextViewDelegate
 //            textView.resignFirstResponder()
             return false
         }
-        return true
+        print("Number of chars: ", textView.text.count)
+        return textView.text.count + (text.count - range.length) <= 150
+
+//        return true
     }
     
     @objc func doneRate(){

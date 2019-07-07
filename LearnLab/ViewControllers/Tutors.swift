@@ -26,6 +26,7 @@ class Tutors: UITableViewController {
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
 //        self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedString.Key.font: UIFont(name: "Quicksand-Regular", size: 20)!]
         tableView.register(TutorInfoCell.self, forCellReuseIdentifier: "cellId")
+        self.navigationController?.navigationBar.tintColor = .white
 
         fstore = Firestore.firestore()
 
