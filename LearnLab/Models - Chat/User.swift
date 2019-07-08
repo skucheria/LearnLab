@@ -21,4 +21,5 @@ class User: NSObject {
     var reviews : [Review]?
     var availability : String?
     var rate : String?
+    var fcmToken : String?
 }

@@ -223,6 +223,9 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         let recipientMessageRef = Database.database().reference().child("group-messages").child(toUser!.id!)
         
         recipientMessageRef.updateChildValues([childRef.key! : 1])
+        
+        let sender = PushNotificationSender()
+        sender.sendPushNotification(to: toUser!.fcmToken!, title: "New Message", body: "Message to \(toUser!.name!)")
     }
     
     func groupMessages(key : String){

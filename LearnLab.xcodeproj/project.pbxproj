@@ -10,6 +10,7 @@
 		3501305E22BDFE4A00A5DB9C /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3501305D22BDFE4A00A5DB9C /* Reviews.swift */; };
 		3526143D22D078DD0062476B /* Registration3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143C22D078DD0062476B /* Registration3VC.swift */; };
 		3526143F22D2F4160062476B /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143E22D2F4160062476B /* PushNotificationManager.swift */; };
+		3526144122D306DB0062476B /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526144022D306DB0062476B /* PushNotificationSender.swift */; };
 		352C9D5922CC7AF80094B775 /* BookSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352C9D5822CC7AF80094B775 /* BookSessionVC.swift */; };
 		352C9D5B22CC854D0094B775 /* PendingSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352C9D5A22CC854D0094B775 /* PendingSessionCell.swift */; };
 		353AD7F6229515B70063596E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F5229515B70063596E /* Extensions.swift */; };
@@ -87,6 +88,7 @@
 		3501305D22BDFE4A00A5DB9C /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		3526143C22D078DD0062476B /* Registration3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration3VC.swift; sourceTree = "<group>"; };
 		3526143E22D2F4160062476B /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		3526144022D306DB0062476B /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		352C9D5822CC7AF80094B775 /* BookSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSessionVC.swift; sourceTree = "<group>"; };
 		352C9D5A22CC854D0094B775 /* PendingSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingSessionCell.swift; sourceTree = "<group>"; };
 		353AD7F5229515B70063596E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */,
 				35B33D1F229CA5AC00B207F4 /* LoadingIndicator.swift */,
 				3526143E22D2F4160062476B /* PushNotificationManager.swift */,
+				3526144022D306DB0062476B /* PushNotificationSender.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -692,6 +695,7 @@
 				35B597CB22A4577E00730535 /* NewChatVC.swift in Sources */,
 				353AD7F822952D420063596E /* ChatLogVC.swift in Sources */,
 				35C1C7A1228E24390060AAA3 /* User.swift in Sources */,
+				3526144122D306DB0062476B /* PushNotificationSender.swift in Sources */,
 				3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */,
 				3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */,
 				35D2995A22855346005DF851 /* AppDelegate.swift in Sources */,

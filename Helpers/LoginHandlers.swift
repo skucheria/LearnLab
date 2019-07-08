@@ -84,6 +84,8 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                 }
 //                imageRef.putData(uploadData)
             }
+            let pushManager = PushNotificationManager(userID: Auth.auth().currentUser!.uid)
+            pushManager.registerForPushNotifications()
             let newVC = MainTabController()
             self.present(newVC, animated: true)
             
@@ -97,6 +99,8 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                 }
             }
         }
+        
+        
         
     }
     

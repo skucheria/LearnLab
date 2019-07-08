@@ -222,6 +222,7 @@ class MessagesVC: UITableViewController {
                     curr.name = item.value["name"] as? String
                     curr.profLinik = item.value["profilePic"] as? String
                     curr.id = chatPartnerID
+                    curr.fcmToken = item.value["fcmToken"] as? String
                     self.showChatVC(curr)
                 }
             }
