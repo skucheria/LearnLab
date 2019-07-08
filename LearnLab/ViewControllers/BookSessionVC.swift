@@ -82,6 +82,10 @@ class BookSessionVC: UIViewController {
         ref2.updateChildValues([childRef.key! : 1])
         let ref3 = Database.database().reference().child("grouped-sessions").child(tutorID!)
         ref3.updateChildValues([childRef.key! : 1])
+        
+        
+        let sender = PushNotificationSender()
+        sender.sendPushNotification(to: currentTutor!.fcmToken!, title: "Session request", body: "New tutor session request")
     }
     
     func setupSessionButton(){

@@ -14,11 +14,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     
     var ref : DatabaseReference?
     var messages = [Message]()
-    var curr : User? {
-        didSet{
-            print("Current user name: ", curr?.name)
-        }
-    }
+    var curr : User? 
     var toUser : User? {
         didSet{
             navigationItem.title = toUser?.name

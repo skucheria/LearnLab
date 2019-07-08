@@ -52,6 +52,7 @@ class Tutors: UITableViewController {
                             user.rating = item.value["rating"] as? NSNumber
                             user.rate = item.value["rate"] as? String
                             user.availability = item.value["availability"] as? String
+                            user.fcmToken = item.value["fcmToken"] as? String
                             self.users.append(user)
                             self.users.sort(by: { (u1, u2) -> Bool in
                                 return (u1.name)! < (u2.name)!
@@ -81,6 +82,7 @@ class Tutors: UITableViewController {
                     user.rating = item.value["rating"] as? NSNumber
                     user.rate = item.value["rate"] as? String
                     user.availability = item.value["availability"] as? String
+                    user.fcmToken = item.value["fcmToken"] as? String
                     self.users.append(user)
                     self.users.sort(by: { (u1, u2) -> Bool in
                         return (u1.name)! < (u2.name)!
@@ -153,6 +155,7 @@ class Tutors: UITableViewController {
         let tutorInfo = TestScrollView()
         tutorInfo.currentTutor = user
 //        let test = TestScrollView()
+        print("selected user: ", user.fcmToken)
         self.navigationController?.pushViewController(tutorInfo, animated: true)
         
     }
