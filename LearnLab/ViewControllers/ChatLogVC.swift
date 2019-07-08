@@ -14,7 +14,11 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
     
     var ref : DatabaseReference?
     var messages = [Message]()
-    
+    var curr : User? {
+        didSet{
+            print("Current user name: ", curr?.name)
+        }
+    }
     var toUser : User? {
         didSet{
             navigationItem.title = toUser?.name
@@ -48,6 +52,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         
     }
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
@@ -64,6 +69,8 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         setupInputComponents()
         
         setupKeyboardObservers()
+        
+        
         
 //        let item = self.collectionView(self.collectionView!, numberOfItemsInSection: 0) - 1
 //        let lastItemIndex = IndexPath(item: item, section: 0)
@@ -225,7 +232,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         recipientMessageRef.updateChildValues([childRef.key! : 1])
         
         let sender = PushNotificationSender()
-        sender.sendPushNotification(to: toUser!.fcmToken!, title: "New Message", body: "Message to \(toUser!.name!)")
+        sender.sendPushNotification(to: toUser!.fcmToken!, title: "New Message", body: "Message from \(curr!.name!)")
     }
     
     func groupMessages(key : String){

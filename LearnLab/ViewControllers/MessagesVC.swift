@@ -13,6 +13,7 @@ class MessagesVC: UITableViewController {
 
     var ref : DatabaseReference?
     var users = [User]()
+    var currentUserInfo = User()
     var msgs = [Message]()
     var allPeople : [String:Any]?
 //    var idToUser : [String: User]?
@@ -39,7 +40,7 @@ class MessagesVC: UITableViewController {
         self.navigationItem.rightBarButtonItem = newMessage
         self.navigationController?.navigationBar.tintColor = .white
 
-//        fetchUser()
+        fetchUser()
         
 //        fetchMessages()
         
@@ -52,26 +53,26 @@ class MessagesVC: UITableViewController {
 //        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
     }
     
-    
-    
     func fetchUser(){
-     ref?.child("user").observeSingleEvent(of: .value
+        ref?.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
-                let tester = snapshot.value as? [String : [String:String] ] ?? [:]
-                for item in tester{
-                    let user = User()
-                    if item.key != Auth.auth().currentUser?.uid{
-                        user.email = item.value["email"]
-                        user.name = item.value["name"]
-                        user.profLinik = item.value["profilePic"]
+                if let dictionary = snapshot.value as? [String : [String:Any]]{
+                    for item in dictionary{
+                        let user = User()
+                        user.tutor = item.value["tutor"] as? String
                         user.id = item.key
-                        //                    print("User: ", user.name)
-                        self.users.append(user)
+                        if(user.id == Auth.auth().currentUser!.uid){
+                            self.currentUserInfo.email = item.value["email"] as? String
+                            self.currentUserInfo.name = item.value["name"] as? String
+                            self.currentUserInfo.profLinik = item.value["profilePic"] as? String
+                            self.currentUserInfo.bio = item.value["bio"] as? String
+                            self.currentUserInfo.courses = item.value["classes"] as? [String]
+                            self.currentUserInfo.rating = item.value["rating"] as? NSNumber
+                            self.currentUserInfo.rate = item.value["rate"] as? String
+                            self.currentUserInfo.availability = item.value["availability"] as? String
+                        }
                     }
                 }
-                
-                DispatchQueue.main.async { self.tableView.reloadData() }
-
         })
     }
 
@@ -234,6 +235,7 @@ class MessagesVC: UITableViewController {
         let chatVC = ChatLogVC(collectionViewLayout: UICollectionViewFlowLayout())
         let navController = UINavigationController(rootViewController: chatVC)
         chatVC.toUser = user
+        chatVC.curr = currentUserInfo
         self.navigationController?.present(navController, animated: true, completion: nil)
 //        self.navigationController?.pushViewController(chatVC, animated: true)
     }
