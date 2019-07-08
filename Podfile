@@ -13,6 +13,7 @@ target 'LearnLab' do
   pod 'Firebase/Database'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
+  pod 'Firebase/Messaging'
   pod 'MessageKit'
   pod 'Stripe'
   pod 'FoldingCell'
