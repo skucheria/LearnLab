@@ -177,11 +177,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if (section == 0){
-            return 4
-//        }
-//        return 2
-        
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -200,7 +196,10 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 cell.textLabel?.text = "Become a Tutor"
                 return cell
             }
-            else if(indexPath.row == 3){
+            else if (indexPath.row == 3){
+                cell.textLabel?.text = "Change email"
+            }
+            else if(indexPath.row == 4){
                 cell.textLabel?.text = "Logout"
                 return cell
             }
@@ -226,15 +225,26 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
             }
             else if indexPath.row == 2{ //go into registration flow
                 let reg1VC = Registration1VC()
-//                let newVC = NewChatVC()
-//                newVC.messagesController = self
                 let navController = UINavigationController(rootViewController: reg1VC)
                 present(navController, animated: true, completion: nil)
-                
-                
-//                present(reg1VC, animated: true)
             }
             else if indexPath.row == 3{
+                var alert = UIAlertController(title: "Change email", message: "Please enter your new email address.", preferredStyle: UIAlertController.Style.alert)
+                alert.addTextField(configurationHandler: configurationTextField)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler:{ (UIAlertAction)in
+                    let emailTextField = alert.textFields![0]
+                    Auth.auth().currentUser?.updateEmail(to: emailTextField.text!, completion: { (error) in
+                        if (error == nil){
+                            print("Success")
+                        }
+                    })
+                }))
+                self.present(alert, animated: true, completion: {
+                    print("completion block")
+                })
+            }
+                
+            else if indexPath.row == 4{
                 progressHUD.show()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                     self.progressHUD.hide()
@@ -271,5 +281,8 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     @objc func uploadPic(){
         print("Upload pic")
     }
-
+    
+    func configurationTextField(textField: UITextField!){
+        textField.placeholder = "Enter new email"
+    }
 }

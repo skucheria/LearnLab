@@ -77,7 +77,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = editButton
-        self.view.backgroundColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 204/255, alpha: 1)
+//        self.view.backgroundColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 204/255, alpha: 1)
         self.title = "Edit Profile"
         setupPicView()
         setupBioFields()
