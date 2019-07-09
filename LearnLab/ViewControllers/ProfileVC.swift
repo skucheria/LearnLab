@@ -177,7 +177,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -197,9 +197,13 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 return cell
             }
             else if (indexPath.row == 3){
-                cell.textLabel?.text = "Change email"
+                cell.textLabel?.text = "Change Email"
             }
             else if(indexPath.row == 4){
+                cell.textLabel?.text = "Change Password"
+                return cell
+            }
+            else if(indexPath.row == 5){
                 cell.textLabel?.text = "Logout"
                 return cell
             }
@@ -229,7 +233,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 present(navController, animated: true, completion: nil)
             }
             else if indexPath.row == 3{
-                var alert = UIAlertController(title: "Change email", message: "Please enter your new email address.", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "Change email", message: "Please enter your new email address.", preferredStyle: UIAlertController.Style.alert)
                 alert.addTextField(configurationHandler: configurationTextField)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler:{ (UIAlertAction)in
                     let emailTextField = alert.textFields![0]
@@ -243,8 +247,23 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                     print("completion block")
                 })
             }
-                
             else if indexPath.row == 4{
+                let alert = UIAlertController(title: "Change password", message: "Please enter your new password.", preferredStyle: UIAlertController.Style.alert)
+                alert.addTextField(configurationHandler: configurationTextField)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler:{ (UIAlertAction)in
+                    let passwordTextField = alert.textFields![0]
+                    passwordTextField.isSecureTextEntry = true
+                    Auth.auth().currentUser?.updatePassword(to: passwordTextField.text!, completion: { (error) in
+                        if (error == nil){
+                            print("Success")
+                        }
+                    })
+                }))
+                self.present(alert, animated: true, completion: {
+                    print("completion block")
+                })
+            }
+            else if indexPath.row == 5{
                 progressHUD.show()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                     self.progressHUD.hide()
