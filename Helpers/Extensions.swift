@@ -49,17 +49,25 @@ extension UIImageView{
 extension UIViewController{
     func getUserForUID(_ uid : String) -> User{
         let user = User()
-        let ref = Database.database().reference().child("user").child(uid)
-        ref.observeSingleEvent(of: .value
+        let ref = Database.database().reference()
+        ref.child("user").observeSingleEvent(of: .value
             , with: { (snapshot) in
-                if let dictionary = snapshot.value as? [String:Any]{
-                    user.tutor = dictionary["tutor"] as? String
-                    user.email = dictionary["email"] as? String
-                    user.name = dictionary["name"] as? String
-                    user.profLinik = dictionary["profilePic"] as? String
-                    user.id = uid
-                    user.bio = dictionary["bio"] as? String
-                    user.courses = dictionary["classes"] as? [String]
+                if let dictionary = snapshot.value as? [String : [String:Any]]{
+                    for item in dictionary{
+                        user.tutor = item.value["tutor"] as? String
+                        user.id = item.key
+                        if(user.id == uid){
+                            user.email = item.value["email"] as? String
+                            user.name = item.value["name"] as? String
+                            user.profLinik = item.value["profilePic"] as? String
+                            user.bio = item.value["bio"] as? String
+                            user.courses = item.value["classes"] as? [String]
+                            user.rating = item.value["rating"] as? NSNumber
+                            user.rate = item.value["rate"] as? String
+                            user.availability = item.value["availability"] as? String
+                            user.fcmToken = item.value["fcmToken"] as? String
+                        }
+                    }
                 }
         })
         return user

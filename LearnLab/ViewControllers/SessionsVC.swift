@@ -57,7 +57,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         sessionsTV.delegate = self
         sessionsTV.dataSource = self
         sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellId")
-        
+
         sessionRemoved()
     }
     
@@ -217,6 +217,15 @@ extension SessionsVC: CustomCellDelegate {
         print("Session : ", session)
         let ref = Database.database().reference().child("sessions").child(session.sessionID!)
         ref.updateChildValues(["active" : "yes"])
+        
+        self.cellUser = self.getUserForUID(session.studentID!)
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            print("to token: ", self.cellUser!.fcmToken!)
+            let sender = PushNotificationSender()
+            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session confirmation", body: "Your session has been confirmed!")
+        }
     }
     
     func declinePressed(cell: PendingSessionCell) {
