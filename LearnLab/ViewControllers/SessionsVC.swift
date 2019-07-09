@@ -96,12 +96,14 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 session.declined = dictionary["declined"] as? String
                 session.sessionID = dictionary["sessionID"] as? String
                 // cases to check:
-                // if session confirmed
-                // if session declined
+                // if session confirmed --> add to sessions, remove from pending
+                // if session declined --> dont add to session, remove from pending
                 if session.active == "yes"{
                     self.sessions.append(session)
+                    self.sessions.sort(by: { (m1, m2) -> Bool in
+                        return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
+                    })
                 }
-                
                 
                 var counter = 0
                 for s in self.pending{
@@ -132,12 +134,16 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     session.sessionID = dictionary["sessionID"] as? String
                     if session.active == "no" && session.declined == "no"{ //waiting for confirm or decline
                         self.pending.append(session)
+                        self.pending.sort(by: { (m1, m2) -> Bool in
+                            return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
+                        })
                     }
                     else if session.active == "yes" && session.declined == "no" { //session has been confirmed
                         self.sessions.append(session)
+                        self.sessions.sort(by: { (m1, m2) -> Bool in
+                            return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
+                        })
                     }
-//                    else if session.declined == "yes"
-//                    }
                 }
                 DispatchQueue.main.async { self.sessionsTV.reloadData() }
             })
