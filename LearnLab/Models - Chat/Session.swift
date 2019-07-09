@@ -15,7 +15,7 @@ class Session: NSObject {
     var startTime : NSNumber?
 //    var duration : NSNumber?
     var active : String?
-    var confirmed : String?
+    var declined : String?
     var sessionID: String?
  
 }

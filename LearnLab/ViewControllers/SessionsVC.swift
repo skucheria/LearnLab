@@ -58,7 +58,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         sessionsTV.dataSource = self
         sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellId")
 
-        sessionRemoved()
+        sessionStatusChanged()
     }
     
     func setupSegment(){
@@ -83,7 +83,8 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         sessionsTV.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
-    func sessionRemoved(){
+    func sessionStatusChanged(){
+        //this only gets the one that changed, need to figure out whether it's been accepted or declined
         let changedRef = Database.database().reference().child("sessions")
         changedRef.observe(.childChanged) { (snapshot) in
             if let dictionary = snapshot.value as? [String:Any]{
@@ -92,9 +93,16 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 session.tutorID = dictionary["tutorID"] as? String
                 session.studentID = dictionary["studentID"] as? String
                 session.startTime = dictionary["startTime"] as? NSNumber
-                session.confirmed = dictionary["confirmed"] as? String
+                session.declined = dictionary["declined"] as? String
                 session.sessionID = dictionary["sessionID"] as? String
-                self.sessions.append(session)
+                // cases to check:
+                // if session confirmed
+                // if session declined
+                if session.active == "yes"{
+                    self.sessions.append(session)
+                }
+                
+                
                 var counter = 0
                 for s in self.pending{
                     if s.sessionID == session.sessionID{
@@ -120,14 +128,16 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     session.tutorID = dictionary["tutorID"] as? String
                     session.studentID = dictionary["studentID"] as? String
                     session.startTime = dictionary["startTime"] as? NSNumber
-                    session.confirmed = dictionary["confirmed"] as? String
+                    session.declined = dictionary["declined"] as? String
                     session.sessionID = dictionary["sessionID"] as? String
-                    if session.active == "no"{
+                    if session.active == "no" && session.declined == "no"{ //waiting for confirm or decline
                         self.pending.append(session)
                     }
-                    else{
+                    else if session.active == "yes" && session.declined == "no" { //session has been confirmed
                         self.sessions.append(session)
                     }
+//                    else if session.declined == "yes"
+//                    }
                 }
                 DispatchQueue.main.async { self.sessionsTV.reloadData() }
             })
@@ -220,11 +230,10 @@ extension SessionsVC: CustomCellDelegate {
         
         self.cellUser = self.getUserForUID(session.studentID!)
         
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             print("to token: ", self.cellUser!.fcmToken!)
             let sender = PushNotificationSender()
-            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session confirmation", body: "Your session has been confirmed!")
+            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been confirmed!")
         }
     }
     
@@ -232,7 +241,15 @@ extension SessionsVC: CustomCellDelegate {
         print("pressed the decline")
         let session = pending[cell.confirmIndex!]
         let ref = Database.database().reference().child("sessions").child(session.sessionID!)
-        ref.updateChildValues(["confirmed" : "no"])
+        ref.updateChildValues(["declined" : "yes"])
+        
+        self.cellUser = self.getUserForUID(session.studentID!)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            print("to token: ", self.cellUser!.fcmToken!)
+            let sender = PushNotificationSender()
+            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been declined!")
+        }
     }
 }
 
