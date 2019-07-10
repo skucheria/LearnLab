@@ -16,6 +16,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var past = [Session]()
     var upcoming = [Session]()
     var cellUser : User?
+    let progressHUD = ProgressHUD(text: "Loading...")
 
     let sessionSegment : UISegmentedControl = {
         let segment = UISegmentedControl(items: ["Current", "Past"])
@@ -59,6 +60,9 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellId")
 
         sessionStatusChanged()
+        
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
     }
     
     func setupSegment(){
@@ -161,6 +165,10 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func segChanged(){
+        self.progressHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.progressHUD.hide()
+        }
         self.sessionsTV.reloadData()
     }
     
@@ -194,8 +202,6 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         else{
             return past.count
         }
-        
-//        return pending.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

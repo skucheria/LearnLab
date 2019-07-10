@@ -49,7 +49,7 @@ class PendingSessionCell : UITableViewCell{
         infoLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
         infoLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        infoLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+//        infoLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         
         confirmButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
         confirmButton.topAnchor.constraint(equalTo: self.infoLabel.bottomAnchor, constant: 10).isActive = true
