@@ -118,6 +118,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func getSessions(){
+        let currentTime: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let seshRef = Database.database().reference().child("grouped-sessions").child(uid)
         seshRef.observe(.childAdded) { (snapshot) in
@@ -132,7 +133,16 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     session.startTime = dictionary["startTime"] as? NSNumber
                     session.declined = dictionary["declined"] as? String
                     session.sessionID = dictionary["sessionID"] as? String
-                    if session.active == "no" && session.declined == "no"{ //waiting for confirm or decline
+                    
+                    if session.startTime!.floatValue < currentTime.floatValue{
+                        if session.declined == "no"{
+                            self.past.append(session)
+                            self.past.sort(by: { (m1, m2) -> Bool in
+                                return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
+                            })
+                        }
+                    }
+                    else if session.active == "no" && session.declined == "no"{ //waiting for confirm or decline
                         self.pending.append(session)
                         self.pending.sort(by: { (m1, m2) -> Bool in
                             return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
@@ -151,48 +161,72 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func segChanged(){
-        
+        self.sessionsTV.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+        if title == "Past"{
+            return 1
+        }
         return 2
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0{
-            return "Pending"
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+        if title == "Current"{
+            if section == 0{
+                return "Pending"
+            }
+            return "Upcoming"
         }
-        return "Upcoming"
+        return "Past Sessions"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return pending.count
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+        if title == "Current"{
+            if section == 0 {
+                return pending.count
+            }
+            return sessions.count
         }
-        return sessions.count
+        else{
+            return past.count
+        }
+        
 //        return pending.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+
         let pendingCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! PendingSessionCell
         pendingCell.delegate = self
 //        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         var session = Session()
         
-        if(indexPath.section == 0){
-            session = pending[indexPath.row]
-            pendingCell.confirmIndex = indexPath.row
-            if Auth.auth().currentUser?.uid == session.studentID{
+        if title == "Current"{
+            if(indexPath.section == 0){
+                session = pending[indexPath.row]
+                pendingCell.confirmIndex = indexPath.row
+                if Auth.auth().currentUser?.uid == session.studentID{
+                    pendingCell.confirmButton.isHidden = true
+                    pendingCell.declineButton.isHidden = true
+                }
+                else{
+                    pendingCell.confirmButton.isHidden = false
+                    pendingCell.declineButton.isHidden = false
+                }
+            }
+            else{
+                session = sessions[indexPath.row]
                 pendingCell.confirmButton.isHidden = true
                 pendingCell.declineButton.isHidden = true
             }
-            else{
-                pendingCell.confirmButton.isHidden = false
-                pendingCell.declineButton.isHidden = false
-            }
         }
         else{
-            session = sessions[indexPath.row]
+            session = past[indexPath.row]
             pendingCell.confirmButton.isHidden = true
             pendingCell.declineButton.isHidden = true
         }

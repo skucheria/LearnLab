@@ -49,7 +49,6 @@ class BookSessionVC: UIViewController {
         return picker
     }()
     
-    
     let toolbar : UIToolbar = {
         let bar = UIToolbar()
         bar.sizeToFit()

@@ -205,6 +205,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
             }
             else if(indexPath.row == 5){
                 cell.textLabel?.text = "Logout"
+                cell.textLabel?.textColor = .red
                 return cell
             }
         }
