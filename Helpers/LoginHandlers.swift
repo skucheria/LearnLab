@@ -86,6 +86,10 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             }
             let pushManager = PushNotificationManager(userID: Auth.auth().currentUser!.uid)
             pushManager.registerForPushNotifications()
+            progressHUD.show()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.progressHUD.hide()
+            }
             let newVC = MainTabController()
             self.present(newVC, animated: true)
             
@@ -94,8 +98,13 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
         else{ //if logging in
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                 if error == nil{
-                    let newVC = MainTabController()
-                    self.present(newVC, animated: true)
+                    self.progressHUD.show()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        self.progressHUD.hide()
+                        let newVC = MainTabController()
+                        self.present(newVC, animated: true)
+                    }
+                    
                 }
             }
         }

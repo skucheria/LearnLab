@@ -60,27 +60,21 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         self.view.backgroundColor = .white
         self.view.isUserInteractionEnabled = true
         view.addSubview(options)
-
-//        setupTopView()
+        setupTopView()
         setupTableView()
 //        getCurrentUserInfo()
         fetchUser()
-//
+
         options.delegate = self
         options.dataSource = self
+        options.isScrollEnabled = false
         options.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         
         self.view.addSubview(progressHUD)
         progressHUD.hide()
         
         var ref = Database.database().reference()
-        
-        ref.child("user").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value
-            , with: { (snapshot) in
-                if let dictionary = snapshot.value as? [String : Any]{
-                    self.navigationItem.title = dictionary["name"] as? String
-                }
-        })
+        self.navigationItem.title = "Profile"
         self.navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
@@ -89,9 +83,9 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     
     func setupTopView(){
         
-//        view.addSubview(topView)
-//        view.addSubview(profileImageView)
-//        view.addSubview(name)
+        view.addSubview(topView)
+        view.addSubview(profileImageView)
+        view.addSubview(name)
         
         //constraints x,y,w,h
         topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -167,7 +161,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     func setupTableView(){
 //        view.addSubview(options)
         options.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        options.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        options.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         options.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         options.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
@@ -177,33 +171,34 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
 //        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         if (indexPath.section == 0){
+//            if(indexPath.row == 0){
+//                cell.textLabel?.text = "View & Edit Profile"
+//                return cell
+//            }
+//            else
             if(indexPath.row == 0){
-                cell.textLabel?.text = "View & Edit Profile"
-                return cell
-            }
-            else if(indexPath.row == 1){
                 cell.textLabel?.text = "Payment Accounts"
                 return cell
             }
-            else if(indexPath.row == 2){
+            else if(indexPath.row == 1){
                 cell.textLabel?.text = "Become a Tutor"
                 return cell
             }
-            else if (indexPath.row == 3){
+            else if (indexPath.row == 2){
                 cell.textLabel?.text = "Change Email"
             }
-            else if(indexPath.row == 4){
+            else if(indexPath.row == 3){
                 cell.textLabel?.text = "Change Password"
                 return cell
             }
-            else if(indexPath.row == 5){
+            else if(indexPath.row == 4){
                 cell.textLabel?.text = "Logout"
                 cell.textLabel?.textColor = .red
                 return cell
@@ -216,11 +211,12 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         if (indexPath.section == 0){
-            if (indexPath.row == 0){
-                let epVC = EditProfileVC()
-                self.navigationController?.pushViewController(epVC, animated: true)
-            }
-            else if indexPath.row == 1{ //add a credit card
+//            if (indexPath.row == 0){
+//                let epVC = EditProfileVC()
+//                self.navigationController?.pushViewController(epVC, animated: true)
+//            }
+//            else
+            if indexPath.row == 0{ //add a credit card
                 let addCardViewController = STPAddCardViewController()
                 addCardViewController.delegate = self
                 
@@ -228,12 +224,12 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 let navigationController = UINavigationController(rootViewController: addCardViewController)
                 present(navigationController, animated: true)
             }
-            else if indexPath.row == 2{ //go into registration flow
+            else if indexPath.row == 1{ //go into registration flow
                 let reg1VC = Registration1VC()
                 let navController = UINavigationController(rootViewController: reg1VC)
                 present(navController, animated: true, completion: nil)
             }
-            else if indexPath.row == 3{
+            else if indexPath.row == 2{
                 let alert = UIAlertController(title: "Change email", message: "Please enter your new email address.", preferredStyle: UIAlertController.Style.alert)
                 alert.addTextField(configurationHandler: configurationTextField)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler:{ (UIAlertAction)in
@@ -248,7 +244,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                     print("completion block")
                 })
             }
-            else if indexPath.row == 4{
+            else if indexPath.row == 3{
                 let alert = UIAlertController(title: "Change password", message: "Please enter your new password.", preferredStyle: UIAlertController.Style.alert)
                 alert.addTextField(configurationHandler: configurationTextField)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler:{ (UIAlertAction)in
@@ -264,7 +260,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                     print("completion block")
                 })
             }
-            else if indexPath.row == 5{
+            else if indexPath.row == 4{
                 progressHUD.show()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                     self.progressHUD.hide()

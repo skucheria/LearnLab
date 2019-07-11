@@ -19,7 +19,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
     let bLogin = UIButton(type: UIButton.ButtonType.system) as UIButton
     var authUI : FUIAuth?
     var ref : DatabaseReference?
-    
+    let progressHUD = ProgressHUD(text: "Logging in...")
+
     override func viewDidAppear(_ animated: Bool) { //if there's already a current user session, move to main app
         if Auth.auth().currentUser != nil {
             let newVC = MainTabController()
@@ -176,7 +177,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.view.isUserInteractionEnabled = true
-
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
         authUI = FUIAuth.defaultAuthUI()
         authUI?.delegate = self
         let providers : [FUIAuthProvider] = [FUIGoogleAuth()]

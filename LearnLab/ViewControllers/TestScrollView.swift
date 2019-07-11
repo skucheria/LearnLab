@@ -182,29 +182,29 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         nameLabel.text = currentTutor?.name
         self.scrollView.addSubview(bioLabel)
-        bioLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
+        bioLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
         bioLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
         bioLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         bioLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         self.scrollView.addSubview(aboutText)
-        aboutText.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
+        aboutText.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
         aboutText.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 5).isActive = true
         aboutText.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
 //        aboutText.heightAnchor.constraint(equalToConstant: 50).isActive = true
         aboutText.text = currentTutor!.bio
         self.scrollView.addSubview(availLabel)
-        availLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
+        availLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
         availLabel.topAnchor.constraint(equalTo: aboutText.bottomAnchor, constant: 25).isActive = true
         availLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         availLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         self.scrollView.addSubview(availText)
-        availText.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
+        availText.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
         availText.topAnchor.constraint(equalTo: availLabel.bottomAnchor, constant: 5).isActive = true
         availText.widthAnchor.constraint(equalToConstant: 150).isActive = true
         availText.heightAnchor.constraint(equalToConstant: 20).isActive = true
         availText.text = currentTutor!.availability
         self.scrollView.addSubview(subjectsLabel)
-        subjectsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
+        subjectsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
         subjectsLabel.topAnchor.constraint(equalTo: availText.bottomAnchor, constant: 25).isActive = true
         subjectsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         subjectsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -214,7 +214,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         subjectsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         subjectsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
         self.scrollView.addSubview(reviewsLabel)
-        reviewsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor).isActive = true
+        reviewsLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
         reviewsLabel.topAnchor.constraint(equalTo: subjectsTV.bottomAnchor, constant: 25).isActive = true
         reviewsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         reviewsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true

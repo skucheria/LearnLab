@@ -18,7 +18,7 @@ class User: NSObject {
     var bio : String?
     var courses : [String]?
     var rating : NSNumber?
-    var reviews : [Review]?
+    var reviews : [String]?
     var availability : String?
     var rate : String?
     var fcmToken : String?
