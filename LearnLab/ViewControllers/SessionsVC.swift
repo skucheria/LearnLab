@@ -67,13 +67,12 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func setupSegment(){
         self.view.addSubview(topView)
-        let barHeight = 2 *  (self.navigationController?.navigationBar.frame.height)!
         topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        topView.topAnchor.constraint(equalTo: view.topAnchor, constant: barHeight).isActive = true
+        topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         topView.heightAnchor.constraint(equalToConstant: 35).isActive = true
         topView.addSubview(sessionSegment)
-        sessionSegment.topAnchor.constraint(equalTo: view.topAnchor, constant: barHeight).isActive = true
+        sessionSegment.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         sessionSegment.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         sessionSegment.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         sessionSegment.heightAnchor.constraint(equalToConstant: 33).isActive = true
