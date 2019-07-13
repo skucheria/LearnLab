@@ -188,7 +188,7 @@ class MessagesVC: UITableViewController {
         if let seconds = msg.timestamp?.doubleValue{
             let date = NSDate(timeIntervalSince1970: seconds)
             let format = DateFormatter()
-            format.dateFormat = "hh:mm a"
+            format.dateFormat = "MMM d, h:mm a"
             cell.timeLabel.text = format.string(from: date as Date)
         }
         
@@ -196,7 +196,7 @@ class MessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 72
+        return 75
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

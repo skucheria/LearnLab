@@ -53,6 +53,7 @@ class Tutors: UITableViewController {
                             user.rate = item.value["rate"] as? String
                             user.availability = item.value["availability"] as? String
                             user.fcmToken = item.value["fcmToken"] as? String
+                            user.reviews = item.value["reviews"] as? [String]
                             self.users.append(user)
                             self.users.sort(by: { (u1, u2) -> Bool in
                                 return (u1.name)! < (u2.name)!
@@ -83,6 +84,7 @@ class Tutors: UITableViewController {
                     user.rate = item.value["rate"] as? String
                     user.availability = item.value["availability"] as? String
                     user.fcmToken = item.value["fcmToken"] as? String
+                    user.reviews = item.value["reviews"] as? [String]
                     self.users.append(user)
                     self.users.sort(by: { (u1, u2) -> Bool in
                         return (u1.name)! < (u2.name)!
@@ -116,7 +118,7 @@ class Tutors: UITableViewController {
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.nameLabel.text = user.name
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-        if (user.rating == nil){
+        if (user.reviews == nil){
             cell.ratingLabel.text = "No Ratings"
         }
         else{

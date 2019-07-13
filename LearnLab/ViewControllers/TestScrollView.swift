@@ -268,9 +268,14 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == subjectsTV{
+            
             let bookSession = BookSessionVC()
             bookSession.currentTutor = self.currentTutor
-            self.navigationController?.pushViewController(bookSession, animated: true)
+            let navController = UINavigationController(rootViewController: bookSession)
+            present(navController, animated: true, completion: nil)
+            
+//            let bookSession = BookSessionVC()
+//            self.navigationController?.present(bookSession, animated: true, completion: nil)
         }
     }
 }

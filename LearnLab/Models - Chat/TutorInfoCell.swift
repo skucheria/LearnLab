@@ -49,7 +49,6 @@ class TutorInfoCell: UITableViewCell {
     let reviewsLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "# Reviews"
         return label
     }()
     

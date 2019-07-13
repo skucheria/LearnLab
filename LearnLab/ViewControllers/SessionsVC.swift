@@ -241,7 +241,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if(seconds != nil){
             let date = NSDate(timeIntervalSince1970: seconds!)
             let format = DateFormatter()
-            format.dateFormat = "dd hh:mm a"
+            format.dateFormat = "MMM d, h:mm a"
             timeStamp = format.string(from: date as Date)
         }
         var tLabel : String?
@@ -254,9 +254,10 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let user = getUserForUID(tLabel!)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            pendingCell.infoLabel.text = user.name! + " " + timeStamp
+            pendingCell.infoLabel.text = "Session with " + user.name! + " @ " + timeStamp
         }
         
+        pendingCell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         return pendingCell
     }
     

@@ -44,6 +44,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     let name : UILabel = {
         let name = UILabel()
         name.translatesAutoresizingMaskIntoConstraints = false
+        name.font = UIFont.boldSystemFont(ofSize: 24.0)
         return name
     }()
     
@@ -69,7 +70,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         options.dataSource = self
         options.isScrollEnabled = false
         options.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-        
+        currUser = getUserForUID(Auth.auth().currentUser!.uid)
         self.view.addSubview(progressHUD)
         progressHUD.hide()
         
@@ -91,16 +92,18 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        topView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        topView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
-        profileImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        profileImageView.topAnchor.constraint(equalTo: topView.topAnchor, constant: 25).isActive = true
+        profileImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
+//        profileImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: topView.topAnchor, constant: 20).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 125).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 125).isActive = true
 
-        
-        name.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
-        name.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
+        name.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 20).isActive = true
+        name.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor, constant: -62/5).isActive = true
+//        name.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
+//        name.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
         name.widthAnchor.constraint(equalToConstant: 50)
         name.heightAnchor.constraint(equalToConstant: 20)
         
@@ -161,7 +164,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     func setupTableView(){
 //        view.addSubview(options)
         options.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        options.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        options.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 10).isActive = true
         options.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         options.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
@@ -225,9 +228,24 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 present(navigationController, animated: true)
             }
             else if indexPath.row == 1{ //go into registration flow
-                let reg1VC = Registration1VC()
-                let navController = UINavigationController(rootViewController: reg1VC)
-                present(navController, animated: true, completion: nil)
+                if currUser?.tutor == "yes"{
+                    let alert = UIAlertController(title: "You are already registered as a tutor!", message: nil, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            print("default")
+                        case .cancel:
+                            print("cancel")
+                        case .destructive:
+                            print("destructive")
+                        }}))
+                    self.present(alert, animated: true, completion: nil)
+                }
+                else{
+                    let reg1VC = Registration1VC()
+                    let navController = UINavigationController(rootViewController: reg1VC)
+                    present(navController, animated: true, completion: nil)
+                }
             }
             else if indexPath.row == 2{
                 let alert = UIAlertController(title: "Change email", message: "Please enter your new email address.", preferredStyle: UIAlertController.Style.alert)
