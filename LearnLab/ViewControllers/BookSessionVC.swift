@@ -278,7 +278,6 @@ class BookSessionVC: UIViewController {
         formatter.dateFormat = "EEEE, MMM d, h:mm a"
         timeInput.text = formatter.string(from: datePicker.date)
         time = (datePicker.date.timeIntervalSince1970 as AnyObject as! NSNumber)
-        print("time of session : ", time)
         self.view.endEditing(true)
     }
     
@@ -292,8 +291,7 @@ class BookSessionVC: UIViewController {
         let helper = formatter.string(from: durationPicker.date)
         let timeArr = helper.components(separatedBy: " ")
         durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
-        dur = (durationPicker.date.timeIntervalSince1970 as AnyObject as! NSNumber)
-        print("length of session : ", dur)
+        dur = durationPicker.countDownDuration as NSNumber
         self.view.endEditing(true)
     }
     
