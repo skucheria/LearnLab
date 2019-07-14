@@ -217,7 +217,7 @@ class BookSessionVC: UIViewController {
         bookSessionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         bookSessionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         bookSessionButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        bookSessionButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        bookSessionButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     

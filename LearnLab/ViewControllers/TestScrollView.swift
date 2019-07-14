@@ -12,7 +12,7 @@ import Firebase
 class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var classes = [Course]()
-    
+    var currentUserInfo : User?
     var currentTutor : User? {
         didSet{
             navigationItem.title = currentTutor?.name
@@ -143,6 +143,15 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         reviewsTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
     
         pullCourses()
+        
+        currentUserInfo = getUserForUID(Auth.auth().currentUser!.uid)
+        
+        let button = UIButton.init(type: .custom)
+        button.setImage(UIImage.init(named: "messages_white"), for: UIControl.State.normal)
+        button.addTarget(self, action:#selector(sendMessage), for:.touchUpInside)
+        button.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30) //CGRectMake(0, 0, 30, 30)
+        let barButton = UIBarButtonItem.init(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
 
     }
     
@@ -277,5 +286,13 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            let bookSession = BookSessionVC()
 //            self.navigationController?.present(bookSession, animated: true, completion: nil)
         }
+    }
+    
+    @objc func sendMessage(){
+        let chatVC = ChatLogVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let navController = UINavigationController(rootViewController: chatVC)
+        chatVC.toUser = currentTutor
+        chatVC.curr = currentUserInfo
+        self.navigationController?.present(navController, animated: true, completion: nil)
     }
 }
