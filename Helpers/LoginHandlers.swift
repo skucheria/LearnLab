@@ -55,43 +55,39 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                 if error == nil{
                     print("successfully created user")
-//                    print("current user: ", Auth.auth().currentUser?.uid ?? "no user yet")
-                    
-
+                    print("user info? ", user?.user.uid)
                 }
                 else{
                     print(error!)
                 }
                 //save user here
                 let values = ["name": name, "email": email ]
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    //doing this just so it gives time to register
-                }
-                self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
-                let pushManager = PushNotificationManager(userID: Auth.auth().currentUser!.uid)
+                self.ref?.child("user").child((user?.user.uid)!).updateChildValues(values)
+                let pushManager = PushNotificationManager(userID: (user?.user.uid)!)
                 pushManager.registerForPushNotifications()
-            }
             
-            let imageName = NSUUID().uuidString
-            
-            let imageRef = Storage.storage().reference().child("prof_pics").child("\(imageName).jpg")
-            
-            if let uploadData = self.profileImageView.image?.jpegData(compressionQuality: 0.1){
-                imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
-                    if error != nil{
-                        print(error!)
-                        return
-                    }
-                    imageRef.downloadURL(completion: { (url, error) in
-                        if error == nil{
-                            let urlString = url?.absoluteString
-                            let vals = ["profilePic" : urlString, "tutor" : "no", "bio" : " ", "rating" : 0] as [String : Any]
-                            self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(vals) //updating with url link for image
+                let imageName = NSUUID().uuidString
+                
+                let imageRef = Storage.storage().reference().child("prof_pics").child("\(imageName).jpg")
+                
+                if let uploadData = self.profileImageView.image?.jpegData(compressionQuality: 0.1){
+                    imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                        if error != nil{
+                            print(error!)
+                            return
                         }
-                    })
+                        imageRef.downloadURL(completion: { (url, error) in
+                            if error == nil{
+                                let urlString = url?.absoluteString
+                                let vals = ["profilePic" : urlString, "tutor" : "no", "bio" : " ", "rating" : 0] as [String : Any]
+                                self.ref?.child("user").child((user?.user.uid)!).updateChildValues(vals) //updating with url link for image
+                            }
+                        })
+                    }
                 }
-//                imageRef.putData(uploadData)
             }
+            
+            
             progressHUD.show()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self.progressHUD.hide()
