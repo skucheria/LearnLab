@@ -54,9 +54,9 @@ extension UIViewController{
             , with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String : [String:Any]]{
                     for item in dictionary{
-                        user.tutor = item.value["tutor"] as? String
                         user.id = item.key
                         if(user.id == uid){
+                            user.tutor = item.value["tutor"] as? String
                             user.email = item.value["email"] as? String
                             user.name = item.value["name"] as? String
                             user.profLinik = item.value["profilePic"] as? String

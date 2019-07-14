@@ -78,7 +78,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         self.navigationItem.title = "Profile"
         self.navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
-        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
+        self.view.backgroundColor = .white
 //        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
     }
     
@@ -306,6 +306,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     func logout(){
         do{
             try Auth.auth().signOut()
+            print("Testing logout. the current user should be nil ", Auth.auth().currentUser?.uid ?? "no user logged in")
             let newVC = LoginVC()
             self.present(newVC, animated: true)
         }

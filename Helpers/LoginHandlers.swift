@@ -55,13 +55,21 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                 if error == nil{
                     print("successfully created user")
+//                    print("current user: ", Auth.auth().currentUser?.uid ?? "no user yet")
+                    
+
                 }
                 else{
                     print(error!)
                 }
                 //save user here
                 let values = ["name": name, "email": email ]
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    //doing this just so it gives time to register
+                }
                 self.ref?.child("user").child(Auth.auth().currentUser?.uid ?? "autoid").updateChildValues(values)
+                let pushManager = PushNotificationManager(userID: Auth.auth().currentUser!.uid)
+                pushManager.registerForPushNotifications()
             }
             
             let imageName = NSUUID().uuidString
@@ -84,8 +92,6 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                 }
 //                imageRef.putData(uploadData)
             }
-            let pushManager = PushNotificationManager(userID: Auth.auth().currentUser!.uid)
-            pushManager.registerForPushNotifications()
             progressHUD.show()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self.progressHUD.hide()
@@ -104,7 +110,19 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                         let newVC = MainTabController()
                         self.present(newVC, animated: true)
                     }
-                    
+                }
+                else{
+                    let alert = UIAlertController(title: "The username or password is incorrect!", message: nil, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            print("default")
+                        case .cancel:
+                            print("cancel")
+                        case .destructive:
+                            print("destructive")
+                        }}))
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }

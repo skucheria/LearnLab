@@ -172,17 +172,17 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
             print(item.department! + " " + item.code!)
         }
         
-//        let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
-//
-//        if selected_indexPaths!.count > 1{
-//            for indexPath in selected_indexPaths! {
-//                selectedCourses.append(filteredData[indexPath.row].dbId!)
-//            }
-//        }
-//        ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
-//
-//        let main = MainTabController()
-//        self.present(main, animated: false)
+        let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
+
+        if selected_indexPaths!.count > 1{
+            for indexPath in selected_indexPaths! {
+                selectedCourses.append(filteredData[indexPath.row].dbId!)
+            }
+        }
+        ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
+
+        let main = MainTabController()
+        self.present(main, animated: false)
     }
     
     @objc func textFieldDidChange(){
