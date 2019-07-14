@@ -11,7 +11,7 @@ import Firebase
 
 class BookSessionVC: UIViewController {
     var time : NSNumber?
-    
+    var dur : NSNumber?
     var currentTutor : User? {
         didSet{
             infoLabel.text = "Book session with " + currentTutor!.name!
@@ -36,7 +36,7 @@ class BookSessionVC: UIViewController {
         let button = UIButton()
         button.setTitle("Book Session", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 43/255, alpha: 1)
+        button.backgroundColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(bookSession), for: .touchUpInside)
@@ -213,25 +213,45 @@ class BookSessionVC: UIViewController {
         locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         locationSeparator.topAnchor.constraint(equalTo: locationInput.bottomAnchor).isActive = true
         locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.view.addSubview(bookSessionButton)
+        bookSessionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        bookSessionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bookSessionButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        bookSessionButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
     }
     
     
     @objc func bookSession(){
         print("booked session")
-        let studentID = Auth.auth().currentUser!.uid
-        let tutorID = currentTutor!.id
-        //first put the session in the sessions tree
-        let ref = Database.database().reference().child("sessions")
-        let childRef = ref.childByAutoId()
-        childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "declined" : "no", "sessionID" : childRef.key])
-        //wanna also create a tree for sessions by user --> do it for both tutor and students
-        let ref2 = Database.database().reference().child("grouped-sessions").child(studentID)
-        ref2.updateChildValues([childRef.key! : 1])
-        let ref3 = Database.database().reference().child("grouped-sessions").child(tutorID!)
-        ref3.updateChildValues([childRef.key! : 1])
-        
-        let sender = PushNotificationSender()
-        sender.sendPushNotification(to: currentTutor!.fcmToken!, title: "Session request", body: "New tutor session request")
+        if (timeInput.text!.isEmpty || durationInput.text!.isEmpty || locationInput.text!.isEmpty) {
+            let alert = UIAlertController(title: "You must fill out all session fields!", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action.style{
+                case .default:
+                    print("default")
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }}))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else{
+//            let studentID = Auth.auth().currentUser!.uid
+//            let tutorID = currentTutor!.id
+    //        //first put the session in the sessions tree
+    //        let ref = Database.database().reference().child("sessions")
+    //        let childRef = ref.childByAutoId()
+    //        childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "endTime" : dur, "declined" : "no", "sessionID" : childRef.key])
+    //        //wanna also create a tree for sessions by user --> do it for both tutor and students
+    //        let ref2 = Database.database().reference().child("grouped-sessions").child(studentID)
+    //        ref2.updateChildValues([childRef.key! : 1])
+    //        let ref3 = Database.database().reference().child("grouped-sessions").child(tutorID!)
+    //        ref3.updateChildValues([childRef.key! : 1])
+    //
+    //        let sender = PushNotificationSender()
+    //        sender.sendPushNotification(to: currentTutor!.fcmToken!, title: "Session request", body: "New tutor session request")
+        }
     }
     
     func setupSessionButton(){
@@ -255,9 +275,10 @@ class BookSessionVC: UIViewController {
     
     @objc func donedatePicker(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d h:mm  a"
+        formatter.dateFormat = "EEEE, MMM d, h:mm a"
         timeInput.text = formatter.string(from: datePicker.date)
         time = (datePicker.date.timeIntervalSince1970 as AnyObject as! NSNumber)
+        print("time of session : ", time)
         self.view.endEditing(true)
     }
     
@@ -267,10 +288,12 @@ class BookSessionVC: UIViewController {
     
     @objc func doneDurPicker(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "h mm"
+        formatter.dateFormat = "h m"
         let helper = formatter.string(from: durationPicker.date)
         let timeArr = helper.components(separatedBy: " ")
-        durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minutes"
+        durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
+        dur = (durationPicker.date.timeIntervalSince1970 as AnyObject as! NSNumber)
+        print("length of session : ", dur)
         self.view.endEditing(true)
     }
     
