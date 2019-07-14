@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class BookSessionVC: UIViewController {
     var time : NSNumber?
     
     var currentTutor : User? {
@@ -41,7 +41,6 @@ class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(bookSession), for: .touchUpInside)
         return button
-        
     }()
     
     let dateTextField : UITextField = {
@@ -62,6 +61,13 @@ class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return picker
     }()
     
+    let durationPicker : UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = UIDatePicker.Mode.countDownTimer
+        picker.minuteInterval = 15
+        return picker
+    }()
+    
     let toolbar : UIToolbar = {
         let bar = UIToolbar()
         bar.sizeToFit()
@@ -72,11 +78,74 @@ class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return bar
     }()
     
+    let toolbar2 : UIToolbar = {
+        let bar = UIToolbar()
+        bar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneDurPicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDurPicker));
+        bar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        return bar
+    }()
+    
     let optionsTV : UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
+    
+    let topSeparator : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let timeInput : UITextField = {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.backgroundColor = .clear
+        tf.placeholder = "Pick date and time of session"
+        return tf
+    }()
+    
+    let timeSeparator : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let durationInput : UITextField = {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.backgroundColor = .clear
+        tf.placeholder = "How long do you want the session?"
+        return tf
+    }()
+    
+    let durationSeparator : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let locationInput : UITextField = {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.backgroundColor = .clear
+        tf.placeholder = "Where will the session be?"
+        return tf
+    }()
+    
+    let locationSeparator : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -85,10 +154,6 @@ class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.navigationController?.navigationBar.tintColor = .white
         
-        optionsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-        optionsTV.delegate = self
-        optionsTV.dataSource = self
-        optionsTV.isScrollEnabled = false
         setupComponents()
 //        setupSessionButton()
 //        setupTF()
@@ -109,11 +174,45 @@ class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         detailsLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
         detailsLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 20).isActive = true
         detailsLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.view.addSubview(optionsTV)
-        optionsTV.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        optionsTV.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
-        optionsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        optionsTV.heightAnchor.constraint(equalToConstant: 220).isActive = true
+        self.view.addSubview(topSeparator)
+        topSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        topSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        topSeparator.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 10).isActive = true
+        topSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.view.addSubview(timeInput)
+        timeInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+        timeInput.topAnchor.constraint(equalTo: topSeparator.bottomAnchor).isActive = true
+        timeInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        timeInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        timeInput.inputView = datePicker
+        timeInput.inputAccessoryView = toolbar
+        self.view.addSubview(timeSeparator)
+        timeSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        timeSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        timeSeparator.topAnchor.constraint(equalTo: timeInput.bottomAnchor).isActive = true
+        timeSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.view.addSubview(durationInput)
+        durationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+        durationInput.topAnchor.constraint(equalTo: timeSeparator.bottomAnchor).isActive = true
+        durationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        durationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        durationInput.inputView = durationPicker
+        durationInput.inputAccessoryView = toolbar2
+        self.view.addSubview(durationSeparator)
+        durationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        durationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
+        durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.view.addSubview(locationInput)
+        locationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+        locationInput.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
+        locationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        locationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.view.addSubview(locationSeparator)
+        locationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        locationSeparator.topAnchor.constraint(equalTo: locationInput.bottomAnchor).isActive = true
+        locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
     
@@ -157,7 +256,7 @@ class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     @objc func donedatePicker(){
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d h:mm  a"
-        dateTextField.text = formatter.string(from: datePicker.date)
+        timeInput.text = formatter.string(from: datePicker.date)
         time = (datePicker.date.timeIntervalSince1970 as AnyObject as! NSNumber)
         self.view.endEditing(true)
     }
@@ -166,39 +265,16 @@ class BookSessionVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.view.endEditing(true)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    @objc func doneDurPicker(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h mm"
+        let helper = formatter.string(from: durationPicker.date)
+        let timeArr = helper.components(separatedBy: " ")
+        durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minutes"
+        self.view.endEditing(true)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        if indexPath.row == 0{
-            cell.textLabel?.text = "Course info stuff will go here with rate"
-        }
-        else if indexPath.row == 1{
-            cell.textLabel?.text = "Selec time..."
-        }
-        else if indexPath.row == 2{
-            cell.textLabel?.text = "Enter duration of session"
-        }
-        else if indexPath.row == 3{
-            cell.textLabel?.text = "Enter lcoation? --> need to figure out"
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0{
-            
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55
+    @objc func cancelDurPicker(){
+        self.view.endEditing(true)
     }
 }
