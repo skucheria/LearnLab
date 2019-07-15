@@ -103,7 +103,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
     
     lazy var profileImageView : UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "Sensei")
+//        imageView.image = UIImage(named: "Sensei")
         imageView.translatesAutoresizingMaskIntoConstraints = false
 //        imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
