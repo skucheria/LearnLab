@@ -266,6 +266,27 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        var sesh : Session?
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+        if title == "Current"{
+            if indexPath.section == 0{
+                sesh = pending[indexPath.row]
+            }
+            else{
+                sesh = sessions[indexPath.row]
+            }
+        }
+        else{
+            sesh = past[indexPath.row]
+        }
+        
+        let bookSession = SessionInfoVC()
+        bookSession.currentSession = sesh
+        self.navigationController?.pushViewController(bookSession, animated: true)
+    }
 }
 
 extension SessionsVC: CustomCellDelegate {
