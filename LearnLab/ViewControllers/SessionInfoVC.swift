@@ -21,10 +21,12 @@ class SessionInfoVC: UIViewController {
             self.timeInput.text = timeStamp
             date = NSDate(timeIntervalSince1970: (currentSession?.endTime!.doubleValue)!)
             format.dateFormat =  "h m"
-            timeStamp = format.string(from: date as Date)
-            let timeArr = timeStamp.components(separatedBy: " ")
+            //TODO Fix Hours for timeinterval
+            let myTimeInterval = TimeInterval((currentSession?.endTime!.doubleValue)!)
+            date = NSDate(timeIntervalSinceReferenceDate: myTimeInterval)
+            let helper = format.string(from: date as Date)
+            let timeArr = helper.components(separatedBy: " ")
             self.durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
-//            self.durationInput.text = timeStamp
         }
     }
     var time : NSNumber?
