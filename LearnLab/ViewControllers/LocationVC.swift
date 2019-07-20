@@ -12,6 +12,7 @@ import MapKit
 class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var locationManager:CLLocationManager!
+    let annotation = MKPointAnnotation()
 
     lazy var mapView : MKMapView = {
         let map = MKMapView()
@@ -75,7 +76,6 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
         let region = MKCoordinateRegion(center: locValue, span: span)
         mapView.setRegion(region, animated: true)
         
-        let annotation = MKPointAnnotation()
         annotation.coordinate = locValue
         annotation.title = "Book here"
         annotation.subtitle = "current location"
@@ -85,5 +85,16 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
         print("Error \(error)")
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        // Remove all annotations
+        self.mapView.removeAnnotations(mapView.annotations)
+        
+        // Add new annotation
+        annotation.coordinate = mapView.centerCoordinate
+        annotation.title = "title"
+        annotation.subtitle = "subtitle"
+        self.mapView.addAnnotation(annotation)
     }
 }
