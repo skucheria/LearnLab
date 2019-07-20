@@ -58,5 +58,7 @@
     <string>Will you allow this app to always know your location?</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Do you allow this app to know your current location?</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This will allow the app to help locate sessions</string>
 </dict>
 </plist>

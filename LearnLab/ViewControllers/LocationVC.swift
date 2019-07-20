@@ -9,13 +9,16 @@
 import UIKit
 import MapKit
 
-class LocationVC: UIViewController {
+class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    var locationManager:CLLocationManager!
 
-    var mapView : MKMapView = {
+    lazy var mapView : MKMapView = {
         let map = MKMapView()
         map.mapType = MKMapType.standard
         map.isZoomEnabled = true
         map.isScrollEnabled = true
+        map.delegate = self
         return map
     }()
     
@@ -24,6 +27,7 @@ class LocationVC: UIViewController {
         self.title = "Select Location"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         setupMap()
+        determineMyCurrentLocation()
     }
     
     func setupMap(){
@@ -38,14 +42,48 @@ class LocationVC: UIViewController {
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func determineMyCurrentLocation() {
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.startUpdatingLocation()
+            //locationManager.startUpdatingHeading()
+        }
     }
-    */
-
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        let userLocation:CLLocation = locations[0] as CLLocation
+//
+//        // Call stopUpdatingLocation() to stop listening for location updates,
+//        // other wise this function will be called every time when user location changes.
+//        let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+//        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+//        self.mapView.setRegion(region, animated: true)
+//        // manager.stopUpdatingLocation()
+//
+//        print("user latitude = \(userLocation.coordinate.latitude)")
+//        print("user longitude = \(userLocation.coordinate.longitude)")
+        
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        
+        mapView.mapType = MKMapType.standard
+        
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: locValue, span: span)
+        mapView.setRegion(region, animated: true)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = locValue
+        annotation.title = "Book here"
+        annotation.subtitle = "current location"
+        mapView.addAnnotation(annotation)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
+    {
+        print("Error \(error)")
+    }
 }
