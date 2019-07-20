@@ -11,36 +11,28 @@ import MapKit
 
 class LocationVC: UIViewController {
 
+    var mapView : MKMapView = {
+        let map = MKMapView()
+        map.mapType = MKMapType.standard
+        map.isZoomEnabled = true
+        map.isScrollEnabled = true
+        return map
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Select Location"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-
-        
-        let mapView = MKMapView()
+        setupMap()
+    }
+    
+    func setupMap(){
         self.view.addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         mapView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         mapView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        mapView.heightAnchor.constraint(equalToConstant: 400).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-
-//        let leftMargin:CGFloat = 0
-//        let topMargin:CGFloat = 60
-//        let mapWidth:CGFloat = view.frame.size.width-20
-//        let mapHeight:CGFloat = 300
-//        
-//        mapView.frame = CGRect(x: leftMargin, y: topMargin, width: mapWidth, height: mapHeight)
-//        
-        mapView.mapType = MKMapType.standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
-        
-        // Or, if needed, we can position map in the center of the view
-        mapView.center = view.center
-        
-        // Do any additional setup after loading the view.
+        mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     
     @objc func handleCancel() {
