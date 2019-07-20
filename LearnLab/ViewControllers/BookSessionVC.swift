@@ -139,6 +139,17 @@ class BookSessionVC: UIViewController {
         return tf
     }()
     
+    let locationButton  : UIButton = {
+        let button = UIButton()
+        button.setTitle("Choose location...", for: .normal)
+//        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.backgroundColor = .clear
+        button.setTitleColor(.lightGray, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(selectLocation), for: .touchUpInside)
+        return button
+    }()
+    
     let locationSeparator : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
@@ -203,15 +214,20 @@ class BookSessionVC: UIViewController {
         durationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
         durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.view.addSubview(locationInput)
-        locationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
-        locationInput.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
-        locationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        locationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        self.view.addSubview(locationInput)
+//        locationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+//        locationInput.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
+//        locationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        locationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.view.addSubview(locationButton)
+        locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+        locationButton.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
+        locationButton.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        locationButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.view.addSubview(locationSeparator)
         locationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        locationSeparator.topAnchor.constraint(equalTo: locationInput.bottomAnchor).isActive = true
+        locationSeparator.topAnchor.constraint(equalTo: locationButton.bottomAnchor).isActive = true
         locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
         self.view.addSubview(bookSessionButton)
         bookSessionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -297,5 +313,11 @@ class BookSessionVC: UIViewController {
     
     @objc func cancelDurPicker(){
         self.view.endEditing(true)
+    }
+    
+    @objc func selectLocation(){
+        let locationVC = LocationVC()
+        let navController = UINavigationController(rootViewController: locationVC)
+        self.navigationController?.present(navController, animated: true, completion: nil)
     }
 }

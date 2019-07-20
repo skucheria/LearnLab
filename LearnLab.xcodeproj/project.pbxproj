@@ -62,6 +62,7 @@
 		35D2997222855348005DF851 /* LearnLabTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2997122855348005DF851 /* LearnLabTests.swift */; };
 		35D2997D22855348005DF851 /* LearnLabUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2997C22855348005DF851 /* LearnLabUITests.swift */; };
 		35D2998B228553AE005DF851 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35D2998A228553AD005DF851 /* GoogleService-Info.plist */; };
+		35D60A5F22E2D461007E071A /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D60A5E22E2D461007E071A /* LocationVC.swift */; };
 		35E743CA22E0391D00495B4C /* SessionInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E743C922E0391D00495B4C /* SessionInfoVC.swift */; };
 		9677D18FD9EDFC31CAA1360A /* Pods_LearnLabUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3E4DD10AB82225169F1A1F /* Pods_LearnLabUITests.framework */; };
 		C2CDE772F99898795035354E /* Pods_LearnLab.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8E90FDCFFF0E77489D3868 /* Pods_LearnLab.framework */; };
@@ -149,6 +150,7 @@
 		35D2997C22855348005DF851 /* LearnLabUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnLabUITests.swift; sourceTree = "<group>"; };
 		35D2997E22855348005DF851 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35D2998A228553AD005DF851 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		35D60A5E22E2D461007E071A /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		35E743C922E0391D00495B4C /* SessionInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInfoVC.swift; sourceTree = "<group>"; };
 		5769EABF3F2D194BC90FFF71 /* Pods-LearnLabUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLabUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLabUITests/Pods-LearnLabUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E1D4472DAB617BDB34F7682 /* Pods-LearnLabTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLabTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLabTests/Pods-LearnLabTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 			children = (
 				35900FA922893FF500D796D3 /* Tutors.swift */,
 				355F193922C00BD5002703E6 /* TestScrollView.swift */,
+				35D60A5E22E2D461007E071A /* LocationVC.swift */,
 				352C9D5822CC7AF80094B775 /* BookSessionVC.swift */,
 				357D9AD022ACA57E005C4220 /* TutorsVC.swift */,
 				357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */,
@@ -666,6 +669,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35D60A5F22E2D461007E071A /* LocationVC.swift in Sources */,
 				35B597CD22A48B6A00730535 /* Course.swift in Sources */,
 				355F193A22C00BD5002703E6 /* TestScrollView.swift in Sources */,
 				3585F44722DA9FEE00F82BC2 /* BookSessionCell.swift in Sources */,

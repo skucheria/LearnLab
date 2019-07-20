@@ -34,14 +34,17 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let nameLabel : UILabel = {
         let label = UILabel()
-        label.text = "NAME"
+        label.text = " "
+        label.font = UIFont.boldSystemFont(ofSize: 24.0)
+
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let bioLabel : UILabel = {
         let label = UILabel()
-        label.text = "ABOUT"
+        label.text = "About"
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -57,6 +60,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     let availLabel : UILabel = {
         let label = UILabel()
         label.text = "Availability"
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -70,6 +74,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     let subjectsLabel : UILabel = {
         let label = UILabel()
         label.text = "Subjects"
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -84,6 +89,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     let reviewsLabel : UILabel = {
         let label = UILabel()
         label.text = "Reviews"
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -92,6 +98,13 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
+    }()
+    
+    let noReviews : UILabel = {
+        let label = UILabel()
+        label.text = "No reviews"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     let labelOne: UILabel = {
@@ -176,7 +189,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func setupScrollViews(){
         scrollView.addSubview(profileImageView)
-        
         // constrain labelOne to left & top with 16-pts padding
         // this also defines the left & top of the scroll content
         profileImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16.0).isActive = true
@@ -186,8 +198,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.profileImageView.loadImageUsingCacheWithUrlString(urlString: currentTutor!.profLinik!)
         self.scrollView.addSubview(nameLabel)
         nameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -8)
         nameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 10).isActive = true
-        nameLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        nameLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         nameLabel.text = currentTutor?.name
         self.scrollView.addSubview(bioLabel)
@@ -227,12 +240,21 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         reviewsLabel.topAnchor.constraint(equalTo: subjectsTV.bottomAnchor, constant: 25).isActive = true
         reviewsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         reviewsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        self.scrollView.addSubview(reviewsTV)
-        reviewsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
-        reviewsTV.topAnchor.constraint(equalTo: reviewsLabel.bottomAnchor, constant: 5).isActive = true
-        reviewsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        reviewsTV.heightAnchor.constraint(equalToConstant: 174).isActive = true
-        reviewsTV.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        if currentTutor?.reviews != nil{
+            self.scrollView.addSubview(reviewsTV)
+            reviewsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
+            reviewsTV.topAnchor.constraint(equalTo: reviewsLabel.bottomAnchor, constant: 5).isActive = true
+            reviewsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+            reviewsTV.heightAnchor.constraint(equalToConstant: 174).isActive = true
+            reviewsTV.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        }
+        else{
+            self.scrollView.addSubview(noReviews)
+            noReviews.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
+            noReviews.topAnchor.constraint(equalTo: reviewsLabel.bottomAnchor, constant: 5).isActive = true
+            noReviews.widthAnchor.constraint(equalToConstant: 150).isActive = true
+            noReviews.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        }
         
         
         

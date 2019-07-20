@@ -15,7 +15,7 @@ class SessionInfoVC: UIViewController {
             // set all labels
             var timeStamp = "TIME"
             var date = NSDate(timeIntervalSince1970: (currentSession?.startTime!.doubleValue)!)
-            var format = DateFormatter()
+            let format = DateFormatter()
             format.dateFormat = "MMM d, h:mm a"
             timeStamp = format.string(from: date as Date)
             self.timeInput.text = timeStamp
