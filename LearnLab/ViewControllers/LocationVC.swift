@@ -27,6 +27,7 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
         super.viewDidLoad()
         self.title = "Select Location"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(handleSelect))
         setupMap()
         determineMyCurrentLocation()
     }
@@ -44,14 +45,27 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
         dismiss(animated: true, completion: nil)
     }
     
+    var bookSession : BookSessionVC?
+
+    @objc func handleSelect() {
+        var locationText = annotation.coordinate.latitude
+        dismiss(animated: true) {
+            print("Selected tutor location ", self.annotation.coordinate.latitude, self.annotation.coordinate.longitude)
+            self.bookSession?.locationInput.text = String(locationText)
+        }
+        
+    }
+    
     func determineMyCurrentLocation() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         if CLLocationManager.locationServicesEnabled() {
-            locationManager.startUpdatingLocation()
-            //locationManager.startUpdatingHeading()
+            self.locationManager.startUpdatingLocation()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+            self.locationManager.stopUpdatingLocation()
         }
     }
     
@@ -93,7 +107,7 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
         
         // Add new annotation
         annotation.coordinate = mapView.centerCoordinate
-        annotation.title = "title"
+        annotation.title = "Book here"
         annotation.subtitle = "subtitle"
         self.mapView.addAnnotation(annotation)
     }

@@ -254,6 +254,8 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             noReviews.topAnchor.constraint(equalTo: reviewsLabel.bottomAnchor, constant: 5).isActive = true
             noReviews.widthAnchor.constraint(equalToConstant: 150).isActive = true
             noReviews.heightAnchor.constraint(equalToConstant: 20).isActive = true
+            noReviews.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+
         }
         
         
