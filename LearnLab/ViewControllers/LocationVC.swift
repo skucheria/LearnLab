@@ -51,9 +51,9 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
         var locationText = annotation.coordinate.latitude
         dismiss(animated: true) {
             print("Selected tutor location ", self.annotation.coordinate.latitude, self.annotation.coordinate.longitude)
-            self.bookSession?.locationInput.text = String(locationText)
+            self.bookSession?.locationButton.setTitle(String(locationText), for: .normal)
+            self.bookSession?.locationButton.setTitleColor(.black, for: .normal)
         }
-        
     }
     
     func determineMyCurrentLocation() {
