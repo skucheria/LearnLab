@@ -127,6 +127,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let seshRef = Database.database().reference().child("grouped-sessions").child(uid)
         seshRef.observe(.childAdded) { (snapshot) in
             let sessionID = snapshot.key
+            print("Session ID snapshot key: ", sessionID)
             let indRef = Database.database().reference().child("sessions").child(sessionID)
             indRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String:Any]{

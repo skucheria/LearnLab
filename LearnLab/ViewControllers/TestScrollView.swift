@@ -13,6 +13,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     var classes = [Course]()
     var currentUserInfo : User?
+    var numSessions = 0
+    var numReviews = 0
+    
     var currentTutor : User? {
         didSet{
             navigationItem.title = currentTutor?.name
@@ -130,6 +133,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         return v
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        getSessionAndReviewInfo()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,7 +171,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         button.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30) //CGRectMake(0, 0, 30, 30)
         let barButton = UIBarButtonItem.init(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
-
     }
     
     func pullCourses(){
@@ -271,6 +276,28 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        labelTwo.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16.0).isActive = true
     }
 
+    
+    func getSessionAndReviewInfo(){
+        //go through all sessions for current user and see if reviews < sessions
+        let databaseReferece = Database.database().reference().child("grouped-sessions").child(Auth.auth().currentUser!.uid)
+        databaseReferece.observeSingleEvent(of: .childAdded) { (snapshot) in
+            let sessionID = snapshot.key
+            let indRef = Database.database().reference().child("sessions").child(sessionID)
+            indRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dict = snapshot.value as? [String : Any]{
+                    self.numSessions += 1
+                    if dict["studentID"] as? String == Auth.auth().currentUser!.uid { // the current user was the student for that session, this is where reviews matter
+                        if dict["reviewed"] as? Int == 1{
+                            self.numReviews += 1
+                        }
+                    }
+                    else{
+                        self.numReviews += 1
+                    }
+                }
+            })
+        }
+    }
 
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -301,14 +328,25 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == subjectsTV{
-            
-            let bookSession = BookSessionVC()
-            bookSession.currentTutor = self.currentTutor
-            let navController = UINavigationController(rootViewController: bookSession)
-            present(navController, animated: true, completion: nil)
-            
-//            let bookSession = BookSessionVC()
-//            self.navigationController?.present(bookSession, animated: true, completion: nil)
+            if self.numReviews < self.numSessions{
+                let alert = UIAlertController(title: "You must fill out a review of your last session before you can book another!", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else{
+                let bookSession = BookSessionVC()
+                bookSession.currentTutor = self.currentTutor
+                let navController = UINavigationController(rootViewController: bookSession)
+                present(navController, animated: true, completion: nil)
+            }
         }
     }
     

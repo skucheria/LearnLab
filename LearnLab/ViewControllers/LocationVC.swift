@@ -51,7 +51,6 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
     @objc func handleSelect() {
         dismiss(animated: true) {
             print("Selected tutor location ", self.annotation.coordinate.latitude, self.annotation.coordinate.longitude)
-            self.bookSession?.locationInput.text = String(self.annotation.coordinate.latitude) + " " + String(self.annotation.coordinate.longitude)
             self.bookSession?.long = self.annotation.coordinate.longitude as NSNumber
             self.bookSession?.lat = self.annotation.coordinate.latitude as NSNumber
             self.bookSession?.locationButton.setTitle(String("Location selected!"), for: .normal)

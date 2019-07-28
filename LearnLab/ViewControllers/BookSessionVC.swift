@@ -216,7 +216,6 @@ class BookSessionVC: UIViewController {
         durationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
         durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-//
         self.view.addSubview(locationButton)
         locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
         locationButton.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
@@ -227,11 +226,11 @@ class BookSessionVC: UIViewController {
         locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         locationSeparator.topAnchor.constraint(equalTo: locationButton.bottomAnchor).isActive = true
         locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.view.addSubview(locationInput)
-        locationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
-        locationInput.topAnchor.constraint(equalTo: locationSeparator.bottomAnchor).isActive = true
-        locationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        locationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        self.view.addSubview(locationInput)
+//        locationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+//        locationInput.topAnchor.constraint(equalTo: locationSeparator.bottomAnchor).isActive = true
+//        locationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        locationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.view.addSubview(bookSessionButton)
         bookSessionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         bookSessionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -261,7 +260,7 @@ class BookSessionVC: UIViewController {
             //first put the session in the sessions tree
             let ref = Database.database().reference().child("sessions")
             let childRef = ref.childByAutoId()
-            childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "endTime" : dur, "declined" : "no", "sessionID" : childRef.key, "reviewed" : 0, "longitute" : long!, "latitude" : lat!])
+            childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "endTime" : dur, "declined" : "no", "sessionID" : childRef.key, "reviewed" : 0, "longitude" : long!, "latitude" : lat!])
             //wanna also create a tree for sessions by user --> do it for both tutor and students
             let ref2 = Database.database().reference().child("grouped-sessions").child(studentID)
             ref2.updateChildValues([childRef.key! : 1])
