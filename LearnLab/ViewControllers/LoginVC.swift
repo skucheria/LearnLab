@@ -178,7 +178,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         self.view.backgroundColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.view.isUserInteractionEnabled = true
         self.view.addSubview(progressHUD)
-        progressHUD.hide()
+        progressHUD.show()
         authUI = FUIAuth.defaultAuthUI()
         authUI?.delegate = self
         let providers : [FUIAuthProvider] = [FUIGoogleAuth()]

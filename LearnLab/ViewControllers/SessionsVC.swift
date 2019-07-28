@@ -108,7 +108,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
                     })
                 }
-                
+                // if session was declined
                 var counter = 0
                 for s in self.pending{
                     if s.sessionID == session.sessionID{
@@ -143,7 +143,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         if session.declined == "no"{
                             self.past.append(session)
                             self.past.sort(by: { (m1, m2) -> Bool in
-                                return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
+                                return (m1.startTime?.floatValue)! < (m2.startTime?.floatValue)!
                             })
                         }
                     }

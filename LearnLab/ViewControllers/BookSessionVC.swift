@@ -12,6 +12,8 @@ import Firebase
 class BookSessionVC: UIViewController {
     var time : NSNumber?
     var dur : NSNumber?
+    var long : NSNumber?
+    var lat : NSNumber?
     var currentTutor : User? {
         didSet{
             infoLabel.text = "Book session with " + currentTutor!.name!
@@ -240,7 +242,7 @@ class BookSessionVC: UIViewController {
     
     @objc func bookSession(){
         print("booked session")
-        if (timeInput.text!.isEmpty || durationInput.text!.isEmpty || locationInput.text!.isEmpty) {
+        if (timeInput.text!.isEmpty || durationInput.text!.isEmpty || long == nil) {
             let alert = UIAlertController(title: "You must fill out all session fields!", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                 switch action.style{
@@ -259,7 +261,7 @@ class BookSessionVC: UIViewController {
             //first put the session in the sessions tree
             let ref = Database.database().reference().child("sessions")
             let childRef = ref.childByAutoId()
-            childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "endTime" : dur, "declined" : "no", "sessionID" : childRef.key])
+            childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "endTime" : dur, "declined" : "no", "sessionID" : childRef.key, "reviewed" : 0, "longitute" : long!, "latitude" : lat!])
             //wanna also create a tree for sessions by user --> do it for both tutor and students
             let ref2 = Database.database().reference().child("grouped-sessions").child(studentID)
             ref2.updateChildValues([childRef.key! : 1])

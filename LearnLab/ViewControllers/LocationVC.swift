@@ -29,7 +29,8 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(handleSelect))
         setupMap()
-        determineMyCurrentLocation()
+
+        loadStartLocation()
     }
     
     func setupMap(){
@@ -48,12 +49,20 @@ class LocationVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
     var bookSession : BookSessionVC?
 
     @objc func handleSelect() {
-        var locationText = annotation.coordinate.latitude
         dismiss(animated: true) {
             print("Selected tutor location ", self.annotation.coordinate.latitude, self.annotation.coordinate.longitude)
-            self.bookSession?.locationButton.setTitle(String(locationText), for: .normal)
+            self.bookSession?.locationInput.text = String(self.annotation.coordinate.latitude) + " " + String(self.annotation.coordinate.longitude)
+            self.bookSession?.long = self.annotation.coordinate.longitude as NSNumber
+            self.bookSession?.lat = self.annotation.coordinate.latitude as NSNumber
+            self.bookSession?.locationButton.setTitle(String("Location selected!"), for: .normal)
             self.bookSession?.locationButton.setTitleColor(.black, for: .normal)
         }
+    }
+    
+    func loadStartLocation(){
+        let center = CLLocationCoordinate2D(latitude: 34.020182, longitude: -118.286029)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        self.mapView.setRegion(region, animated: true)
     }
     
     func determineMyCurrentLocation() {

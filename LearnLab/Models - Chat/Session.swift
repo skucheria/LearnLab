@@ -13,11 +13,11 @@ class Session: NSObject {
     var tutorID: String?
     var studentID: String?
     var startTime : NSNumber?
-//    var duration : NSNumber?
     var active : String?
     var declined : String?
     var sessionID: String?
-    var endTime : NSNumber?
+    var endTime : NSNumber?  // the actual duration of the session
+    var reviewed : NSNumber?
 }
 
 
