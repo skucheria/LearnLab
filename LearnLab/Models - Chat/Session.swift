@@ -18,6 +18,8 @@ class Session: NSObject {
     var sessionID: String?
     var endTime : NSNumber?  // the actual duration of the session
     var reviewed : NSNumber?
+    var long : NSNumber?
+    var lat : NSNumber?
 }
 
 

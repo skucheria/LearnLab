@@ -99,6 +99,8 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 session.declined = dictionary["declined"] as? String
                 session.sessionID = dictionary["sessionID"] as? String
                 session.endTime = dictionary["endTime"] as? NSNumber
+                session.long = dictionary["longitude"] as? NSNumber
+                session.lat = dictionary["latitude"] as? NSNumber
                 // cases to check:
                 // if session confirmed --> add to sessions, remove from pending
                 // if session declined --> dont add to session, remove from pending
@@ -139,7 +141,9 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     session.declined = dictionary["declined"] as? String
                     session.sessionID = dictionary["sessionID"] as? String
                     session.endTime = dictionary["endTime"] as? NSNumber
-                    let end = (session.startTime!.floatValue) + (session.endTime!.floatValue)
+                    session.long = dictionary["longitude"] as? NSNumber
+                    session.lat = dictionary["latitude"] as? NSNumber
+                    let end = (session.endTime!.floatValue)
                     if end < currentTime.floatValue{
                         if session.declined == "no"{
                             self.past.append(session)

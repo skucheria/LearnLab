@@ -15,6 +15,8 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentUserInfo : User?
     var numSessions = 0
     var numReviews = 0
+    var pending : Bool?
+    var needReview : Bool?
     
     var currentTutor : User? {
         didSet{
@@ -286,12 +288,12 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             indRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dict = snapshot.value as? [String : Any]{
                     self.numSessions += 1
-                    if dict["studentID"] as? String == Auth.auth().currentUser!.uid { // the current user was the student for that session, this is where reviews matter
+                    if dict["studentID"] as? String == Auth.auth().currentUser!.uid { // cuid was student for session, making the reviews matters for this one
                         if dict["reviewed"] as? Int == 1{
                             self.numReviews += 1
                         }
                     }
-                    else{
+                    else{ // cuid was tutor, no need to check whether they wrote a review
                         self.numReviews += 1
                     }
                 }
@@ -328,25 +330,25 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == subjectsTV{
-            if self.numReviews < self.numSessions{
-                let alert = UIAlertController(title: "You must fill out a review of your last session before you can book another!", message: nil, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                    switch action.style{
-                    case .default:
-                        print("default")
-                    case .cancel:
-                        print("cancel")
-                    case .destructive:
-                        print("destructive")
-                    }}))
-                self.present(alert, animated: true, completion: nil)
-            }
-            else{
+//            if self.numReviews < self.numSessions{
+//                let alert = UIAlertController(title: "You must fill out a review of your last session before you can book another!", message: nil, preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                    switch action.style{
+//                    case .default:
+//                        print("default")
+//                    case .cancel:
+//                        print("cancel")
+//                    case .destructive:
+//                        print("destructive")
+//                    }}))
+//                self.present(alert, animated: true, completion: nil)
+//            }
+//            else{
                 let bookSession = BookSessionVC()
                 bookSession.currentTutor = self.currentTutor
                 let navController = UINavigationController(rootViewController: bookSession)
                 present(navController, animated: true, completion: nil)
-            }
+//            }
         }
     }
     

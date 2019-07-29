@@ -20,13 +20,18 @@ class SessionInfoVC: UIViewController {
             timeStamp = format.string(from: date as Date)
             self.timeInput.text = timeStamp
             date = NSDate(timeIntervalSince1970: (currentSession?.endTime!.doubleValue)!)
-            format.dateFormat =  "h m"
-            //TODO Fix Hours for timeinterval
-            let myTimeInterval = TimeInterval((currentSession?.endTime!.doubleValue)!)
-            date = NSDate(timeIntervalSinceReferenceDate: myTimeInterval)
-            let helper = format.string(from: date as Date)
-            let timeArr = helper.components(separatedBy: " ")
-            self.durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
+            format.dateFormat = "MMM d, h:mm a"
+            timeStamp = format.string(from: date as Date)
+            self.durationInput.text = timeStamp
+            
+//            date = NSDate(timeIntervalSince1970: (currentSession?.endTime!.doubleValue)!)
+//            format.dateFormat =  "h m"
+//            //TODO Fix Hours for timeinterval
+//            let myTimeInterval = TimeInterval((currentSession?.endTime!.doubleValue)!)
+//            date = NSDate(timeIntervalSinceReferenceDate: myTimeInterval)
+//            let helper = format.string(from: date as Date)
+//            let timeArr = helper.components(separatedBy: " ")
+//            self.durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
         }
     }
     var time : NSNumber?
@@ -147,6 +152,17 @@ class SessionInfoVC: UIViewController {
         return tf
     }()
     
+    let locationButton  : UIButton = {
+        let button = UIButton()
+        button.setTitle("See location", for: .normal)
+        //        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.backgroundColor = .clear
+        button.setTitleColor(.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(selectLocation), for: .touchUpInside)
+        return button
+    }()
+    
     let locationSeparator : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
@@ -207,15 +223,15 @@ class SessionInfoVC: UIViewController {
         durationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
         durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.view.addSubview(locationInput)
-        locationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
-        locationInput.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
-        locationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        locationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.view.addSubview(locationButton)
+        locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        locationButton.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
+        locationButton.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        locationButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.view.addSubview(locationSeparator)
         locationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        locationSeparator.topAnchor.constraint(equalTo: locationInput.bottomAnchor).isActive = true
+        locationSeparator.topAnchor.constraint(equalTo: locationButton.bottomAnchor).isActive = true
         locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
@@ -245,4 +261,11 @@ class SessionInfoVC: UIViewController {
         self.view.endEditing(true)
     }
 
+    @objc func selectLocation(){
+        let locationVC = LocationInfoVC()
+        locationVC.long = currentSession?.long
+        locationVC.lat = currentSession?.lat
+        let navController = UINavigationController(rootViewController: locationVC)
+        self.navigationController?.present(navController, animated: true, completion: nil)
+    }
 }

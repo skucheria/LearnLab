@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3501305E22BDFE4A00A5DB9C /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3501305D22BDFE4A00A5DB9C /* Reviews.swift */; };
+		351C051022EE44B700CD95F0 /* NewReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C050F22EE44B700CD95F0 /* NewReviewVC.swift */; };
+		351C051222EE861600CD95F0 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C051122EE861600CD95F0 /* LocationInfoVC.swift */; };
 		3526143D22D078DD0062476B /* Registration3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143C22D078DD0062476B /* Registration3VC.swift */; };
 		3526143F22D2F4160062476B /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143E22D2F4160062476B /* PushNotificationManager.swift */; };
 		3526144122D306DB0062476B /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526144022D306DB0062476B /* PushNotificationSender.swift */; };
@@ -89,6 +91,8 @@
 /* Begin PBXFileReference section */
 		0AE6AF16688589330F827671 /* Pods-LearnLab.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLab.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLab/Pods-LearnLab.debug.xcconfig"; sourceTree = "<group>"; };
 		3501305D22BDFE4A00A5DB9C /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
+		351C050F22EE44B700CD95F0 /* NewReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReviewVC.swift; sourceTree = "<group>"; };
+		351C051122EE861600CD95F0 /* LocationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		3526143C22D078DD0062476B /* Registration3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration3VC.swift; sourceTree = "<group>"; };
 		3526143E22D2F4160062476B /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		3526144022D306DB0062476B /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
@@ -270,7 +274,9 @@
 			children = (
 				35900FA922893FF500D796D3 /* Tutors.swift */,
 				355F193922C00BD5002703E6 /* TestScrollView.swift */,
+				351C050F22EE44B700CD95F0 /* NewReviewVC.swift */,
 				35D60A5E22E2D461007E071A /* LocationVC.swift */,
+				351C051122EE861600CD95F0 /* LocationInfoVC.swift */,
 				352C9D5822CC7AF80094B775 /* BookSessionVC.swift */,
 				357D9AD022ACA57E005C4220 /* TutorsVC.swift */,
 				357D9ACE22AC316C005C4220 /* TutorInfoVC.swift */,
@@ -686,6 +692,7 @@
 				357D9ACF22AC316C005C4220 /* TutorInfoVC.swift in Sources */,
 				3560D85522889089003C12E0 /* tab2.swift in Sources */,
 				35900FB4228940AC00D796D3 /* SearchVC.swift in Sources */,
+				351C051222EE861600CD95F0 /* LocationInfoVC.swift in Sources */,
 				357D9ADA22ACD790005C4220 /* Registration1VC.swift in Sources */,
 				35900FB22289409000D796D3 /* MessagesVC.swift in Sources */,
 				352C9D5B22CC854D0094B775 /* PendingSessionCell.swift in Sources */,
@@ -704,6 +711,7 @@
 				35900FAE2289402200D796D3 /* tab4.swift in Sources */,
 				3590022322B596AF005D60A7 /* tab5.swift in Sources */,
 				353AD7F6229515B70063596E /* Extensions.swift in Sources */,
+				351C051022EE44B700CD95F0 /* NewReviewVC.swift in Sources */,
 				35B597CB22A4577E00730535 /* NewChatVC.swift in Sources */,
 				353AD7F822952D420063596E /* ChatLogVC.swift in Sources */,
 				35C1C7A1228E24390060AAA3 /* User.swift in Sources */,

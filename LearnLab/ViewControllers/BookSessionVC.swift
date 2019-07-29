@@ -60,12 +60,17 @@ class BookSessionVC: UIViewController {
     let datePicker : UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = UIDatePicker.Mode.dateAndTime
+        picker.minuteInterval = 15
         return picker
     }()
     
     let durationPicker : UIDatePicker = {
+//        let picker = UIDatePicker()
+//        picker.datePickerMode = UIDatePicker.Mode.countDownTimer
+//        picker.minuteInterval = 15
+//        return picker
         let picker = UIDatePicker()
-        picker.datePickerMode = UIDatePicker.Mode.countDownTimer
+        picker.datePickerMode = UIDatePicker.Mode.dateAndTime
         picker.minuteInterval = 15
         return picker
     }()
@@ -122,7 +127,7 @@ class BookSessionVC: UIViewController {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .clear
-        tf.placeholder = "How long do you want the session?"
+        tf.placeholder = "Pick end time of session"
         return tf
     }()
     
@@ -217,7 +222,7 @@ class BookSessionVC: UIViewController {
         durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
         durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
         self.view.addSubview(locationButton)
-        locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+        locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         locationButton.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
         locationButton.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         locationButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -306,12 +311,17 @@ class BookSessionVC: UIViewController {
     
     @objc func doneDurPicker(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "h m"
-        let helper = formatter.string(from: durationPicker.date)
-        let timeArr = helper.components(separatedBy: " ")
-        durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
-        dur = durationPicker.countDownDuration as NSNumber
+        formatter.dateFormat = "EEEE, MMM d, h:mm a"
+        durationInput.text = formatter.string(from: durationPicker.date)
+        dur = (durationPicker.date.timeIntervalSince1970 as AnyObject as! NSNumber)
         self.view.endEditing(true)
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "h m"
+//        let helper = formatter.string(from: durationPicker.date)
+//        let timeArr = helper.components(separatedBy: " ")
+//        durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
+//        dur = durationPicker.countDownDuration as NSNumber
+//        self.view.endEditing(true)
     }
     
     @objc func cancelDurPicker(){
