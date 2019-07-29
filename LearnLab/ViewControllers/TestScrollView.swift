@@ -344,12 +344,17 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                self.present(alert, animated: true, completion: nil)
 //            }
 //            else{
-                let bookSession = BookSessionVC()
-                bookSession.currentTutor = self.currentTutor
-                let navController = UINavigationController(rootViewController: bookSession)
-                present(navController, animated: true, completion: nil)
+            
+//                let bookSession = BookSessionVC()
+//                bookSession.currentTutor = self.currentTutor
+//                let navController = UINavigationController(rootViewController: bookSession)
+//                present(navController, animated: true, completion: nil)
 //            }
+            
         }
+        let review = NewReviewVC()
+        review.currentTutor = self.currentTutor
+        self.navigationController?.pushViewController(review, animated: true)
     }
     
     @objc func sendMessage(){

@@ -17,6 +17,7 @@ target 'LearnLab' do
   pod 'MessageKit'
   pod 'Stripe'
   pod 'FoldingCell'
+  pod 'Cosmos'
   target 'LearnLabTests' do
     inherit! :search_paths
     # Pods for testing
