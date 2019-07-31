@@ -12,6 +12,7 @@ import Firebase
 class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var classes = [Course]()
+    var allReviews = [Review]()
     var currentUserInfo : User?
     var numSessions = 0
     var numReviews = 0
@@ -166,7 +167,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         reviewsTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
     
         pullCourses()
-        
+        if currentTutor?.reviews != nil{
+            pullReviews()
+        }
         currentUserInfo = getUserForUID(Auth.auth().currentUser!.uid)
         
         let button = UIButton.init(type: .custom)
@@ -192,6 +195,23 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                     DispatchQueue.main.async { self.subjectsTV.reloadData() }
                 })
+            }
+        }
+    }
+    
+    func pullReviews(){
+        let revRef = Database.database().reference().child("grouped-reviews")
+        if currentTutor?.reviews != nil{
+            for r in currentTutor!.reviews!{
+                revRef.child(currentTutor!.id!).child(r).observeSingleEvent(of: .value) { (snapshot) in
+                    if let dict = snapshot.value as? [String:Any]{
+                        let review = Review()
+                        review.rating = dict["rating"] as? NSNumber
+                        review.text = dict["text"] as? String
+                        self.allReviews.append(review)
+                    }
+                    DispatchQueue.main.async { self.reviewsTV.reloadData() }
+                }
             }
         }
     }
@@ -266,9 +286,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             noReviews.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
 
         }
-        
-        
-        
         // add labelTwo to the scroll view
 //        scrollView.addSubview(labelTwo)
 //        // constrain labelTwo at 400-pts from the left
@@ -321,7 +338,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == reviewsTV{
-            return 4
+            return self.allReviews.count
         }
         return classes.count
     }
@@ -330,7 +347,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ClassInfoCell
         
         if tableView == reviewsTV{
-            cell.textLabel?.text = "Review # " + String(indexPath.row)
+            let rate = allReviews[indexPath.row].rating as? Float
+            cell.textLabel?.text = "Rating: " + String(rate!)
+            cell.detailTextLabel?.text = allReviews[indexPath.row].text
             return cell
         }
         let course = classes[indexPath.row]
