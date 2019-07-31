@@ -11,17 +11,14 @@ import Firebase
 import Cosmos
 
 class NewReviewVC: UIViewController, UITextViewDelegate {
-    var currentTutor : User? {
-        didSet{
-            info.text = "Review for " + currentTutor!.name!
-        }
-    }
+    var currentTutor : String?
     var currentCourse : Course?
     var sessionForReview : String?
     let info : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 24.0)
+        label.text = "Write a review"
         return label
     }()
     
@@ -142,7 +139,7 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
     @objc func review(){
         print("Leaving review with rating: ", stars.rating)
         let ref = Database.database().reference().child("grouped-reviews")
-        ref.child(currentTutor!.id!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor?.id, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
+        ref.child(currentTutor!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor!, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
         let newRef = Database.database().reference()
         newRef.child("sessions").child(sessionForReview!).updateChildValues(["reviewed" : 1])
         self.navigationController?.popViewController(animated: true)

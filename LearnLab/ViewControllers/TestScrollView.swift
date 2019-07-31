@@ -18,6 +18,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     var pending : Bool = false
     var needReview : Bool = false
     var seshForReview : String?
+    var tutorReviewed : String?
     
     var currentTutor : User? {
         didSet{
@@ -298,6 +299,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
                                     print("NOT REVIEWED")
                                     self.needReview = true
                                     self.seshForReview = dict["sessionID"] as? String
+                                    self.tutorReviewed = dict["tutorID"] as? String
                                 }
                             }
                         }
@@ -348,7 +350,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
                     case .default:
                         print("default")
                         let review = NewReviewVC()
-                        review.currentTutor = self.currentTutor
+                        review.currentTutor = self.tutorReviewed
                         review.sessionForReview = self.seshForReview
                         self.navigationController?.pushViewController(review, animated: true)
                     case .cancel:
