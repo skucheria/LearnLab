@@ -10,9 +10,10 @@ import UIKit
 
 @objcMembers
 class Review: NSObject {
-    var tutorID : String?
-    var studentID : String?
+    var tutor : String?
+    var student : String?
     var rating : NSNumber?
     var text : String?
+    var courseName : String?
 }
 

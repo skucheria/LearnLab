@@ -10,6 +10,7 @@
 		3501305E22BDFE4A00A5DB9C /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3501305D22BDFE4A00A5DB9C /* Reviews.swift */; };
 		351C051022EE44B700CD95F0 /* NewReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C050F22EE44B700CD95F0 /* NewReviewVC.swift */; };
 		351C051222EE861600CD95F0 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C051122EE861600CD95F0 /* LocationInfoVC.swift */; };
+		351C051422F00A3700CD95F0 /* MKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C051322F00A3700CD95F0 /* MKViewController.swift */; };
 		3526143D22D078DD0062476B /* Registration3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143C22D078DD0062476B /* Registration3VC.swift */; };
 		3526143F22D2F4160062476B /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143E22D2F4160062476B /* PushNotificationManager.swift */; };
 		3526144122D306DB0062476B /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526144022D306DB0062476B /* PushNotificationSender.swift */; };
@@ -93,6 +94,7 @@
 		3501305D22BDFE4A00A5DB9C /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		351C050F22EE44B700CD95F0 /* NewReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReviewVC.swift; sourceTree = "<group>"; };
 		351C051122EE861600CD95F0 /* LocationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
+		351C051322F00A3700CD95F0 /* MKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKViewController.swift; sourceTree = "<group>"; };
 		3526143C22D078DD0062476B /* Registration3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration3VC.swift; sourceTree = "<group>"; };
 		3526143E22D2F4160062476B /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		3526144022D306DB0062476B /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				35B597C6229F8E2000730535 /* EditProfileVC.swift */,
 				3590022422B596C6005D60A7 /* SessionsVC.swift */,
 				35E743C922E0391D00495B4C /* SessionInfoVC.swift */,
+				351C051322F00A3700CD95F0 /* MKViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				35B597CD22A48B6A00730535 /* Course.swift in Sources */,
 				355F193A22C00BD5002703E6 /* TestScrollView.swift in Sources */,
 				3585F44722DA9FEE00F82BC2 /* BookSessionCell.swift in Sources */,
+				351C051422F00A3700CD95F0 /* MKViewController.swift in Sources */,
 				35B597D122AA22DA00730535 /* Session.swift in Sources */,
 				35900FAA22893FF500D796D3 /* Tutors.swift in Sources */,
 				3560D8532288907F003C12E0 /* tab1.swift in Sources */,

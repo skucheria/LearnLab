@@ -353,6 +353,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
         let review = NewReviewVC()
+        review.currentCourse = classes[indexPath.row]
         review.currentTutor = self.currentTutor
         self.navigationController?.pushViewController(review, animated: true)
     }

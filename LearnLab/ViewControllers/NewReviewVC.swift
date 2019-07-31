@@ -10,12 +10,13 @@ import UIKit
 import Firebase
 import Cosmos
 
-class NewReviewVC: UIViewController {
+class NewReviewVC: UIViewController, UITextViewDelegate {
     var currentTutor : User? {
         didSet{
             info.text = "Review for " + currentTutor!.name!
         }
     }
+    var currentCourse : Course?
     
     let info : UILabel = {
         let label = UILabel()
@@ -40,6 +41,15 @@ class NewReviewVC: UIViewController {
         cosmosView.translatesAutoresizingMaskIntoConstraints = false
         return cosmosView
     }()
+    
+    let reviewLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Write your review below. 150 characters or less"
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        return label
+    }()
 
     lazy var reviewTV : UITextView = {
         let tv = UITextView()
@@ -48,6 +58,7 @@ class NewReviewVC: UIViewController {
         tv.isScrollEnabled = false
         tv.returnKeyType = .done
         tv.font = .systemFont(ofSize: 16)
+        tv.delegate = self
         return tv
     }()
     
@@ -58,7 +69,14 @@ class NewReviewVC: UIViewController {
         return view
     }()
     
-    let bookSessionButton  : UIButton = {
+    let charsLabel : UILabel = {
+        let label = UILabel()
+        label.text = "(0/150)"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let makeReview  : UIButton = {
         let button = UIButton()
         button.setTitle("Leave Review", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
@@ -84,27 +102,51 @@ class NewReviewVC: UIViewController {
         info.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         info.heightAnchor.constraint(equalToConstant: 100).isActive = true
         self.view.addSubview(stars)
-        stars.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        stars.topAnchor.constraint(equalTo: info.bottomAnchor, constant: 25).isActive = true
-        stars.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        stars.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        stars.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        stars.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        stars.topAnchor.constraint(equalTo: info.bottomAnchor, constant: 15).isActive = true
+        self.view.addSubview(reviewLabel)
+        reviewLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        reviewLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        reviewLabel.topAnchor.constraint(equalTo: stars.bottomAnchor, constant: 10).isActive = true
         self.view.addSubview(reviewTV)
         reviewTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
         reviewTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
-        reviewTV.topAnchor.constraint(equalTo: stars.bottomAnchor, constant: 15).isActive = true
+        reviewTV.topAnchor.constraint(equalTo: reviewLabel.bottomAnchor, constant: 5).isActive = true
         self.view.addSubview(separatorView)
         separatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
         separatorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
         separatorView.topAnchor.constraint(equalTo: reviewTV.bottomAnchor).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.view.addSubview(bookSessionButton)
-        bookSessionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        bookSessionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        bookSessionButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        bookSessionButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        self.view.addSubview(charsLabel)
+        charsLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        charsLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        charsLabel.topAnchor.constraint(equalTo: separatorView.bottomAnchor).isActive = true
+        self.view.addSubview(makeReview)
+        makeReview.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        makeReview.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        makeReview.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        makeReview.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+           return false
+        }
+        print("Number of chars: ", textView.text.count)
+        charsLabel.text = "(\(textView.text.count)/150)"
+        return textView.text.count + (text.count - range.length) <= 150
+    }
+    
     
     @objc func review(){
         print("Leaving review with rating: ", stars.rating)
+        var currCourse = currentCourse!.department! + " " + currentCourse!.code!
+        let ref = Database.database().reference().child("grouped-reviews")
+        ref.child(currentTutor!.id!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor?.id, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid, "courseName" : currCourse])
+        self.navigationController?.popViewController(animated: true)
+        // update database for session with review value 1
+        // update database for reviews and grouped-reviews table
+        
     }
 }
