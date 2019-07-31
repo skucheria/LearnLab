@@ -15,8 +15,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentUserInfo : User?
     var numSessions = 0
     var numReviews = 0
-    var pending : Bool?
-    var needReview : Bool?
+    var pending : Bool = false
+    var needReview : Bool = false
+    var seshForReview : String?
     
     var currentTutor : User? {
         didSet{
@@ -287,14 +288,24 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             let indRef = Database.database().reference().child("sessions").child(sessionID)
             indRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dict = snapshot.value as? [String : Any]{
-                    self.numSessions += 1
-                    if dict["studentID"] as? String == Auth.auth().currentUser!.uid { // cuid was student for session, making the reviews matters for this one
-                        if dict["reviewed"] as? Int == 1{
-                            self.numReviews += 1
+                    if dict["studentID"] as? String == Auth.auth().currentUser!.uid{ // only do stuff is student already had booked sessions
+                        if dict["active"] as? String == "yes"{
+                            print("GOT HERE")
+                            let currentTime: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
+                            let end = dict["endTime"] as? NSNumber
+                            if (end!.floatValue < currentTime.floatValue){
+                                if (dict["reviewed"] as? Float == 0) {
+                                    print("NOT REVIEWED")
+                                    self.needReview = true
+                                    self.seshForReview = dict["sessionID"] as? String
+                                }
+                            }
                         }
-                    }
-                    else{ // cuid was tutor, no need to check whether they wrote a review
-                        self.numReviews += 1
+                        else if dict["active"] as? String == "no"{
+                            if dict["declined"] as? String == "no"{
+                                self.pending = true
+                            }
+                        }
                     }
                 }
             })
@@ -330,32 +341,43 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == subjectsTV{
-//            if self.numReviews < self.numSessions{
-//                let alert = UIAlertController(title: "You must fill out a review of your last session before you can book another!", message: nil, preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-//                    switch action.style{
-//                    case .default:
-//                        print("default")
-//                    case .cancel:
-//                        print("cancel")
-//                    case .destructive:
-//                        print("destructive")
-//                    }}))
-//                self.present(alert, animated: true, completion: nil)
-//            }
-//            else{
-            
-//                let bookSession = BookSessionVC()
-//                bookSession.currentTutor = self.currentTutor
-//                let navController = UINavigationController(rootViewController: bookSession)
-//                present(navController, animated: true, completion: nil)
-//            }
-            
+            if needReview{
+                let alert = UIAlertController(title: "You must fill out a review of your last session before you can book another!", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                        let review = NewReviewVC()
+                        review.currentTutor = self.currentTutor
+                        review.sessionForReview = self.seshForReview
+                        self.navigationController?.pushViewController(review, animated: true)
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else if pending{
+                let alert = UIAlertController(title: "You currently have a session pending! Cannot book until after or decline", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else{
+                let bookSession = BookSessionVC()
+                bookSession.currentTutor = self.currentTutor
+                let navController = UINavigationController(rootViewController: bookSession)
+                present(navController, animated: true, completion: nil)
+            }
         }
-        let review = NewReviewVC()
-        review.currentCourse = classes[indexPath.row]
-        review.currentTutor = self.currentTutor
-        self.navigationController?.pushViewController(review, animated: true)
     }
     
     @objc func sendMessage(){

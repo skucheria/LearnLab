@@ -17,7 +17,7 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
         }
     }
     var currentCourse : Course?
-    
+    var sessionForReview : String?
     let info : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -141,12 +141,11 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
     
     @objc func review(){
         print("Leaving review with rating: ", stars.rating)
-        var currCourse = currentCourse!.department! + " " + currentCourse!.code!
         let ref = Database.database().reference().child("grouped-reviews")
-        ref.child(currentTutor!.id!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor?.id, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid, "courseName" : currCourse])
+        ref.child(currentTutor!.id!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor?.id, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
+        let newRef = Database.database().reference()
+        newRef.child("sessions").child(sessionForReview!).updateChildValues(["reviewed" : 1])
         self.navigationController?.popViewController(animated: true)
         // update database for session with review value 1
-        // update database for reviews and grouped-reviews table
-        
     }
 }

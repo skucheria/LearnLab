@@ -107,7 +107,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 if session.active == "yes"{
                     self.sessions.append(session)
                     self.sessions.sort(by: { (m1, m2) -> Bool in
-                        return (m1.startTime?.intValue)! < (m2.startTime?.intValue)!
+                        return (m1.startTime?.floatValue)! < (m2.startTime?.floatValue)!
                     })
                 }
                 // if session was declined

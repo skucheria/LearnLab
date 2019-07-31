@@ -17,7 +17,7 @@ class Session: NSObject {
     var declined : String?
     var sessionID: String?
     var endTime : NSNumber?  // the actual duration of the session
-    var reviewed : NSNumber?
+    var reviewed : Float?
     var long : NSNumber?
     var lat : NSNumber?
 }
