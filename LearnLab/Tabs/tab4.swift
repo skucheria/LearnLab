@@ -15,7 +15,9 @@ class tab4: UINavigationController {
 //        let profileView = ProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
 //        self.setViewControllers([ProfileVC(collectionViewLayout: UICollectionViewFlowLayout())], animated: false)
         self.setViewControllers([ProfileVC()], animated: false)
-
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)], for:.selected)
+        
         // Do any additional setup after loading the view.
     }
     

@@ -142,7 +142,6 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
         ref.child(currentTutor!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor!, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
         let newRef = Database.database().reference()
         newRef.child("sessions").child(sessionForReview!).updateChildValues(["reviewed" : 1])
-        self.navigationController?.popViewController(animated: true)
-        // update database for session with review value 1
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }

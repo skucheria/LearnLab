@@ -52,7 +52,6 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     let courses = item.value["classes"] as? [String]
                     if courses != nil{
                         if((courses?.contains((self.currentCourse?.dbId)!))!){ //if this user is a tutor for the course, then add to users
-                            print("Found match")
                             let user = User()
                             user.tutor = item.value["tutor"] as? String                            
                             user.email = item.value["email"] as? String
@@ -64,6 +63,8 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                             user.rating = item.value["rating"] as? NSNumber
                             user.rate = item.value["rate"] as? String
                             user.availability = item.value["availability"] as? String
+                            user.fcmToken = item.value["fcmToken"] as? String
+                            user.reviews = item.value["reviews"] as? [String]
                             self.users.append(user)
                             self.users.sort(by: { (u1, u2) -> Bool in
                                 return (u1.name)! < (u2.name)!

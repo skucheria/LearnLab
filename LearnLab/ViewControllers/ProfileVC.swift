@@ -65,6 +65,8 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         setupTableView()
 //        getCurrentUserInfo()
         fetchUser()
+        self.options.tableFooterView = UIView()
+
 
         options.delegate = self
         options.dataSource = self

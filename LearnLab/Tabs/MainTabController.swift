@@ -36,6 +36,8 @@ class MainTabController: UITabBarController {
         
         let tabBarList = [firstVC, secondVC, thirdVC, fifthVC, fourthVC]
         
+        let newLayout = [fifthVC, secondVC, thirdVC, fourthVC]
+        
         viewControllers = tabBarList
         // Do any additional setup after loading the view.
     }

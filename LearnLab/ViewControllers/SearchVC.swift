@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 
-class SearchVC: UITableViewController, UISearchBarDelegate {
+class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     lazy var searchBar:UISearchBar = UISearchBar()
 
@@ -19,6 +19,23 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     var filteredData = [Course]()
 
     var data = [Course]()
+    
+    let searchTV : UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
+    }()
+    
+    let getStartedLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Get started by searching for a class you need help in!"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = UIFont.boldSystemFont(ofSize: 24.0)
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,18 +50,43 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        tableView.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
+        searchTV.delegate = self
+        searchTV.dataSource = self
+        searchTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
 
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
 //        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
 //        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
-        
+        self.view.backgroundColor = .white
+        setupTV()
+        self.searchTV.isHidden = true
+        addGetStartedLabel()
         fstore = Firestore.firestore()
+    }
+    
+    func addGetStartedLabel(){
+        self.view.addSubview(getStartedLabel)
+        getStartedLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        getStartedLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        getStartedLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+    }
+    
+    func setupTV(){
+        self.view.addSubview(searchTV)
+        searchTV.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        searchTV.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        searchTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        searchTV.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.searchBar.endEditing(true)
-
+        if self.searchBar.text!.isEmpty{
+            self.searchTV.isHidden = true
+            addGetStartedLabel()
+            self.searchBar.text = ""
+        }
+        filteredData = data
     }
     
     func pullCourses(_ text : String){
@@ -63,19 +105,21 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
             self.filteredData.sort(by: { (m1, m2) -> Bool in
                 return (m1.code)! < (m2.code)!
             })
-            DispatchQueue.main.async { self.tableView.reloadData() }
+            DispatchQueue.main.async { self.searchTV.reloadData() }
         })
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange textSearched: String)
     {
+        self.searchTV.isHidden = false
+        self.getStartedLabel.removeFromSuperview()
         if (textSearched.isEmpty){
             filteredData = data
-            tableView.reloadData()
+            searchTV.reloadData()
         }
         else{
             pullCourses(textSearched.uppercased())
-            tableView.reloadData()
+            searchTV.reloadData()
         }
     }
     
@@ -86,26 +130,28 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         searchBar.endEditing(true)
         // Hide the cancel button
         searchBar.showsCancelButton = true
-    filteredData.removeAll()
-    self.tableView.reloadData()
+        filteredData.removeAll()
+        self.searchTV.reloadData()
+        self.searchTV.isHidden = true
+        addGetStartedLabel()
         // You could also change the position, frame etc of the searchBar
     }
     
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return filteredData.count
 
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ClassInfoCell
 //        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         let course = filteredData[indexPath.row]
@@ -114,7 +160,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         //pull up a tableview of tutors for that subject
