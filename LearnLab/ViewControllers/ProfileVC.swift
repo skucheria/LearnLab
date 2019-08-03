@@ -250,6 +250,20 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 }
             }
             else if indexPath.row == 2{
+                
+//                let reAuthUser = Auth.auth().currentUser
+//                var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "password")
+//
+//                // Prompt the user to re-provide their sign-in credentials
+//                reAuthUser?.reauthenticateAndRetrieveData(with: credential, completion: { (result, error) in
+//                    if error == nil{
+//                        print("reauthenticated")
+//                    }
+//                    else{
+//                        print("Shit fucked up")
+//                    }
+//                })
+
                 let alert = UIAlertController(title: "Change email", message: "Please enter your new email address.", preferredStyle: UIAlertController.Style.alert)
                 alert.addTextField(configurationHandler: configurationTextField)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler:{ (UIAlertAction)in
@@ -294,17 +308,6 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         dismiss(animated: true)
     }
     
-
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let label = UILabel()
-//        if (section == 1){
-//            label.text = "    "
-//            return label
-//        }
-//        label.text = "First one"
-//        return label
-//    }
-//
     func logout(){
         do{
             try Auth.auth().signOut()

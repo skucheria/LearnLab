@@ -178,6 +178,10 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         button.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30) //CGRectMake(0, 0, 30, 30)
         let barButton = UIBarButtonItem.init(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
+        
+        self.subjectsTV.tableFooterView = UIView()
+        self.reviewsTV.tableFooterView = UIView()
+
     }
     
     func pullCourses(){
