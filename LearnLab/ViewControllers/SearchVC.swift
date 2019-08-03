@@ -86,7 +86,7 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
             addGetStartedLabel()
             self.searchBar.text = ""
         }
-        filteredData = data
+//        filteredData = data
     }
     
     func pullCourses(_ text : String){
@@ -154,7 +154,7 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ClassInfoCell
 //        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
-        let course = filteredData[indexPath.row]
+        let course = filteredData[indexPath.row]  // BUG HERE
         cell.textLabel?.text = course.department! + " " + course.code!
         cell.detailTextLabel?.text = course.title!
         return cell
