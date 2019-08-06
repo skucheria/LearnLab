@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         STPPaymentConfiguration.shared().publishableKey = "pk_test_WtVz0DDMD8ZALlmcqpT1WTCd00bopR2M5R"
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = LoginVC()
+        window?.rootViewController = RealmTestViewController()
         window?.makeKeyAndVisible()
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Quicksand-Regular", size: 20)!]
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]

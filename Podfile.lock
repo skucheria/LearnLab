@@ -168,6 +168,11 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - Realm (3.11.2):
+    - Realm/Headers (= 3.11.2)
+  - Realm/Headers (3.11.2)
+  - RealmSwift (3.11.2):
+    - Realm (= 3.11.2)
   - Stripe (14.0.0)
 
 DEPENDENCIES:
@@ -182,6 +187,7 @@ DEPENDENCIES:
   - FirebaseUI/Google
   - FoldingCell
   - MessageKit
+  - RealmSwift
   - Stripe
 
 SPEC REPOS:
@@ -217,6 +223,8 @@ SPEC REPOS:
     - MessageKit
     - nanopb
     - Protobuf
+    - Realm
+    - RealmSwift
     - Stripe
 
 SPEC CHECKSUMS:
@@ -251,8 +259,10 @@ SPEC CHECKSUMS:
   MessageKit: 29c1c87e5a396d2ca7a3f712e5171dc9aba42a1e
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
+  RealmSwift: 12b8262fc08020b47de4fd88eb3d5c9425b34ec7
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 74e31f620f4967f1c2a1e87d3a746e2009db0797
+PODFILE CHECKSUM: eefc0ac2113a08f314e2210328ffbe62d9d4b035
 
 COCOAPODS: 1.5.3

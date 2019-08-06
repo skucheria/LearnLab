@@ -37,7 +37,6 @@
 		357D9ADA22ACD790005C4220 /* Registration1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9AD922ACD790005C4220 /* Registration1VC.swift */; };
 		357D9ADC22ACFA33005C4220 /* Registration2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ADB22ACFA33005C4220 /* Registration2VC.swift */; };
 		357D9ADE22AD7A71005C4220 /* ClassInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ADD22AD7A71005C4220 /* ClassInfoCell.swift */; };
-		357D9AE022B1E1A1005C4220 /* FoldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D9ADF22B1E1A1005C4220 /* FoldCell.swift */; };
 		3585F44722DA9FEE00F82BC2 /* BookSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3585F44622DA9FEE00F82BC2 /* BookSessionCell.swift */; };
 		3590022322B596AF005D60A7 /* tab5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590022222B596AF005D60A7 /* tab5.swift */; };
 		3590022522B596C6005D60A7 /* SessionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590022422B596C6005D60A7 /* SessionsVC.swift */; };
@@ -121,7 +120,6 @@
 		357D9AD922ACD790005C4220 /* Registration1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration1VC.swift; sourceTree = "<group>"; };
 		357D9ADB22ACFA33005C4220 /* Registration2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration2VC.swift; sourceTree = "<group>"; };
 		357D9ADD22AD7A71005C4220 /* ClassInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassInfoCell.swift; sourceTree = "<group>"; };
-		357D9ADF22B1E1A1005C4220 /* FoldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldCell.swift; sourceTree = "<group>"; };
 		3585F44622DA9FEE00F82BC2 /* BookSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSessionCell.swift; sourceTree = "<group>"; };
 		3590022222B596AF005D60A7 /* tab5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab5.swift; sourceTree = "<group>"; };
 		3590022422B596C6005D60A7 /* SessionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsVC.swift; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 				35B597CE22A4F2CB00730535 /* ChatMessageCell.swift */,
 				35B597D022AA22DA00730535 /* Session.swift */,
 				357D9ADD22AD7A71005C4220 /* ClassInfoCell.swift */,
-				357D9ADF22B1E1A1005C4220 /* FoldCell.swift */,
 				352C9D5A22CC854D0094B775 /* PendingSessionCell.swift */,
 				3585F44622DA9FEE00F82BC2 /* BookSessionCell.swift */,
 			);
@@ -614,6 +611,8 @@
 				"${BUILT_PRODUCTS_DIR}/MessageInputBar/MessageInputBar.framework",
 				"${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
@@ -637,6 +636,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageInputBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
@@ -731,7 +732,6 @@
 				35B597C7229F8E2000730535 /* EditProfileVC.swift in Sources */,
 				3526143F22D2F4160062476B /* PushNotificationManager.swift in Sources */,
 				353AD7FA229797EA0063596E /* userCellClass.swift in Sources */,
-				357D9AE022B1E1A1005C4220 /* FoldCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
