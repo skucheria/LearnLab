@@ -176,7 +176,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -188,22 +188,22 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
 //                return cell
 //            }
 //            else
+//            if(indexPath.row == 0){
+//                cell.textLabel?.text = "Payment Accounts"
+//                return cell
+//            }
             if(indexPath.row == 0){
-                cell.textLabel?.text = "Payment Accounts"
-                return cell
-            }
-            else if(indexPath.row == 1){
                 cell.textLabel?.text = "Become a Tutor"
                 return cell
             }
-            else if (indexPath.row == 2){
+            else if (indexPath.row == 1){
                 cell.textLabel?.text = "Change Email"
             }
-            else if(indexPath.row == 3){
+            else if(indexPath.row == 2){
                 cell.textLabel?.text = "Change Password"
                 return cell
             }
-            else if(indexPath.row == 4){
+            else if(indexPath.row == 3){
                 cell.textLabel?.text = "Logout"
                 cell.textLabel?.textColor = .red
                 return cell
@@ -221,15 +221,14 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
 //                self.navigationController?.pushViewController(epVC, animated: true)
 //            }
 //            else
-            if indexPath.row == 0{ //add a credit card
-                let addCardViewController = STPAddCardViewController()
-                addCardViewController.delegate = self
-                
-                // Present add card view controller
-                let navigationController = UINavigationController(rootViewController: addCardViewController)
-                present(navigationController, animated: true)
-            }
-            else if indexPath.row == 1{ //go into registration flow
+//            if indexPath.row == 0{ //add a credit card
+//                let addCardViewController = STPAddCardViewController()
+//                addCardViewController.delegate = self
+//                // Present add card view controller
+//                let navigationController = UINavigationController(rootViewController: addCardViewController)
+//                present(navigationController, animated: true)
+//            }
+            if indexPath.row == 0{ //go into registration flow
                 if currUser?.tutor == "yes"{
                     let alert = UIAlertController(title: "You are already registered as a tutor!", message: nil, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
@@ -249,7 +248,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                     present(navController, animated: true, completion: nil)
                 }
             }
-            else if indexPath.row == 2{
+            else if indexPath.row == 1{
                 
 //                let reAuthUser = Auth.auth().currentUser
 //                var credential: AuthCredential = EmailAuthProvider.credential(withEmail: "email", password: "password")
@@ -278,7 +277,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                     print("completion block")
                 })
             }
-            else if indexPath.row == 3{
+            else if indexPath.row == 2{
                 let alert = UIAlertController(title: "Change password", message: "Please enter your new password.", preferredStyle: UIAlertController.Style.alert)
                 alert.addTextField(configurationHandler: configurationTextField)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler:{ (UIAlertAction)in
@@ -294,7 +293,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                     print("completion block")
                 })
             }
-            else if indexPath.row == 4{
+            else if indexPath.row == 3{
                 progressHUD.show()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                     self.progressHUD.hide()

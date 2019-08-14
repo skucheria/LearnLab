@@ -73,7 +73,8 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
 //        collectionView?.scrollToItem(at: lastItemIndex, at: UICollectionView.ScrollPosition.bottom, animated: true)
         
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleCancel))
+        self.navigationController?.navigationBar.tintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
     }
     
     @objc func handleCancel() {

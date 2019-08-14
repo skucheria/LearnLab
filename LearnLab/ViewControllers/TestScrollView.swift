@@ -9,7 +9,19 @@
 import UIKit
 import Firebase
 
-class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return classes.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let course = classes[row]
+        return (course.department! + " " + course.code!)
+    }
 
     var classes = [Course]()
     var allReviews = [Review]()
@@ -45,6 +57,13 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         label.text = " "
         label.font = UIFont.boldSystemFont(ofSize: 24.0)
 
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let ratingLabel : UILabel = {
+        let label = UILabel()
+        label.text = " ⭐️ "
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -115,6 +134,38 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         return label
     }()
     
+    let toolbar : UIToolbar = {
+        let bar = UIToolbar()
+        bar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPicker));
+        bar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        return bar
+    }()
+    
+    let datePicker : UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = UIDatePicker.Mode.dateAndTime
+        picker.minuteInterval = 15
+        return picker
+    }()
+    
+    let classesPicker : UIPickerView = {
+        let picker = UIPickerView()
+        return picker
+    }()
+
+    let bookSessionTF : UITextField = {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.text = "Book Session"
+        tf.backgroundColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+        tf.textColor = .white
+        tf.textAlignment = .center
+        return tf
+    }()
+    
     let labelOne: UILabel = {
         let label = UILabel()
         label.text = "Scroll Top"
@@ -155,7 +206,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
         
         setupScrollViews()
         subjectsTV.delegate = self
@@ -165,6 +216,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         reviewsTV.delegate = self
         reviewsTV.dataSource = self
         reviewsTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
+        
+        classesPicker.dataSource = self
+        classesPicker.delegate = self
     
         pullCourses()
         if currentTutor?.reviews != nil{
@@ -178,10 +232,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         button.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30) //CGRectMake(0, 0, 30, 30)
         let barButton = UIBarButtonItem.init(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
-        
-        self.subjectsTV.tableFooterView = UIView()
-        self.reviewsTV.tableFooterView = UIView()
-
     }
     
     func pullCourses(){
@@ -236,6 +286,10 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        nameLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         nameLabel.text = currentTutor?.name
+        self.scrollView.addSubview(ratingLabel)
+        ratingLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor).isActive = true
+        ratingLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -8).isActive = true
+        ratingLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 15).isActive = true
         self.scrollView.addSubview(bioLabel)
         bioLabel.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
         bioLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
@@ -273,6 +327,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         reviewsLabel.topAnchor.constraint(equalTo: subjectsTV.bottomAnchor, constant: 25).isActive = true
         reviewsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         reviewsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+//        self.scrollView.addSubview(bookSessionButton)
         if currentTutor?.reviews != nil{
             self.scrollView.addSubview(reviewsTV)
             reviewsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
@@ -280,6 +335,8 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             reviewsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
             reviewsTV.heightAnchor.constraint(equalToConstant: 174).isActive = true
             reviewsTV.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+//            bookSessionButton.topAnchor.constraint(equalTo: reviewsTV.bottomAnchor, constant: 5).isActive = true
+
         }
         else{
             self.scrollView.addSubview(noReviews)
@@ -288,8 +345,18 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             noReviews.widthAnchor.constraint(equalToConstant: 150).isActive = true
             noReviews.heightAnchor.constraint(equalToConstant: 20).isActive = true
             noReviews.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-
+//            bookSessionButton.topAnchor.constraint(equalTo: noReviews.bottomAnchor, constant: 5).isActive = true
         }
+        self.view.addSubview(bookSessionTF)
+        bookSessionTF.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        bookSessionTF.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        bookSessionTF.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        bookSessionTF.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        bookSessionTF.inputView = classesPicker
+        bookSessionTF.inputAccessoryView = toolbar
+//        bookSessionButton.inputView = datePicker
+        
+
         // add labelTwo to the scroll view
 //        scrollView.addSubview(labelTwo)
 //        // constrain labelTwo at 400-pts from the left
@@ -411,5 +478,13 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         chatVC.toUser = currentTutor
         chatVC.curr = currentUserInfo
         self.navigationController?.present(navController, animated: true, completion: nil)
+    }
+    
+    @objc func donePicker(){
+        print(classesPicker.selectedRow(inComponent: 0))
+    }
+    
+    @objc func cancelPicker(){
+        self.view.endEditing(true)
     }
 }

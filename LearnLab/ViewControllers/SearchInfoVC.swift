@@ -12,6 +12,7 @@ import Firebase
 class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var users = [User]()
+    var fstore : Firestore!
     
     var currentCourse : Course? {
         didSet{
@@ -28,6 +29,7 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        fstore = Firestore.firestore()
         setupTV()
         getUsersForCouse()
         self.tableview.delegate = self
@@ -92,6 +94,31 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.nameLabel.text = user.name
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
+        if (user.reviews == nil){
+            cell.ratingLabel.text = "No Ratings"
+        }
+        else{
+            cell.ratingLabel.text = (user.rating?.stringValue)! + " ⭐️ "
+        }
+        var coursesLabel = String()
+        var titles = [String]()
+        var counter = 0
+        cell.classLabel.text?.removeAll()
+        if user.courses != nil{
+            for c in user.courses!{
+                fstore?.collection("courses").document(c).getDocument(completion: { (snapshot, error) in
+                    if let dict = snapshot?.data() as? [String:String]{
+                        counter+=1
+                        coursesLabel += (dict["title"]! + " ")
+                        titles.append(dict["title"]!)
+                        (cell.classLabel.text)! += ((dict["department"]! + " " + dict["code"]!))
+                        if(counter != user.courses?.count){
+                            (cell.classLabel.text)! += ", "
+                        }
+                    }
+                })
+            }
+        }
         return cell
     }
     

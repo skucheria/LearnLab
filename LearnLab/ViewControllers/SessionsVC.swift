@@ -17,6 +17,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var upcoming = [Session]()
     var cellUser : User?
     let progressHUD = ProgressHUD(text: "Loading...")
+    var tutors = [String]()
 
     let sessionSegment : UISegmentedControl = {
         let segment = UISegmentedControl(items: ["Current", "Past"])
@@ -262,6 +263,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             pendingCell.infoLabel.text = "Session with " + user.name! + " @ " + timeStamp
+            self.tutors.append(user.name!)
         }
         
         pendingCell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
@@ -290,6 +292,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         let bookSession = SessionInfoVC()
         bookSession.currentSession = sesh
+        bookSession.currentTutor = self.tutors[indexPath.row]
         self.navigationController?.pushViewController(bookSession, animated: true)
     }
 }

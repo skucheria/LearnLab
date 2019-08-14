@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import MapKit
 
-class SessionInfoVC: UIViewController {
+class SessionInfoVC: UIViewController, MKMapViewDelegate  {
     var currentSession : Session? {
         didSet{
             // set all labels
@@ -36,12 +37,12 @@ class SessionInfoVC: UIViewController {
     }
     var time : NSNumber?
     var dur : NSNumber?
-    var currentTutor : User? {
+    var currentTutor : String? {
         didSet{
-            infoLabel.text = "Session with " + currentTutor!.name!
+            infoLabel.text = "Session with " + currentTutor!
         }
     }
-    
+    let annotation = MKPointAnnotation()
     let infoLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -170,17 +171,42 @@ class SessionInfoVC: UIViewController {
         return view
     }()
     
+    lazy var mapView : MKMapView = {
+        let map = MKMapView()
+        map.mapType = MKMapType.standard
+        map.isZoomEnabled = false
+        map.isScrollEnabled = false
+        map.delegate = self
+        return map
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.navigationItem.title = "Book Session"
+        self.navigationItem.title = "Session Info"
         self.navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.navigationController?.navigationBar.tintColor = .white
         
         setupComponents()
+        setupMap()
+        
         // Do any additional setup after loading the view.
     }
     
+    func setupMap(){
+        self.view.addSubview(mapView)
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        mapView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        mapView.topAnchor.constraint(equalTo: self.durationSeparator.bottomAnchor).isActive = true
+        mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        self.mapView.setRegion(region, animated: true)
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(currentSession!.long!))
+        mapView.addAnnotation(annotation)
+    }
+
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
@@ -223,16 +249,16 @@ class SessionInfoVC: UIViewController {
         durationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
         durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.view.addSubview(locationButton)
-        locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        locationButton.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
-        locationButton.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        locationButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        self.view.addSubview(locationSeparator)
-        locationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        locationSeparator.topAnchor.constraint(equalTo: locationButton.bottomAnchor).isActive = true
-        locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//        self.view.addSubview(locationButton)
+//        locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+//        locationButton.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
+//        locationButton.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        locationButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        self.view.addSubview(locationSeparator)
+//        locationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        locationSeparator.topAnchor.constraint(equalTo: locationButton.bottomAnchor).isActive = true
+//        locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
     @objc func donedatePicker(){
