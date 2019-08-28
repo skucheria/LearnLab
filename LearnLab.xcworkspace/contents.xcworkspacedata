@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Session.swift">
+   </FileRef>
+   <FileRef
       location = "group:LearnLab.xcodeproj">
    </FileRef>
    <FileRef

@@ -19,6 +19,7 @@ target 'LearnLab' do
   pod 'FoldingCell'
   pod 'Cosmos'
   pod 'RealmSwift'
+  pod 'FAPanels'
   target 'LearnLabTests' do
     inherit! :search_paths
     # Pods for testing

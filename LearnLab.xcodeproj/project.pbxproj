@@ -11,6 +11,7 @@
 		351C051022EE44B700CD95F0 /* NewReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C050F22EE44B700CD95F0 /* NewReviewVC.swift */; };
 		351C051222EE861600CD95F0 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C051122EE861600CD95F0 /* LocationInfoVC.swift */; };
 		351C051422F00A3700CD95F0 /* MKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351C051322F00A3700CD95F0 /* MKViewController.swift */; };
+		3521C7AD230A48E3009774FF /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521C7AC230A48E3009774FF /* MainVC.swift */; };
 		3526143D22D078DD0062476B /* Registration3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143C22D078DD0062476B /* Registration3VC.swift */; };
 		3526143F22D2F4160062476B /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526143E22D2F4160062476B /* PushNotificationManager.swift */; };
 		3526144122D306DB0062476B /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526144022D306DB0062476B /* PushNotificationSender.swift */; };
@@ -19,6 +20,8 @@
 		353AD7F6229515B70063596E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F5229515B70063596E /* Extensions.swift */; };
 		353AD7F822952D420063596E /* ChatLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F722952D420063596E /* ChatLogVC.swift */; };
 		353AD7FA229797EA0063596E /* userCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F9229797EA0063596E /* userCellClass.swift */; };
+		354D6A8C2311E5D000DA1555 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354D6A8B2311E5D000DA1555 /* MenuVC.swift */; };
+		354D6A9223161BAC00DA1555 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354D6A9123161BAC00DA1555 /* SessionCell.swift */; };
 		355F193A22C00BD5002703E6 /* TestScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F193922C00BD5002703E6 /* TestScrollView.swift */; };
 		3560D84A22868EC3003C12E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D84922868EC3003C12E0 /* ViewController.swift */; };
 		3560D84F2286ACD7003C12E0 /* Sensei.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3560D84E2286ACD7003C12E0 /* Sensei.jpg */; };
@@ -26,7 +29,6 @@
 		3560D8532288907F003C12E0 /* tab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D8522288907F003C12E0 /* tab1.swift */; };
 		3560D85522889089003C12E0 /* tab2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D85422889089003C12E0 /* tab2.swift */; };
 		3560D8572288943D003C12E0 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D8562288943D003C12E0 /* LoginVC.swift */; };
-		3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D8582289030C003C12E0 /* SettingsVC.swift */; };
 		3560D85D228934F1003C12E0 /* user-silhouette.png in Resources */ = {isa = PBXBuildFile; fileRef = 3560D85C228934F1003C12E0 /* user-silhouette.png */; };
 		3571CFF822B76C7C008B5D11 /* SearchInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571CFF722B76C7C008B5D11 /* SearchInfoVC.swift */; };
 		357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */; };
@@ -43,7 +45,6 @@
 		35900FAA22893FF500D796D3 /* Tutors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FA922893FF500D796D3 /* Tutors.swift */; };
 		35900FAC2289401B00D796D3 /* tab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAB2289401B00D796D3 /* tab3.swift */; };
 		35900FAE2289402200D796D3 /* tab4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAD2289402200D796D3 /* tab4.swift */; };
-		35900FB02289405500D796D3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FAF2289405500D796D3 /* Profile.swift */; };
 		35900FB22289409000D796D3 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB12289409000D796D3 /* MessagesVC.swift */; };
 		35900FB4228940AC00D796D3 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35900FB3228940AC00D796D3 /* SearchVC.swift */; };
 		35A5154522C9B978005C1EEB /* Quicksand-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35A5154422C9B978005C1EEB /* Quicksand-Regular.otf */; };
@@ -94,6 +95,7 @@
 		351C050F22EE44B700CD95F0 /* NewReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReviewVC.swift; sourceTree = "<group>"; };
 		351C051122EE861600CD95F0 /* LocationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		351C051322F00A3700CD95F0 /* MKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKViewController.swift; sourceTree = "<group>"; };
+		3521C7AC230A48E3009774FF /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		3526143C22D078DD0062476B /* Registration3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration3VC.swift; sourceTree = "<group>"; };
 		3526143E22D2F4160062476B /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		3526144022D306DB0062476B /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
@@ -102,6 +104,8 @@
 		353AD7F5229515B70063596E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		353AD7F722952D420063596E /* ChatLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogVC.swift; sourceTree = "<group>"; };
 		353AD7F9229797EA0063596E /* userCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userCellClass.swift; sourceTree = "<group>"; };
+		354D6A8B2311E5D000DA1555 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		354D6A9123161BAC00DA1555 /* SessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
 		355F193922C00BD5002703E6 /* TestScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestScrollView.swift; sourceTree = "<group>"; };
 		3560D84922868EC3003C12E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3560D84E2286ACD7003C12E0 /* Sensei.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Sensei.jpg; sourceTree = "<group>"; };
@@ -109,7 +113,6 @@
 		3560D8522288907F003C12E0 /* tab1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab1.swift; sourceTree = "<group>"; };
 		3560D85422889089003C12E0 /* tab2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab2.swift; sourceTree = "<group>"; };
 		3560D8562288943D003C12E0 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		3560D8582289030C003C12E0 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		3560D85C228934F1003C12E0 /* user-silhouette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-silhouette.png"; sourceTree = "<group>"; };
 		3571CFF722B76C7C008B5D11 /* SearchInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInfoVC.swift; sourceTree = "<group>"; };
 		357D4137228E6CB700EEEFE6 /* LoginHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHandlers.swift; sourceTree = "<group>"; };
@@ -126,7 +129,6 @@
 		35900FA922893FF500D796D3 /* Tutors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutors.swift; sourceTree = "<group>"; };
 		35900FAB2289401B00D796D3 /* tab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab3.swift; sourceTree = "<group>"; };
 		35900FAD2289402200D796D3 /* tab4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tab4.swift; sourceTree = "<group>"; };
-		35900FAF2289405500D796D3 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		35900FB12289409000D796D3 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		35900FB3228940AC00D796D3 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		35A5154222C88B90005C1EEB /* LearnLab.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LearnLab.entitlements; sourceTree = "<group>"; };
@@ -274,6 +276,8 @@
 			children = (
 				35900FA922893FF500D796D3 /* Tutors.swift */,
 				355F193922C00BD5002703E6 /* TestScrollView.swift */,
+				3521C7AC230A48E3009774FF /* MainVC.swift */,
+				354D6A8B2311E5D000DA1555 /* MenuVC.swift */,
 				351C050F22EE44B700CD95F0 /* NewReviewVC.swift */,
 				35D60A5E22E2D461007E071A /* LocationVC.swift */,
 				351C051122EE861600CD95F0 /* LocationInfoVC.swift */,
@@ -308,6 +312,7 @@
 				35B597CC22A48B6A00730535 /* Course.swift */,
 				35B597CE22A4F2CB00730535 /* ChatMessageCell.swift */,
 				35B597D022AA22DA00730535 /* Session.swift */,
+				354D6A9123161BAC00DA1555 /* SessionCell.swift */,
 				357D9ADD22AD7A71005C4220 /* ClassInfoCell.swift */,
 				352C9D5A22CC854D0094B775 /* PendingSessionCell.swift */,
 				3585F44622DA9FEE00F82BC2 /* BookSessionCell.swift */,
@@ -351,8 +356,6 @@
 				35B33D22229CA9B300B207F4 /* ViewControllers */,
 				35B33D21229CA97E00B207F4 /* Tabs */,
 				35C1C799228B7B2F0060AAA3 /* Models - Chat */,
-				35900FAF2289405500D796D3 /* Profile.swift */,
-				3560D8582289030C003C12E0 /* SettingsVC.swift */,
 				35D2996322855348005DF851 /* Assets.xcassets */,
 				35D2996522855348005DF851 /* LaunchScreen.storyboard */,
 				35D2996822855348005DF851 /* Info.plist */,
@@ -603,6 +606,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-LearnLab/Pods-LearnLab-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/FAPanels/FAPanels.framework",
 				"${BUILT_PRODUCTS_DIR}/FoldingCell/FoldingCell.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -628,6 +632,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FAPanels.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FoldingCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
@@ -693,7 +698,6 @@
 				35E743CA22E0391D00495B4C /* SessionInfoVC.swift in Sources */,
 				3560D84A22868EC3003C12E0 /* ViewController.swift in Sources */,
 				35B597CF22A4F2CB00730535 /* ChatMessageCell.swift in Sources */,
-				35900FB02289405500D796D3 /* Profile.swift in Sources */,
 				3560D8572288943D003C12E0 /* LoginVC.swift in Sources */,
 				35B33D20229CA5AC00B207F4 /* LoadingIndicator.swift in Sources */,
 				357D9ACF22AC316C005C4220 /* TutorInfoVC.swift in Sources */,
@@ -706,9 +710,11 @@
 				35900FAC2289401B00D796D3 /* tab3.swift in Sources */,
 				357D9ADE22AD7A71005C4220 /* ClassInfoCell.swift in Sources */,
 				3526143D22D078DD0062476B /* Registration3VC.swift in Sources */,
+				3521C7AD230A48E3009774FF /* MainVC.swift in Sources */,
 				357D9ACD22AC2F9D005C4220 /* tutorCellClass.swift in Sources */,
 				357D9ADC22ACFA33005C4220 /* Registration2VC.swift in Sources */,
 				35D2996222855346005DF851 /* LearnLab.xcdatamodeld in Sources */,
+				354D6A9223161BAC00DA1555 /* SessionCell.swift in Sources */,
 				357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */,
 				3501305E22BDFE4A00A5DB9C /* Reviews.swift in Sources */,
 				3590022522B596C6005D60A7 /* SessionsVC.swift in Sources */,
@@ -719,11 +725,11 @@
 				3590022322B596AF005D60A7 /* tab5.swift in Sources */,
 				353AD7F6229515B70063596E /* Extensions.swift in Sources */,
 				351C051022EE44B700CD95F0 /* NewReviewVC.swift in Sources */,
+				354D6A8C2311E5D000DA1555 /* MenuVC.swift in Sources */,
 				35B597CB22A4577E00730535 /* NewChatVC.swift in Sources */,
 				353AD7F822952D420063596E /* ChatLogVC.swift in Sources */,
 				35C1C7A1228E24390060AAA3 /* User.swift in Sources */,
 				3526144122D306DB0062476B /* PushNotificationSender.swift in Sources */,
-				3560D8592289030C003C12E0 /* SettingsVC.swift in Sources */,
 				3560D85122888AF1003C12E0 /* MainTabController.swift in Sources */,
 				35D2995A22855346005DF851 /* AppDelegate.swift in Sources */,
 				357D9AD722ACBC15005C4220 /* TutorInfoCell.swift in Sources */,

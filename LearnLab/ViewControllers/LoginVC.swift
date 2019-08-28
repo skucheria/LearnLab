@@ -23,7 +23,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
 
     override func viewDidAppear(_ animated: Bool) { //if there's already a current user session, move to main app
         if Auth.auth().currentUser != nil {
-            let newVC = MainTabController()
+            let newVC = MainVC()
             self.present(newVC, animated: false)
         }
         else{

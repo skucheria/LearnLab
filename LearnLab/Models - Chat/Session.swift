@@ -20,6 +20,7 @@ class Session: NSObject {
     var reviewed : Float?
     var long : NSNumber?
     var lat : NSNumber?
+    var name : String?
 }
 
 

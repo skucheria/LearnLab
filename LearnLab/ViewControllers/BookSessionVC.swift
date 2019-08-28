@@ -14,9 +14,15 @@ class BookSessionVC: UIViewController {
     var dur : NSNumber?
     var long : NSNumber?
     var lat : NSNumber?
+    var courseName : String?
     var currentTutor : User? {
         didSet{
             infoLabel.text = "Book session with " + currentTutor!.name!
+        }
+    }
+    var currentCourse : Course? {
+        didSet{
+            courseName = currentCourse!.department! + " " + currentCourse!.code!
         }
     }
     
@@ -265,7 +271,7 @@ class BookSessionVC: UIViewController {
             //first put the session in the sessions tree
             let ref = Database.database().reference().child("sessions")
             let childRef = ref.childByAutoId()
-            childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "endTime" : dur, "declined" : "no", "sessionID" : childRef.key, "reviewed" : 0, "longitude" : long!, "latitude" : lat!])
+            childRef.updateChildValues(["tutorID" : tutorID!, "studentID" : studentID, "active" : "no", "startTime" : time, "endTime" : dur, "declined" : "no", "sessionID" : childRef.key, "reviewed" : 0, "longitude" : long!, "latitude" : lat!, "name" : courseName])
             //wanna also create a tree for sessions by user --> do it for both tutor and students
             let ref2 = Database.database().reference().child("grouped-sessions").child(studentID)
             ref2.updateChildValues([childRef.key! : 1])

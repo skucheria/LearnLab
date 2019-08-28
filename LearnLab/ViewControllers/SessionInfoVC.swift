@@ -14,27 +14,29 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
     var currentSession : Session? {
         didSet{
             // set all labels
-            var timeStamp = "TIME"
-            var date = NSDate(timeIntervalSince1970: (currentSession?.startTime!.doubleValue)!)
-            let format = DateFormatter()
-            format.dateFormat = "MMM d, h:mm a"
-            timeStamp = format.string(from: date as Date)
-            self.timeInput.text = timeStamp
-            date = NSDate(timeIntervalSince1970: (currentSession?.endTime!.doubleValue)!)
-            format.dateFormat = "MMM d, h:mm a"
-            timeStamp = format.string(from: date as Date)
-            self.durationInput.text = timeStamp
-            
+//            var timeStamp = "TIME"
+//            var date = NSDate(timeIntervalSince1970: (currentSession?.startTime!.doubleValue)!)
+//            let format = DateFormatter()
+//            format.dateFormat = "MMMM d, h:mm a"
+//            timeStamp = format.string(from: date as Date)
+//            self.timeInput.text = timeStamp
 //            date = NSDate(timeIntervalSince1970: (currentSession?.endTime!.doubleValue)!)
-//            format.dateFormat =  "h m"
-//            //TODO Fix Hours for timeinterval
-//            let myTimeInterval = TimeInterval((currentSession?.endTime!.doubleValue)!)
-//            date = NSDate(timeIntervalSinceReferenceDate: myTimeInterval)
-//            let helper = format.string(from: date as Date)
-//            let timeArr = helper.components(separatedBy: " ")
-//            self.durationInput.text = timeArr[0] + " hour(s) " + timeArr[1] + " minute(s)"
+//            format.dateFormat = "MMMM d, h:mm a"
+//            timeStamp = format.string(from: date as Date)
+//            self.durationInput.text = timeStamp
+            let format = DateFormatter()
+            format.dateFormat = "MMMM d"
+            let format2 = DateFormatter()
+            format2.dateFormat = "h:mma"
+            let start = NSDate(timeIntervalSince1970: (currentSession?.startTime!.doubleValue)!)
+            let end = NSDate(timeIntervalSince1970: (currentSession?.endTime!.doubleValue)!)
+            dateLabel.text = format.string(from: start as Date)
+            format.dateFormat = "d, h:mma"
+            timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
+            detailsLabel.text = currentSession?.name!
         }
     }
+    var curr : User?
     var time : NSNumber?
     var dur : NSNumber?
     var currentTutor : String? {
@@ -42,11 +44,14 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
             infoLabel.text = "Session with " + currentTutor!
         }
     }
+    var tutorId : String?
+    var msgTutor : User?
     let annotation = MKPointAnnotation()
     let infoLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 24.0)
+        label.textColor = .white
         return label
     }()
     
@@ -54,6 +59,16 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         let label = UILabel()
         label.text = "Details"
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        return label
+    }()
+    
+    let locationLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Location"
+        label.font = UIFont.boldSystemFont(ofSize: 24.0)
+        label.textColor = .white
         return label
     }()
     
@@ -66,6 +81,8 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         tf.layer.borderWidth = 2
         tf.layer.masksToBounds = false
         tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.textColor = .white
+        tf.isUserInteractionEnabled = false
         return tf
     }()
     
@@ -119,7 +136,9 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .clear
-        tf.placeholder = "Pick date and time of session"
+//        tf.placeholder = "Pick date and time of session"
+        tf.textColor = .white
+        tf.isUserInteractionEnabled = false
         return tf
     }()
     
@@ -134,7 +153,9 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.backgroundColor = .clear
-        tf.placeholder = "How long do you want the session?"
+//        tf.placeholder = "How long do you want the session?"
+        tf.textColor = .white
+        tf.isUserInteractionEnabled = false
         return tf
     }()
     
@@ -177,34 +198,92 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         map.isZoomEnabled = false
         map.isScrollEnabled = false
         map.delegate = self
+        map.layer.masksToBounds = true
+        map.layer.cornerRadius = 5
         return map
     }()
     
+    let dateLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .white
+        return label
+    }()
+    
+    let timeLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .white
+        return label
+    }()
+    
+    lazy var messageButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(red: 245/255, green: 166/255, blue: 35/255, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("Message", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(showMessage), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var directionsButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(red: 85/255, green: 100/255, blue: 255/255, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("Directions", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(openMapForPlace), for: .touchUpInside)
+        return button
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        self.navigationItem.title = "Session Info"
-        self.navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
         self.navigationController?.navigationBar.tintColor = .white
-        
+        self.view.backgroundColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
+//        self.navigationController?.navigationBar.isTranslucent = false
+//        self.navigationController?.navigationBar.barStyle = .black
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleCancel))
+        msgTutor = getUserForUID(tutorId!)
+//        curr = getUserForUID(Auth.auth().currentUser!.uid)
         setupComponents()
         setupMap()
-        
-        // Do any additional setup after loading the view.
+
     }
     
     func setupMap(){
         self.view.addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        mapView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        mapView.topAnchor.constraint(equalTo: self.durationSeparator.bottomAnchor).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        mapView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        mapView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        mapView.topAnchor.constraint(equalTo: self.locationLabel.bottomAnchor, constant: 10).isActive = true
+        mapView.heightAnchor.constraint(equalToConstant: 277).isActive = true
         let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         self.mapView.setRegion(region, animated: true)
         annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(currentSession!.long!))
         mapView.addAnnotation(annotation)
+        
+        self.view.addSubview(directionsButton)
+        directionsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        directionsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        directionsButton.heightAnchor.constraint(equalToConstant: 46).isActive = true
+        directionsButton.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 13).isActive = true
+    
+        self.view.addSubview(messageButton)
+        messageButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        messageButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        messageButton.heightAnchor.constraint(equalToConstant: 46).isActive = true
+        messageButton.topAnchor.constraint(equalTo: directionsButton.bottomAnchor, constant: 13).isActive = true
     }
 
     @objc func handleCancel() {
@@ -213,52 +292,53 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
     
     func setupComponents(){
         self.view.addSubview(infoLabel)
-        infoLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+        infoLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         infoLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         infoLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         self.view.addSubview(detailsLabel)
-        detailsLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
-        detailsLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 20).isActive = true
+        detailsLabel.leftAnchor.constraint(equalTo: infoLabel.leftAnchor).isActive = true
+        detailsLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 10).isActive = true
         detailsLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.view.addSubview(topSeparator)
-        topSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        topSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        topSeparator.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 10).isActive = true
-        topSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.view.addSubview(timeInput)
-        timeInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
-        timeInput.topAnchor.constraint(equalTo: topSeparator.bottomAnchor).isActive = true
-        timeInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        timeInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        timeInput.inputView = datePicker
-        timeInput.inputAccessoryView = toolbar
-        self.view.addSubview(timeSeparator)
-        timeSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        timeSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        timeSeparator.topAnchor.constraint(equalTo: timeInput.bottomAnchor).isActive = true
-        timeSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.view.addSubview(durationInput)
-        durationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
-        durationInput.topAnchor.constraint(equalTo: timeSeparator.bottomAnchor).isActive = true
-        durationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        durationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        durationInput.inputView = durationPicker
-        durationInput.inputAccessoryView = toolbar2
-        self.view.addSubview(durationSeparator)
-        durationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        durationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
-        durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-//        self.view.addSubview(locationButton)
-//        locationButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-//        locationButton.topAnchor.constraint(equalTo: durationSeparator.bottomAnchor).isActive = true
-//        locationButton.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-//        locationButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        self.view.addSubview(locationSeparator)
-//        locationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-//        locationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-//        locationSeparator.topAnchor.constraint(equalTo: locationButton.bottomAnchor).isActive = true
-//        locationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//        self.view.addSubview(topSeparator)
+//        topSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        topSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        topSeparator.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 10).isActive = true
+//        topSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//        self.view.addSubview(timeInput)
+//        timeInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+//        timeInput.topAnchor.constraint(equalTo: topSeparator.bottomAnchor).isActive = true
+//        timeInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        timeInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        timeInput.inputView = datePicker
+//        timeInput.inputAccessoryView = toolbar
+//        self.view.addSubview(timeSeparator)
+//        timeSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        timeSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        timeSeparator.topAnchor.constraint(equalTo: timeInput.bottomAnchor).isActive = true
+//        timeSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//        self.view.addSubview(durationInput)
+//        durationInput.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8).isActive = true
+//        durationInput.topAnchor.constraint(equalTo: timeSeparator.bottomAnchor).isActive = true
+//        durationInput.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+//        durationInput.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        durationInput.inputView = durationPicker
+//        durationInput.inputAccessoryView = toolbar2
+//        self.view.addSubview(durationSeparator)
+//        durationSeparator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        durationSeparator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        durationSeparator.topAnchor.constraint(equalTo: durationInput.bottomAnchor).isActive = true
+//        durationSeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        self.view.addSubview(dateLabel)
+        dateLabel.leftAnchor.constraint(lessThanOrEqualTo: infoLabel.leftAnchor).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 30).isActive = true
+        self.view.addSubview(timeLabel)
+        timeLabel.leftAnchor.constraint(lessThanOrEqualTo: infoLabel.leftAnchor).isActive = true
+        timeLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 1).isActive = true
+        
+        self.view.addSubview(locationLabel)
+        locationLabel.leftAnchor.constraint(equalTo: infoLabel.leftAnchor).isActive = true
+        locationLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 45).isActive = true
     }
     
     @objc func donedatePicker(){
@@ -293,5 +373,30 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         locationVC.lat = currentSession?.lat
         let navController = UINavigationController(rootViewController: locationVC)
         self.navigationController?.present(navController, animated: true, completion: nil)
+    }
+    
+    @objc func openMapForPlace() {
+        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        let opts = [
+            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: region.center),
+            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: region.span)
+        ]
+        let place = MKPlacemark(coordinate: center, addressDictionary: nil)
+        let item = MKMapItem(placemark: place)
+        item.name = "Session"
+        item.openInMaps(launchOptions: opts)
+    }
+    
+    @objc func showMessage(){
+        let chatVC = ChatLogVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let navController = UINavigationController(rootViewController: chatVC)
+        chatVC.toUser = msgTutor
+        chatVC.curr = self.curr
+ 
+        print("tutor ", tutorId)
+        print("student ", curr!.id)
+        print("current uid: ", Auth.auth().currentUser!.uid)
+        present(navController, animated: true, completion: nil)
     }
 }

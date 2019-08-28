@@ -54,7 +54,8 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         searchTV.dataSource = self
         searchTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
 
-        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+//        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 31/255, green: 9/255, blue: 87/355, alpha: 1)
 //        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
 //        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
         self.view.backgroundColor = .white

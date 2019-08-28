@@ -31,7 +31,6 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let topView : UIView = {
         let view = UIView()
-//        view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -39,7 +38,6 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let sessionsTV : UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-//        tv.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         return tv
     }()
     
@@ -52,7 +50,6 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         setupTableView()
         getSessions()
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
-//        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.tintColor = .white
 
