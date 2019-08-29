@@ -154,8 +154,7 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
             , with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String : [String:Any]]{
                     for item in dictionary{
-                        user.id = item.key
-                        if(user.id == uid){
+                        if(item.key == uid){
                             user.tutor = item.value["tutor"] as? String
                             user.email = item.value["email"] as? String
                             user.name = item.value["name"] as? String
@@ -166,6 +165,7 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
                             user.rate = item.value["rate"] as? String
                             user.availability = item.value["availability"] as? String
                             user.fcmToken = item.value["fcmToken"] as? String
+                            user.id = item.key
                         }
                     }
                 }
@@ -180,8 +180,7 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
             , with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String : [String:Any]]{
                     for item in dictionary{
-                        user.id = item.key
-                        if(user.id == uid){
+                        if(item.key == uid){
                             user.tutor = item.value["tutor"] as? String
                             user.email = item.value["email"] as? String
                             user.name = item.value["name"] as? String
@@ -192,6 +191,7 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
                             user.rate = item.value["rate"] as? String
                             user.availability = item.value["availability"] as? String
                             user.fcmToken = item.value["fcmToken"] as? String
+                            user.id = item.key
                         }
                     }
                 }
@@ -274,6 +274,9 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
  
         print("From chat user (current user) ", fromChatUser?.name)
         print("To char user (recipient) ", toChatUser?.name)
+        
+        print("From chat user object ", fromChatUser?.id)
+        print("To chat user object ", toChatUser?.id)
 
         present(navController, animated: true, completion: nil)
     }

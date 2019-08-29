@@ -12,7 +12,11 @@ import Firebase
 
 class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
-    lazy var searchBar:UISearchBar = UISearchBar()
+    lazy var searchBar:UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
+    }()
 
     var fstore : Firestore!
     
@@ -39,6 +43,8 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(goBack))
+        self.navigationController?.title = "Search"
         searchBar.searchBarStyle = UISearchBar.Style.prominent
         searchBar.placeholder = " Course code i.e. 'CSCI, MATH' "
         searchBar.sizeToFit()
@@ -46,7 +52,11 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         searchBar.showsCancelButton = true
-        navigationItem.titleView = searchBar
+        self.view.addSubview(searchBar)
+        searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive =  true
+//        navigationItem.titleView = searchBar
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -75,9 +85,13 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
     func setupTV(){
         self.view.addSubview(searchTV)
         searchTV.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        searchTV.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        searchTV.topAnchor.constraint(equalTo: searchBar.bottomAnchor).isActive = true
         searchTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         searchTV.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
+    }
+    
+    @objc func goBack(){
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
