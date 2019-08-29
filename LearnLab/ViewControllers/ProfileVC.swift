@@ -81,8 +81,9 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
         self.navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 31/255, green: 9/255, blue: 87/355, alpha: 1)
         self.view.backgroundColor = .white
-//        tabBarController?.tabBar.barTintColor = UIColor(displayP3Red: 202/255, green: 235/255, blue: 242/255, alpha: 1)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleCancel))
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barStyle = .black
     }
     
     @objc func handleCancel() {

@@ -325,12 +325,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func showMessages(){
-        print("show msgs")
         present(msgVC, animated: true, completion: nil)
     }
     
     @objc func showProfile(){
-        print("show prof")
         present(profVC, animated: true)
     }
     
@@ -362,7 +360,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         else{
             tLabel = session.tutorID
         }
-        let user = getUserForUID(tLabel!)
+        print("filling out the cells")
+        let user = getCurrUserObject(tLabel!) // rewrite in this class
         let start = NSDate(timeIntervalSince1970: session.startTime!.doubleValue)
         let end = NSDate(timeIntervalSince1970: session.endTime!.doubleValue)
         let format = DateFormatter()
@@ -374,6 +373,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell.classLabel.text = session.name!
             cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
             self.tutors.append(user.name!)
+            print("adding tutor: ", user.name!)
         }
         return cell
     }
@@ -383,13 +383,44 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var sesh : Session?
         sesh = past[indexPath.row]
         
+        for name in tutors{
+            print("tutor: ", name)
+        }
+        
+        print("number of tutors: ", tutors.count)
+        
         let bookSession = SessionInfoVC()
         bookSession.currentSession = sesh
         bookSession.currentTutor = self.tutors[indexPath.row]
         bookSession.tutorId = past[indexPath.row].tutorID
-        bookSession.curr = bookUser[0]
+//        bookSession.curr = bookUser[indexPath.row]
         present(bookSession, animated:true)
     }
 
+    func getCurrUserObject(_ uid : String) -> User{
+        let user = User()
+        let ref = Database.database().reference()
+        ref.child("user").observeSingleEvent(of: .value
+            , with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String : [String:Any]]{
+                    for item in dictionary{
+                        user.id = item.key
+                        if(user.id == uid){
+                            user.tutor = item.value["tutor"] as? String
+                            user.email = item.value["email"] as? String
+                            user.name = item.value["name"] as? String
+                            user.profLinik = item.value["profilePic"] as? String
+                            user.bio = item.value["bio"] as? String
+                            user.courses = item.value["classes"] as? [String]
+                            user.rating = item.value["rating"] as? NSNumber
+                            user.rate = item.value["rate"] as? String
+                            user.availability = item.value["availability"] as? String
+                            user.fcmToken = item.value["fcmToken"] as? String
+                        }
+                    }
+                }
+        })
+        return user
+    }
 }
 
