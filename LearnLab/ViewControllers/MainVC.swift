@@ -20,7 +20,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var past = [Session]()
     var upcoming = [Session]()
     var tutors = [String]()
-    
+    let progressHUD = ProgressHUD(text: "Loading...")
 
     let mainLabel : UILabel = {
         let name = UILabel()
@@ -161,6 +161,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
         sessionsTV.delegate = self
         sessionsTV.dataSource = self
         sessionsTV.register(SessionCell.self, forCellReuseIdentifier: "cellId")
@@ -198,11 +200,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func segChanged(){
-//        self.progressHUD.show()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//            self.progressHUD.hide()
-//        }
-//        self.sessionsTV.reloadData()
+        self.sessionsTV.reloadData()
     }
     
     
@@ -337,36 +335,58 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+        if(title == "Current"){
+         return 2
+        }
         return 1
     }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if( sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex) == "Current"){
+            if section == 0{
+                return "Pending"
+            }
+            return "Upcoming"
+        }
+        return "Past Sessions"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if( sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex) == "Current"){
+            return 1;
+        }
         return past.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionCell
-        var tLabel : String?
-        let session = past[indexPath.row]
-        if session.tutorID == Auth.auth().currentUser!.uid{
-            tLabel = session.studentID
-        }
-        else{
-            tLabel = session.tutorID
-        }
-        print("filling out the cells")
-        let user = getCurrUserObject(tLabel!) // rewrite in this class
-        let start = NSDate(timeIntervalSince1970: session.startTime!.doubleValue)
-        let end = NSDate(timeIntervalSince1970: session.endTime!.doubleValue)
-        let format = DateFormatter()
-        format.dateFormat = "MMM d, h:mma"
-        let format2 = DateFormatter()
-        format2.dateFormat = "h:mma"
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            cell.nameLabel.text = user.name!
-            cell.classLabel.text = session.name!
-            cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
-            self.tutors.append(user.name!)
-            print("adding tutor: ", user.name!)
+        if title == "Past"{
+            var tLabel : String?
+            let session = past[indexPath.row]
+            if session.tutorID == Auth.auth().currentUser!.uid{
+                tLabel = session.studentID
+            }
+            else{
+                tLabel = session.tutorID
+            }
+            print("filling out the cells")
+            let user = getCurrUserObject(tLabel!) // rewrite in this class
+            let start = NSDate(timeIntervalSince1970: session.startTime!.doubleValue)
+            let end = NSDate(timeIntervalSince1970: session.endTime!.doubleValue)
+            let format = DateFormatter()
+            format.dateFormat = "MMM d, h:mma"
+            let format2 = DateFormatter()
+            format2.dateFormat = "h:mma"
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                cell.nameLabel.text = user.name!
+                cell.classLabel.text = session.name!
+                cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
+                self.tutors.append(user.name!)
+                print("adding tutor: ", user.name!)
+            }
         }
         return cell
     }
