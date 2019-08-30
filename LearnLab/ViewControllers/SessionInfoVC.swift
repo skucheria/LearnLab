@@ -246,10 +246,10 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         mapView.topAnchor.constraint(equalTo: self.locationLabel.bottomAnchor, constant: 15).isActive = true
         mapView.heightAnchor.constraint(equalToConstant: 277).isActive = true
         
-        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
+        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(truncating: currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         self.mapView.setRegion(region, animated: true)
-        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(currentSession!.long!))
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(truncating: currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
         mapView.addAnnotation(annotation)
         
         scrollView.addSubview(directionsButton)
@@ -267,7 +267,7 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
     }
     
     @objc func openMapForPlace() {
-        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
+        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(truncating: currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         let opts = [
             MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: region.center),
@@ -285,12 +285,6 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         
         chatVC.toUser = toChatUser
         chatVC.curr = fromChatUser
- 
-        print("From chat user (current user) ", fromChatUser?.name)
-        print("To char user (recipient) ", toChatUser?.name)
-        
-        print("From chat user object ", fromChatUser?.id)
-        print("To chat user object ", toChatUser?.id)
 
         present(navController, animated: true, completion: nil)
     }
