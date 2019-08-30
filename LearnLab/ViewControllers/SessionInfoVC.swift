@@ -20,7 +20,7 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
             let start = NSDate(timeIntervalSince1970: (currentSession?.startTime!.doubleValue)!)
             let end = NSDate(timeIntervalSince1970: (currentSession?.endTime!.doubleValue)!)
             dateLabel.text = format.string(from: start as Date)
-            format.dateFormat = "d, h:mma"
+            format.dateFormat = "h:mma"
             timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
             detailsLabel.text = currentSession?.name!
         }
@@ -71,6 +71,7 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         map.delegate = self
         map.layer.masksToBounds = true
         map.layer.cornerRadius = 5
+        map.translatesAutoresizingMaskIntoConstraints = false
         return map
     }()
     
@@ -125,6 +126,12 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         return button
     }()
     
+    let scrollView: UIScrollView = {
+        let v = UIScrollView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
+        return v
+    }()
     
     var fromChatUser : User?
     var toChatUser : User?
@@ -134,14 +141,17 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         self.navigationController?.navigationBar.tintColor = .white
         self.view.backgroundColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
         
+        self.view.addSubview(scrollView)
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        
         toChatUser = getToUserObject(tutorId!)
         fromChatUser = getCurrUserObject(Auth.auth().currentUser!.uid)
         
         msgTutor = getUserForUID(tutorId!)
         setupComponents()
-        setupMap()
-
-//        fromChatUser
     }
     
     // write function for getting the person the session is with and the current user
@@ -198,58 +208,62 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         })
         return user
     }
-    
-    func setupMap(){
-        self.view.addSubview(mapView)
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        mapView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        mapView.topAnchor.constraint(equalTo: self.locationLabel.bottomAnchor, constant: 10).isActive = true
-        mapView.heightAnchor.constraint(equalToConstant: 277).isActive = true
-        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        self.mapView.setRegion(region, animated: true)
-        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(currentSession!.long!))
-        mapView.addAnnotation(annotation)
-        
-        self.view.addSubview(directionsButton)
-        directionsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        directionsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        directionsButton.heightAnchor.constraint(equalToConstant: 46).isActive = true
-        directionsButton.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 13).isActive = true
-    
-        self.view.addSubview(messageButton)
-        messageButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        messageButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        messageButton.heightAnchor.constraint(equalToConstant: 46).isActive = true
-        messageButton.topAnchor.constraint(equalTo: directionsButton.bottomAnchor, constant: 13).isActive = true
-    }
 
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
     
     func setupComponents(){
-        self.view.addSubview(backButton)
-        backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25).isActive = true
-        self.view.addSubview(infoLabel)
-        infoLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        scrollView.addSubview(backButton)
+        backButton.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: 30).isActive = true
+        backButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 25).isActive = true
+        
+        scrollView.addSubview(infoLabel)
+        infoLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 30).isActive = true
         infoLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 15).isActive = true
-        infoLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.view.addSubview(detailsLabel)
-        detailsLabel.leftAnchor.constraint(equalTo: infoLabel.leftAnchor).isActive = true
+        infoLabel.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor).isActive = true
+        
+        scrollView.addSubview(detailsLabel)
+        detailsLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 30).isActive = true
         detailsLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 10).isActive = true
-        detailsLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.view.addSubview(dateLabel)
-        dateLabel.leftAnchor.constraint(lessThanOrEqualTo: infoLabel.leftAnchor).isActive = true
+        detailsLabel.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor).isActive = true
+        
+        scrollView.addSubview(dateLabel)
+        dateLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 30).isActive = true
         dateLabel.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 30).isActive = true
-        self.view.addSubview(timeLabel)
-        timeLabel.leftAnchor.constraint(lessThanOrEqualTo: infoLabel.leftAnchor).isActive = true
+        
+        scrollView.addSubview(timeLabel)
+        timeLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 30).isActive = true
         timeLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 1).isActive = true
-        self.view.addSubview(locationLabel)
-        locationLabel.leftAnchor.constraint(equalTo: infoLabel.leftAnchor).isActive = true
+        
+        scrollView.addSubview(locationLabel)
+        locationLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 30).isActive = true
         locationLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 45).isActive = true
+        
+        scrollView.addSubview(mapView)
+        mapView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        mapView.widthAnchor.constraint(equalToConstant: self.view.frame.width-60).isActive = true
+        mapView.topAnchor.constraint(equalTo: self.locationLabel.bottomAnchor, constant: 15).isActive = true
+        mapView.heightAnchor.constraint(equalToConstant: 277).isActive = true
+        
+        let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        self.mapView.setRegion(region, animated: true)
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentSession!.lat!), longitude: CLLocationDegrees(currentSession!.long!))
+        mapView.addAnnotation(annotation)
+        
+        scrollView.addSubview(directionsButton)
+        directionsButton.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
+        directionsButton.widthAnchor.constraint(equalToConstant: self.view.frame.width-60).isActive = true
+        directionsButton.heightAnchor.constraint(equalToConstant: 46).isActive = true
+        directionsButton.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 13).isActive = true
+        
+        scrollView.addSubview(messageButton)
+        messageButton.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
+        messageButton.widthAnchor.constraint(equalToConstant: self.view.frame.width-60).isActive = true
+        messageButton.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -15).isActive = true
+        messageButton.topAnchor.constraint(equalTo: directionsButton.bottomAnchor, constant: 13).isActive = true
+        messageButton.heightAnchor.constraint(equalToConstant: 46).isActive = true
     }
     
     @objc func openMapForPlace() {

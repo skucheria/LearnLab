@@ -347,14 +347,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
             noReviews.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
 //            bookSessionButton.topAnchor.constraint(equalTo: noReviews.bottomAnchor, constant: 5).isActive = true
         }
-//        self.view.addSubview(bookSessionTF)
-//        bookSessionTF.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-//        bookSessionTF.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-//        bookSessionTF.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-//        bookSessionTF.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        bookSessionTF.inputView = classesPicker
-//        bookSessionTF.inputAccessoryView = toolbar
-//        bookSessionButton.inputView = datePicker
         
 
         // add labelTwo to the scroll view

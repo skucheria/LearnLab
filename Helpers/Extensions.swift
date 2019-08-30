@@ -54,8 +54,7 @@ extension UIViewController{
             , with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String : [String:Any]]{
                     for item in dictionary{
-                        user.id = item.key
-                        if(user.id == uid){
+                        if(item.key == uid){
                             user.tutor = item.value["tutor"] as? String
                             user.email = item.value["email"] as? String
                             user.name = item.value["name"] as? String
@@ -63,6 +62,7 @@ extension UIViewController{
                             user.bio = item.value["bio"] as? String
                             user.courses = item.value["classes"] as? [String]
                             user.rating = item.value["rating"] as? NSNumber
+                            user.id = item.key
                             user.rate = item.value["rate"] as? String
                             user.availability = item.value["availability"] as? String
                             user.fcmToken = item.value["fcmToken"] as? String
