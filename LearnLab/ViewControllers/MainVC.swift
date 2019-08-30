@@ -166,12 +166,14 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         sessionsTV.delegate = self
         sessionsTV.dataSource = self
         sessionsTV.register(SessionCell.self, forCellReuseIdentifier: "cellId")
+        sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellId2")
         currUser = getUserForUID(Auth.auth().currentUser!.uid)
         getSessions()
         fetchUser()
         setupViews()
         configureMessagesVC()
         configureProfileVC()
+        sessionStatusChanged()
         // Do any additional setup after loading the view.
     }
 
@@ -203,6 +205,42 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.sessionsTV.reloadData()
     }
     
+    func sessionStatusChanged(){
+        //this only gets the one that changed, need to figure out whether it's been accepted or declined
+        let changedRef = Database.database().reference().child("sessions")
+        changedRef.observe(.childChanged) { (snapshot) in
+            if let dictionary = snapshot.value as? [String:Any]{
+                let session = Session()
+                session.active = dictionary["active"] as? String
+                session.tutorID = dictionary["tutorID"] as? String
+                session.studentID = dictionary["studentID"] as? String
+                session.startTime = dictionary["startTime"] as? NSNumber
+                session.declined = dictionary["declined"] as? String
+                session.sessionID = dictionary["sessionID"] as? String
+                session.endTime = dictionary["endTime"] as? NSNumber
+                session.long = dictionary["longitude"] as? NSNumber
+                session.lat = dictionary["latitude"] as? NSNumber
+                // cases to check:
+                // if session confirmed --> add to sessions, remove from pending
+                // if session declined --> dont add to session, remove from pending
+                if session.active == "yes"{
+                    self.sessions.append(session)
+                    self.sessions.sort(by: { (m1, m2) -> Bool in
+                        return (m1.startTime?.floatValue)! < (m2.startTime?.floatValue)!
+                    })
+                }
+                // if session was declined
+                var counter = 0
+                for s in self.pending{
+                    if s.sessionID == session.sessionID{
+                        self.pending.remove(at: counter)
+                    }
+                    counter+=1
+                }
+            }
+            DispatchQueue.main.async { self.sessionsTV.reloadData() }
+        }
+    }
     
     func getSessions(){
         let currentTime: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
@@ -349,23 +387,28 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
             return "Upcoming"
         }
-        return "Past Sessions"
+        return ""
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if( sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex) == "Current"){
-            return 1;
+            if section == 0{
+                return pending.count
+            }
+            return upcoming.count
         }
         return past.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
-
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionCell
-        if title == "Past"{
+        let pendingCell = tableView.dequeueReusableCell(withIdentifier: "cellId2", for: indexPath) as! PendingSessionCell
+        var session = Session()
+        var pend = 0
+        if title == "Past"{ // for past sessions
             var tLabel : String?
-            let session = past[indexPath.row]
+            session = past[indexPath.row]
             if session.tutorID == Auth.auth().currentUser!.uid{
                 tLabel = session.studentID
             }
@@ -387,6 +430,29 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.tutors.append(user.name!)
                 print("adding tutor: ", user.name!)
             }
+        }
+        else{ // for pending/current sessions
+            if(indexPath.section == 0){
+                pend = 1;
+                session = pending[indexPath.row]
+                pendingCell.confirmIndex = indexPath.row
+                if Auth.auth().currentUser!.uid == session.studentID{
+                    pendingCell.confirmButton.isHidden = true
+                    pendingCell.declineButton.isHidden = true
+                }
+                else{
+                    pendingCell.confirmButton.isHidden = false
+                    pendingCell.confirmButton.isHidden = false
+                }
+            }
+            else{
+                
+            }
+            
+        }
+        
+        if(pend == 1){
+            return pendingCell
         }
         return cell
     }
