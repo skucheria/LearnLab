@@ -154,9 +154,6 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         setupComponents()
     }
     
-    // write function for getting the person the session is with and the current user
-    // person session is with is already passed in, need to fix current user for the messsages bug
-    
     func getToUserObject(_ uid : String) -> User{
         let user = User()
         let ref = Database.database().reference()

@@ -33,9 +33,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     lazy var profileImageView : UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "Sensei")
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        //        imageView.contentMode = .scaleAspectFit
+//        imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2
@@ -73,7 +72,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     lazy var messagesButton : UIButton = {
         let button = UIButton(type: .custom)
-        let image = UIImage(named: "group4")
+        let image = UIImage(named: "speech-bubble")
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(showMessages), for: .touchUpInside)
@@ -149,6 +148,16 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return button
     }()
     
+    let sessionSegment : UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Current", "Past"])
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.tintColor = .white
+        segment.selectedSegmentIndex = 0
+        segment.addTarget(self, action: #selector(segChanged), for: .valueChanged )
+        segment.isUserInteractionEnabled = true
+        return segment
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
@@ -187,6 +196,16 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
         })
     }
+    
+    @objc func segChanged(){
+//        self.progressHUD.show()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//            self.progressHUD.hide()
+//        }
+//        self.sessionsTV.reloadData()
+    }
+    
+    
     func getSessions(){
         let currentTime: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -240,15 +259,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.view.addSubview(name)
         self.view.addSubview(mainLabel)
         self.view.addSubview(menuButton)
-        self.view.addSubview(profButton)
-        self.view.addSubview(profLabel)
         self.view.addSubview(messagesButton)
-        self.view.addSubview(messagesLabel)
-        self.view.addSubview(classesButton)
-        self.view.addSubview(classesLabel)
         self.view.addSubview(upcomingSessions)
         self.view.addSubview(sessionsTV)
         self.view.addSubview(bookbutton)
+        self.view.addSubview(sessionSegment)
         
         mainLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         mainLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -268,38 +283,16 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         name.widthAnchor.constraint(equalToConstant: 100)
         name.heightAnchor.constraint(equalToConstant: 20)
         
-        messagesButton.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 32).isActive = true
-        messagesButton.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
-        messagesButton.widthAnchor.constraint(equalToConstant: 54)
-        messagesButton.heightAnchor.constraint(equalToConstant: 54)
-        
-        messagesLabel.topAnchor.constraint(equalTo: messagesButton.bottomAnchor, constant: 12).isActive = true
-        messagesLabel.centerXAnchor.constraint(equalTo: messagesButton.centerXAnchor).isActive = true
-        messagesLabel.widthAnchor.constraint(equalToConstant: 35)
-        messagesLabel.heightAnchor.constraint(equalToConstant: 16)
-        
-        profButton.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 32).isActive = true
-        profButton.leftAnchor.constraint(equalTo: messagesButton.rightAnchor, constant: 40).isActive = true
-        profButton.widthAnchor.constraint(equalToConstant: 54)
-        profButton.heightAnchor.constraint(equalToConstant: 54)
-        
-        profLabel.topAnchor.constraint(equalTo: profButton.bottomAnchor, constant: 12).isActive = true
-        profLabel.centerXAnchor.constraint(equalTo: profButton.centerXAnchor).isActive = true
-        profLabel.widthAnchor.constraint(equalToConstant: 35)
-        profLabel.heightAnchor.constraint(equalToConstant: 16)
-        
-        classesButton.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 32).isActive = true
-        classesButton.rightAnchor.constraint(equalTo: messagesButton.leftAnchor, constant: -40).isActive = true
-        classesButton.widthAnchor.constraint(equalToConstant: 54)
-        classesButton.heightAnchor.constraint(equalToConstant: 54)
-        
-        classesLabel.topAnchor.constraint(equalTo: classesButton.bottomAnchor, constant: 12).isActive = true
-        classesLabel.centerXAnchor.constraint(equalTo: classesButton.centerXAnchor).isActive = true
-        classesLabel.widthAnchor.constraint(equalToConstant: 35)
-        classesLabel.heightAnchor.constraint(equalToConstant: 16)
+        messagesButton.topAnchor.constraint(equalTo: mainLabel.topAnchor).isActive = true
+        messagesButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         
         upcomingSessions.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        upcomingSessions.topAnchor.constraint(equalTo: profLabel.bottomAnchor, constant: 30).isActive = true
+        upcomingSessions.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 30).isActive = true
+        
+        sessionSegment.topAnchor.constraint(equalTo:upcomingSessions.bottomAnchor, constant: 5).isActive = true
+        sessionSegment.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        sessionSegment.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        sessionSegment.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         
         bookbutton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         bookbutton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
@@ -308,7 +301,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         sessionsTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         sessionsTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        sessionsTV.topAnchor.constraint(equalTo: upcomingSessions.bottomAnchor, constant: 8).isActive = true
+        sessionsTV.topAnchor.constraint(equalTo: sessionSegment.bottomAnchor, constant: 8).isActive = true
         sessionsTV.bottomAnchor.constraint(equalTo: bookbutton.topAnchor, constant: -9).isActive = true
     }
     
