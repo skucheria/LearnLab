@@ -20,6 +20,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var past = [Session]()
     var upcoming = [Session]()
     var tutors = [String]()
+    var pastTutors = [String]()
     let progressHUD = ProgressHUD(text: "Loading...")
 
     let mainLabel : UILabel = {
@@ -430,7 +431,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     cell.nameLabel.text = user.name!
                     cell.classLabel.text = session.name!
                     cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
-                    self.tutors.append(user.name!)
+                    self.pastTutors.append(user.name!)
                 }
             }
         }
@@ -517,15 +518,16 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 sesh = sessions[indexPath.row]
                 bookSession.tutorId = sessions[indexPath.row].tutorID
             }
+            bookSession.currentTutor = self.tutors[indexPath.row]
         }
         else{
             sesh = past[indexPath.row]
             bookSession.tutorId = past[indexPath.row].tutorID
+            bookSession.currentTutor  = self.pastTutors[indexPath.row]
         }
         
         
         bookSession.currentSession = sesh
-        bookSession.currentTutor = self.tutors[indexPath.row]
 //        bookSession.curr = bookUser[indexPath.row]
         present(bookSession, animated:true)
     }
