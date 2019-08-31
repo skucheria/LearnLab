@@ -51,13 +51,13 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         name.text  = "Hey @NAME@"
         return name
     }()
-    
+
     lazy var menuButton : UIButton = {
         let button = UIButton(type: .custom)
         let image = UIImage(named: "menu")
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
         return button
     }()
     
@@ -220,6 +220,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 session.endTime = dictionary["endTime"] as? NSNumber
                 session.long = dictionary["longitude"] as? NSNumber
                 session.lat = dictionary["latitude"] as? NSNumber
+                session.name = dictionary["name"] as? String
                 // cases to check:
                 // if session confirmed --> add to sessions, remove from pending
                 // if session declined --> dont add to session, remove from pending
@@ -404,6 +405,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionCell
         let pendingCell = tableView.dequeueReusableCell(withIdentifier: "cellId2", for: indexPath) as! PendingSessionCell
+        pendingCell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+        
         var session = Session()
         var pend = 0
         if title == "Past"{ // for past sessions
@@ -415,7 +418,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             else{
                 tLabel = session.tutorID
             }
-            print("filling out the cells")
             let user = getCurrUserObject(tLabel!) // rewrite in this class
             let start = NSDate(timeIntervalSince1970: session.startTime!.doubleValue)
             let end = NSDate(timeIntervalSince1970: session.endTime!.doubleValue)
@@ -423,20 +425,20 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             format.dateFormat = "MMM d, h:mma"
             let format2 = DateFormatter()
             format2.dateFormat = "h:mma"
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                 cell.nameLabel.text = user.name!
                 cell.classLabel.text = session.name!
                 cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
                 self.tutors.append(user.name!)
-                print("adding tutor: ", user.name!)
             }
         }
-        else{ // for pending/current sessions
-            if(indexPath.section == 0){
-                pend = 1;
+        else{ // for current/pending sessions
+            pend = 1;
+            if(indexPath.section == 0){ //for pending sessions
+    
                 session = pending[indexPath.row]
                 pendingCell.confirmIndex = indexPath.row
-                if Auth.auth().currentUser!.uid == session.studentID{
+                if Auth.auth().currentUser!.uid == session.studentID{ // if student requested, hide confirm/delete
                     pendingCell.confirmButton.isHidden = true
                     pendingCell.declineButton.isHidden = true
                 }
@@ -445,8 +447,32 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     pendingCell.confirmButton.isHidden = false
                 }
             }
+            else{ // for current/upcoming sessions
+                session = upcoming[indexPath.row]
+                pendingCell.confirmButton.isHidden = true
+                pendingCell.declineButton.isHidden = true
+            }
+            
+            let seconds = session.startTime?.doubleValue
+            var timeStamp = "TIME"
+            if(seconds != nil){
+                let date = NSDate(timeIntervalSince1970: seconds!)
+                let format = DateFormatter()
+                format.dateFormat = "MMM d, h:mm a"
+                timeStamp = format.string(from: date as Date)
+            }
+            var tLabel : String?
+            if session.tutorID == Auth.auth().currentUser!.uid{
+                tLabel = session.studentID
+            }
             else{
-                
+                tLabel = session.tutorID
+            }
+            let user = getUserForUID(tLabel!)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                pendingCell.infoLabel.text = "Session with " + user.name! + " @ " + timeStamp
+                self.tutors.append(user.name!)
             }
             
         }
@@ -483,8 +509,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             , with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String : [String:Any]]{
                     for item in dictionary{
-                        user.id = item.key
-                        if(user.id == uid){
+                        if(item.key == uid){
                             user.tutor = item.value["tutor"] as? String
                             user.email = item.value["email"] as? String
                             user.name = item.value["name"] as? String
@@ -493,6 +518,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                             user.courses = item.value["classes"] as? [String]
                             user.rating = item.value["rating"] as? NSNumber
                             user.rate = item.value["rate"] as? String
+                            user.id = item.key
                             user.availability = item.value["availability"] as? String
                             user.fcmToken = item.value["fcmToken"] as? String
                         }

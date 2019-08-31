@@ -216,6 +216,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 //        cell.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         var session = Session()
         
+        // checking for whether we need to hide the confirm/delete buttons and set the session
         if title == "Current"{
             if(indexPath.section == 0){
                 session = pending[indexPath.row]
