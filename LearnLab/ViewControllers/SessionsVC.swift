@@ -260,7 +260,7 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let user = getUserForUID(tLabel!)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            pendingCell.infoLabel.text = "Session with " + user.name! + " @ " + timeStamp
+//            pendingCell.infoLabel.text = "Session with " + user.name! + " @ " + timeStamp
             self.tutors.append(user.name!)
         }
         
@@ -295,41 +295,41 @@ class SessionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension SessionsVC: CustomCellDelegate {
-    func confirmPressed(cell: PendingSessionCell) {
-        print("Getting here")
-        let session = pending[cell.confirmIndex!]
-        print("Session : ", session)
-        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
-        ref.updateChildValues(["active" : "yes"])
-        
-        self.cellUser = self.getUserForUID(session.studentID!)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            print("to token: ", self.cellUser!.fcmToken!)
-            let sender = PushNotificationSender()
-            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been confirmed!")
-        }
-    }
-    
-    func declinePressed(cell: PendingSessionCell) {
-        print("pressed the decline")
-        let session = pending[cell.confirmIndex!]
-        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
-        ref.updateChildValues(["declined" : "yes"])
-        
-        self.cellUser = self.getUserForUID(session.studentID!)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            print("to token: ", self.cellUser!.fcmToken!)
-            let sender = PushNotificationSender()
-            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been declined!")
-        }
-    }
-}
-
-extension Session{
-    static func == (lhs: Session, rhs: Session) -> Bool {
-        return lhs.sessionID == rhs.sessionID
-    }
-}
+//extension SessionsVC: CustomCellDelegate {
+//    func confirmPressed(cell: PendingSessionCell) {
+//        print("Getting here")
+//        let session = pending[cell.confirmIndex!]
+//        print("Session : ", session)
+//        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
+//        ref.updateChildValues(["active" : "yes"])
+//
+//        self.cellUser = self.getUserForUID(session.studentID!)
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            print("to token: ", self.cellUser!.fcmToken!)
+//            let sender = PushNotificationSender()
+//            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been confirmed!")
+//        }
+//    }
+//
+//    func declinePressed(cell: PendingSessionCell) {
+//        print("pressed the decline")
+//        let session = pending[cell.confirmIndex!]
+//        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
+//        ref.updateChildValues(["declined" : "yes"])
+//
+//        self.cellUser = self.getUserForUID(session.studentID!)
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            print("to token: ", self.cellUser!.fcmToken!)
+//            let sender = PushNotificationSender()
+//            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been declined!")
+//        }
+//    }
+//}
+//
+//extension Session{
+//    static func == (lhs: Session, rhs: Session) -> Bool {
+//        return lhs.sessionID == rhs.sessionID
+//    }
+//}

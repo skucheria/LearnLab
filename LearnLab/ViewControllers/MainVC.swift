@@ -381,14 +381,14 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if( sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex) == "Current"){
             if section == 0{
                 return "Pending"
             }
             return "Upcoming"
         }
-        return ""
+        return "Past Sessions"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -396,71 +396,67 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             if section == 0{
                 return pending.count
             }
-            return upcoming.count
+            return sessions.count
         }
         return past.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SessionCell
-        let pendingCell = tableView.dequeueReusableCell(withIdentifier: "cellId2", for: indexPath) as! PendingSessionCell
-        pendingCell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId2", for: indexPath) as! PendingSessionCell
         var session = Session()
         var pend = 0
         if title == "Past"{ // for past sessions
-            var tLabel : String?
-            session = past[indexPath.row]
-            if session.tutorID == Auth.auth().currentUser!.uid{
-                tLabel = session.studentID
-            }
-            else{
-                tLabel = session.tutorID
-            }
-            let user = getCurrUserObject(tLabel!) // rewrite in this class
-            let start = NSDate(timeIntervalSince1970: session.startTime!.doubleValue)
-            let end = NSDate(timeIntervalSince1970: session.endTime!.doubleValue)
-            let format = DateFormatter()
-            format.dateFormat = "MMM d, h:mma"
-            let format2 = DateFormatter()
-            format2.dateFormat = "h:mma"
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                cell.nameLabel.text = user.name!
-                cell.classLabel.text = session.name!
-                cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
-                self.tutors.append(user.name!)
+            if indexPath.section == 0{
+                cell.confirmButton.isHidden = true
+                cell.declineButton.isHidden = true
+                cell.pendingLabel.isHidden = true
+                var tLabel : String?
+                session = past[indexPath.row]
+                if session.tutorID == Auth.auth().currentUser!.uid{
+                    tLabel = session.studentID
+                }
+                else{
+                    tLabel = session.tutorID
+                }
+                let user = getCurrUserObject(tLabel!) // rewrite in this class
+                let start = NSDate(timeIntervalSince1970: session.startTime!.doubleValue)
+                let end = NSDate(timeIntervalSince1970: session.endTime!.doubleValue)
+                let format = DateFormatter()
+                format.dateFormat = "MMM d, h:mma"
+                let format2 = DateFormatter()
+                format2.dateFormat = "h:mma"
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    cell.nameLabel.text = user.name!
+                    cell.classLabel.text = session.name!
+                    cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
+                    self.tutors.append(user.name!)
+                }
             }
         }
         else{ // for current/pending sessions
             pend = 1;
             if(indexPath.section == 0){ //for pending sessions
-    
                 session = pending[indexPath.row]
-                pendingCell.confirmIndex = indexPath.row
+                cell.confirmIndex = indexPath.row
                 if Auth.auth().currentUser!.uid == session.studentID{ // if student requested, hide confirm/delete
-                    pendingCell.confirmButton.isHidden = true
-                    pendingCell.declineButton.isHidden = true
+                    cell.confirmButton.isHidden = false
+                    cell.declineButton.isHidden = false
+                    cell.pendingLabel.isHidden = true
                 }
                 else{
-                    pendingCell.confirmButton.isHidden = false
-                    pendingCell.confirmButton.isHidden = false
+                    cell.confirmButton.isHidden = false
+                    cell.confirmButton.isHidden = false
+                    cell.pendingLabel.isHidden = true
                 }
             }
             else{ // for current/upcoming sessions
-                session = upcoming[indexPath.row]
-                pendingCell.confirmButton.isHidden = true
-                pendingCell.declineButton.isHidden = true
+                session = sessions[indexPath.row]
+                cell.confirmButton.isHidden = true
+                cell.declineButton.isHidden = true
+                cell.pendingLabel.isHidden = true
             }
             
-            let seconds = session.startTime?.doubleValue
-            var timeStamp = "TIME"
-            if(seconds != nil){
-                let date = NSDate(timeIntervalSince1970: seconds!)
-                let format = DateFormatter()
-                format.dateFormat = "MMM d, h:mm a"
-                timeStamp = format.string(from: date as Date)
-            }
             var tLabel : String?
             if session.tutorID == Auth.auth().currentUser!.uid{
                 tLabel = session.studentID
@@ -469,35 +465,67 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 tLabel = session.tutorID
             }
             let user = getUserForUID(tLabel!)
+            let start = NSDate(timeIntervalSince1970: session.startTime!.doubleValue)
+            let end = NSDate(timeIntervalSince1970: session.endTime!.doubleValue)
+            let format = DateFormatter()
+            format.dateFormat = "MMM d, h:mma"
+            let format2 = DateFormatter()
+            format2.dateFormat = "h:mma"
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                pendingCell.infoLabel.text = "Session with " + user.name! + " @ " + timeStamp
+//                pendingCell.infoLabel.text = user.name! + " @ " + timeStamp
+                cell.nameLabel.text = user.name!
+                cell.classLabel.text = session.name!
+                cell.timeLabel.text = format.string(from: start as Date) + " - " + format2.string(from: end as Date)
                 self.tutors.append(user.name!)
             }
             
         }
         
         if(pend == 1){
-            return pendingCell
+            return cell
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+        if title == "Current"{
+            if indexPath.section == 0{
+                return 93
+            }
+            else if indexPath.section == 1{
+                return 45
+            }
+        }
+        return 45
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         var sesh : Session?
+        let bookSession = SessionInfoVC()
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+
         sesh = past[indexPath.row]
-        
-        for name in tutors{
-            print("tutor: ", name)
+        if title == "Current"{
+            if indexPath.section == 0{
+                sesh = pending[indexPath.row]
+                bookSession.tutorId = pending[indexPath.row].tutorID
+            }
+            else{
+                sesh = sessions[indexPath.row]
+                bookSession.tutorId = sessions[indexPath.row].tutorID
+            }
+        }
+        else{
+            sesh = past[indexPath.row]
+            bookSession.tutorId = past[indexPath.row].tutorID
         }
         
-        print("number of tutors: ", tutors.count)
         
-        let bookSession = SessionInfoVC()
         bookSession.currentSession = sesh
         bookSession.currentTutor = self.tutors[indexPath.row]
-        bookSession.tutorId = past[indexPath.row].tutorID
 //        bookSession.curr = bookUser[indexPath.row]
         present(bookSession, animated:true)
     }
@@ -529,3 +557,41 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+extension SessionsVC: CustomCellDelegate {
+    func confirmPressed(cell: PendingSessionCell) {
+        print("Getting here")
+        let session = pending[cell.confirmIndex!]
+        print("Session : ", session)
+        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
+        ref.updateChildValues(["active" : "yes"])
+        
+        self.cellUser = self.getUserForUID(session.studentID!)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            print("to token: ", self.cellUser!.fcmToken!)
+            let sender = PushNotificationSender()
+            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been confirmed!")
+        }
+    }
+    
+    func declinePressed(cell: PendingSessionCell) {
+        print("pressed the decline")
+        let session = pending[cell.confirmIndex!]
+        let ref = Database.database().reference().child("sessions").child(session.sessionID!)
+        ref.updateChildValues(["declined" : "yes"])
+        
+        self.cellUser = self.getUserForUID(session.studentID!)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            print("to token: ", self.cellUser!.fcmToken!)
+            let sender = PushNotificationSender()
+            sender.sendPushNotification(to: self.cellUser!.fcmToken!, title: "Session status", body: "Your session request has been declined!")
+        }
+    }
+}
+
+extension Session{
+    static func == (lhs: Session, rhs: Session) -> Bool {
+        return lhs.sessionID == rhs.sessionID
+    }
+}
