@@ -74,7 +74,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleCancel))
-        self.navigationController?.navigationBar.tintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
     }
     
     @objc func handleCancel() {
@@ -182,7 +182,7 @@ class ChatLogVC : UICollectionViewController, UITextFieldDelegate, UICollectionV
         containerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         let sendButton = UIButton(type: .system)
-        sendButton.tintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+        sendButton.tintColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
         sendButton.setTitle("Send", for: .normal)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         sendButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)

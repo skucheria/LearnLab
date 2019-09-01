@@ -20,7 +20,7 @@ class ChatMessageCell: UICollectionViewCell {
         return tv
     }()
     
-    static let blueColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+    static let blueColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
 //        UIColor(displayP3Red: 0/255, green: 137/255, blue: 249/255, alpha: 1)
     static let greyColor = UIColor(displayP3Red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     
