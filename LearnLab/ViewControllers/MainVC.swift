@@ -168,6 +168,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         sessionsTV.dataSource = self
         sessionsTV.register(SessionCell.self, forCellReuseIdentifier: "cellId")
         sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellId2")
+        sessionsTV.tableFooterView = UIView()
         currUser = getUserForUID(Auth.auth().currentUser!.uid)
         getSessions()
         fetchUser()
