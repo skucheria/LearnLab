@@ -442,9 +442,9 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 session = pending[indexPath.row]
                 cell.confirmIndex = indexPath.row
                 if Auth.auth().currentUser!.uid == session.studentID{ // if student requested, hide confirm/delete
-                    cell.confirmButton.isHidden = false
-                    cell.declineButton.isHidden = false
-                    cell.pendingLabel.isHidden = true
+                    cell.confirmButton.isHidden = true
+                    cell.declineButton.isHidden = true
+                    cell.pendingLabel.isHidden = false
                 }
                 else{
                     cell.confirmButton.isHidden = false

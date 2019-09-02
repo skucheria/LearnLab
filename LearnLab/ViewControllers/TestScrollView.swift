@@ -383,13 +383,14 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         //go through all sessions for current user and see if reviews < sessions
         let databaseReferece = Database.database().reference().child("grouped-sessions").child(Auth.auth().currentUser!.uid)
         databaseReferece.observeSingleEvent(of: .childAdded) { (snapshot) in
+            print("grouped sessions snapshot ", snapshot)
             let sessionID = snapshot.key
             let indRef = Database.database().reference().child("sessions").child(sessionID)
             indRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dict = snapshot.value as? [String : Any]{
                     if dict["studentID"] as? String == Auth.auth().currentUser!.uid{ // only do stuff is student already had booked sessions
                         if dict["active"] as? String == "yes"{
-                            print("GOT HERE")
+                            print("session ID ", snapshot.key)
                             let currentTime: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
                             let end = dict["endTime"] as? NSNumber
                             if (end!.floatValue < currentTime.floatValue){
@@ -442,6 +443,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        print("NEed review or nah", needReview)
         if tableView == subjectsTV{
             if needReview{
                 let alert = UIAlertController(title: "You must fill out a review of your last session before you can book another!", message: nil, preferredStyle: .alert)

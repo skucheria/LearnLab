@@ -78,7 +78,7 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.setTitle("Leave Review", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.backgroundColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+        button.backgroundColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(review), for: .touchUpInside)
