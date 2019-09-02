@@ -175,10 +175,11 @@ class BookSessionVC: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.title = "Book Session"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        self.navigationController?.navigationBar.barTintColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
-        self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackOpaque
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
+        self.navigationController?.navigationBar.tintColor = .white
+
         setupComponents()
 //        setupSessionButton()
 //        setupTF()

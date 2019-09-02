@@ -56,13 +56,11 @@ class SearchVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         searchBar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         searchBar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive =  true
-//        navigationItem.titleView = searchBar // for having the search bar embedded in the nav bar
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
         searchTV.delegate = self
         searchTV.dataSource = self
         searchTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
+        
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackOpaque
         navigationController?.navigationBar.barTintColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)

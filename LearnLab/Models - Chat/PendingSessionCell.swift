@@ -87,7 +87,7 @@ class PendingSessionCell : UITableViewCell{
         timeLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
         
         pendingLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        pendingLabel.topAnchor.constraint(equalTo:self.nameLabel.bottomAnchor, constant: 5).isActive = true
+        pendingLabel.bottomAnchor.constraint(equalTo:self.bottomAnchor, constant: -20).isActive = true
         
         confirmButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
         confirmButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10).isActive = true
