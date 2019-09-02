@@ -49,7 +49,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         name.translatesAutoresizingMaskIntoConstraints = false
         name.font = UIFont.boldSystemFont(ofSize: 36.0)
         name.textColor = UIColor.white
-        name.text  = "Hey @NAME@"
+        name.text  = "Hey "
         return name
     }()
 

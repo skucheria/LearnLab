@@ -382,8 +382,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     func getSessionAndReviewInfo(){
         //go through all sessions for current user and see if reviews < sessions
         let databaseReferece = Database.database().reference().child("grouped-sessions").child(Auth.auth().currentUser!.uid)
-        databaseReferece.observeSingleEvent(of: .childAdded) { (snapshot) in
-            print("grouped sessions snapshot ", snapshot)
+        databaseReferece.observe(.childAdded) { (snapshot) in
             let sessionID = snapshot.key
             let indRef = Database.database().reference().child("sessions").child(sessionID)
             indRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -443,7 +442,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print("NEed review or nah", needReview)
         if tableView == subjectsTV{
             if needReview{
                 let alert = UIAlertController(title: "You must fill out a review of your last session before you can book another!", message: nil, preferredStyle: .alert)
