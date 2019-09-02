@@ -67,6 +67,7 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                             user.availability = item.value["availability"] as? String
                             user.fcmToken = item.value["fcmToken"] as? String
                             user.reviews = item.value["reviews"] as? [String]
+                            user.numReviews = item.value["numReviews"] as? Float
                             self.users.append(user)
                             self.users.sort(by: { (u1, u2) -> Bool in
                                 return (u1.name)! < (u2.name)!

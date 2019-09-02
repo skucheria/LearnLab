@@ -22,4 +22,5 @@ class User: NSObject {
     var availability : String?
     var rate : String?
     var fcmToken : String?
+    var numReviews : Float?
 }

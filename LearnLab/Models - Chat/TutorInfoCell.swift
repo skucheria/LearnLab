@@ -76,7 +76,7 @@ class TutorInfoCell: UITableViewCell {
         
         nameLabel.leftAnchor.constraint(equalTo: picImageView.rightAnchor, constant: 8).isActive = true
         nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15).isActive = true
-        nameLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        nameLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
         ratingLabel.leftAnchor.constraint(equalTo: picImageView.rightAnchor, constant: 8).isActive = true

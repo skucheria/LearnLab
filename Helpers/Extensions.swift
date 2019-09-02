@@ -66,6 +66,7 @@ extension UIViewController{
                             user.rate = item.value["rate"] as? String
                             user.availability = item.value["availability"] as? String
                             user.fcmToken = item.value["fcmToken"] as? String
+                            user.numReviews = item.value["numReviews"] as? Float
                         }
                     }
                 }

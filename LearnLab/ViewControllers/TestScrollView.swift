@@ -36,6 +36,12 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentTutor : User? {
         didSet{
             navigationItem.title = currentTutor?.name
+            if(currentTutor?.reviews == nil){
+                ratingLabel.text = " "
+            }
+            else{
+                ratingLabel.text = currentTutor!.rating!.stringValue + " ⭐️"
+            }
         }
     }
     
@@ -63,7 +69,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let ratingLabel : UILabel = {
         let label = UILabel()
-        label.text = " ⭐️ "
+//        label.text = " ⭐️ "
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -106,10 +112,17 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         return label
     }()
     
+    let subjectsInfo : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        label.text = "Select a class from the list below"
+        return label
+    }()
+    
     let subjectsTV : UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-//        tv.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 240/255, alpha: 1)
         return tv
     }()
     
@@ -196,9 +209,10 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 255/255, green: 124/255, blue: 89/355, alpha: 1)
+        navigationController?.navigationBar.barTintColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
         self.navigationController?.navigationBar.tintColor = .white
-
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.blackOpaque
         // add the scroll view to self.view
         self.view.addSubview(scrollView)
         
@@ -212,7 +226,8 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         subjectsTV.delegate = self
         subjectsTV.dataSource = self
         subjectsTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
-        
+        subjectsTV.flashScrollIndicators()
+
         reviewsTV.delegate = self
         reviewsTV.dataSource = self
         reviewsTV.register(ClassInfoCell.self, forCellReuseIdentifier: "cellId")
@@ -317,9 +332,12 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         subjectsLabel.topAnchor.constraint(equalTo: availText.bottomAnchor, constant: 25).isActive = true
         subjectsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         subjectsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.scrollView.addSubview(subjectsInfo)
+        subjectsInfo.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -8).isActive = true
+        subjectsInfo.topAnchor.constraint(equalTo: subjectsLabel.bottomAnchor, constant: 2.5).isActive = true
         self.scrollView.addSubview(subjectsTV)
         subjectsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
-        subjectsTV.topAnchor.constraint(equalTo: subjectsLabel.bottomAnchor, constant: 5).isActive = true
+        subjectsTV.topAnchor.constraint(equalTo: subjectsInfo.bottomAnchor, constant: 5).isActive = true
         subjectsTV.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         subjectsTV.heightAnchor.constraint(equalToConstant: 130).isActive = true
         self.scrollView.addSubview(reviewsLabel)

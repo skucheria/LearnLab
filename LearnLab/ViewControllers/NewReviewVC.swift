@@ -12,6 +12,7 @@ import Cosmos
 
 class NewReviewVC: UIViewController, UITextViewDelegate {
     var currentTutor : String?
+    var curr : User?
     var currentCourse : Course?
     var sessionForReview : String?
     let info : UILabel = {
@@ -89,6 +90,7 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
         self.navigationItem.title = "New Review"
         self.view.backgroundColor = .white
         setupComponents()
+        curr = getUserForUID(currentTutor!)
         // Do any additional setup after loading the view.
     }
     
@@ -138,10 +140,28 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
     
     @objc func review(){
         print("Leaving review with rating: ", stars.rating)
+        //for grouped reviews
         let ref = Database.database().reference().child("grouped-reviews")
         ref.child(currentTutor!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor!, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
+        //marking session as reviewed
         let newRef = Database.database().reference()
         newRef.child("sessions").child(sessionForReview!).updateChildValues(["reviewed" : 1])
+        //updating user rating and numReviews
+        let userRef = Database.database().reference().child("user")
+        var numReview  : Float = curr!.numReviews!
+        let oldRating = (curr!.rating?.floatValue)!
+        if numReview == 0{
+            userRef.child(curr!.id!).updateChildValues(["rating" : stars.rating, "numReviews" : 1])
+        }
+        else{
+            // do the math here
+            let starRate : Float = Float(stars.rating)
+            numReview += 1
+            var newRating : Float = (oldRating + numReview) + starRate
+            newRating = newRating / numReview
+            userRef.child(curr!.id!).updateChildValues(["rating" : newRating, "numReviews" : numReview])
+        }
+
         self.navigationController?.popToRootViewController(animated: true)
     }
 }
