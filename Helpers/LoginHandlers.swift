@@ -92,7 +92,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self.progressHUD.hide()
             }
-            let newVC = MainTabController()
+            let newVC = MainVC()
             self.present(newVC, animated: true)
             
         }
@@ -103,7 +103,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                     self.progressHUD.show()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         self.progressHUD.hide()
-                        let newVC = MainTabController()
+                        let newVC = MainVC()
                         self.present(newVC, animated: true)
                     }
                 }

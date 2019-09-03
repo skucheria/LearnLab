@@ -241,7 +241,8 @@ class SessionInfoVC: UIViewController, MKMapViewDelegate  {
         mapView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         mapView.widthAnchor.constraint(equalToConstant: self.view.frame.width-60).isActive = true
         mapView.topAnchor.constraint(equalTo: self.locationLabel.bottomAnchor, constant: 15).isActive = true
-        mapView.heightAnchor.constraint(equalToConstant: 277).isActive = true
+        var height = self.view.frame.width - 60
+        mapView.heightAnchor.constraint(equalToConstant: height).isActive = true
         
         let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(truncating: currentSession!.lat!), longitude: CLLocationDegrees(truncating: currentSession!.long!))
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
