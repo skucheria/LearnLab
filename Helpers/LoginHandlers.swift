@@ -35,7 +35,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
         }
         
         if let imagePicked = selectedImage {
-            profileImageView.image = selectedImage
+//            profileImageView.image = selectedImage
         }
         
         if selectedImage != nil {

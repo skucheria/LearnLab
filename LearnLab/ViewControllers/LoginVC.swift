@@ -188,6 +188,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         view.addSubview(loginRegisterButton)
         view.addSubview(profileImageView)
         view.addSubview(loginRegSegment)
+        view.addSubview(name)
         setupInputsContainerView()
         setupLoginResgiterButton()
         setupProfileImageView()
@@ -196,6 +197,15 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         ref = Database.database().reference()
        
     }
+    
+    let name : UILabel = {
+        let name = UILabel()
+        name.translatesAutoresizingMaskIntoConstraints = false
+        name.font = UIFont.boldSystemFont(ofSize: 36.0)
+        name.textColor = UIColor.white
+        name.text  = "LearnLab"
+        return name
+    }()
     
     var inputsHeightConstraint : NSLayoutConstraint?
     var nameHeightConstraint : NSLayoutConstraint?
@@ -278,6 +288,9 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         profileImageView.bottomAnchor.constraint(equalTo: loginRegSegment.topAnchor, constant: -12).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        name.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        name.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25).isActive = true
     }
     
     func setupSegment(){
