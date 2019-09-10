@@ -99,7 +99,11 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             cell.ratingLabel.text = "No Ratings"
         }
         else{
-            cell.ratingLabel.text = (user.rating?.stringValue)! + " ⭐️ "
+            
+            let numString = user.rating?.doubleValue
+            let ratingString = Double(round(10*numString!)/10)
+            
+            cell.ratingLabel.text = (String(ratingString)) + " ⭐️ "
         }
         var coursesLabel = String()
         var titles = [String]()

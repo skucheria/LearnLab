@@ -40,7 +40,9 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
                 ratingLabel.text = " "
             }
             else{
-                ratingLabel.text = currentTutor!.rating!.stringValue + " ⭐️"
+                let numString = currentTutor!.rating?.doubleValue
+                let ratingString = Double(round(10*numString!)/10)
+                ratingLabel.text = (String(ratingString)) + " ⭐️"
             }
         }
     }
