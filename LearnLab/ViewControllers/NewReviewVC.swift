@@ -96,29 +96,29 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
     
     func setupComponents(){
         self.view.addSubview(info)
-        info.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        info.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
         info.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25).isActive = true
         info.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        info.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        info.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.view.addSubview(stars)
-        stars.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        stars.leftAnchor.constraint(equalTo: view.leftAnchor, constant: self.view.frame.width/4).isActive = true
         stars.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         stars.topAnchor.constraint(equalTo: info.bottomAnchor, constant: 15).isActive = true
         self.view.addSubview(reviewLabel)
-        reviewLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
-        reviewLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        reviewLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        reviewLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
         reviewLabel.topAnchor.constraint(equalTo: stars.bottomAnchor, constant: 10).isActive = true
         self.view.addSubview(reviewTV)
-        reviewTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
-        reviewTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
-        reviewTV.topAnchor.constraint(equalTo: reviewLabel.bottomAnchor, constant: 5).isActive = true
+        reviewTV.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        reviewTV.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        reviewTV.topAnchor.constraint(equalTo: reviewLabel.bottomAnchor, constant: 10).isActive = true
         self.view.addSubview(separatorView)
-        separatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
-        separatorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
         separatorView.topAnchor.constraint(equalTo: reviewTV.bottomAnchor).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         self.view.addSubview(charsLabel)
-        charsLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
+        charsLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
         charsLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         charsLabel.topAnchor.constraint(equalTo: separatorView.bottomAnchor).isActive = true
         self.view.addSubview(makeReview)
@@ -132,7 +132,6 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
         if text == "\n" {
            return false
         }
-        print("Number of chars: ", textView.text.count)
         charsLabel.text = "(\(textView.text.count)/150)"
         return textView.text.count + (text.count - range.length) <= 150
     }
@@ -148,7 +147,14 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
         newRef.child("sessions").child(sessionForReview!).updateChildValues(["reviewed" : 1])
         //updating user rating and numReviews
         let userRef = Database.database().reference().child("user")
-        var numReview  : Float = curr!.numReviews!
+        var numReview : Float
+        if(curr!.numReviews == nil){
+            numReview = 0;
+        }
+        else{
+            numReview = curr!.numReviews!
+        }
+//        var numReview  : Float = curr!.numReviews!
         let oldRating = (curr!.rating?.floatValue)!
         if numReview == 0{
             userRef.child(curr!.id!).updateChildValues(["rating" : stars.rating, "numReviews" : 1])
