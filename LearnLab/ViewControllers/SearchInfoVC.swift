@@ -95,7 +95,7 @@ class SearchInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.nameLabel.text = user.name
         cell.picImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl!)
-        if (user.reviews == nil){
+        if (user.numReviews == 0 || user.numReviews == nil){
             cell.ratingLabel.text = "No Ratings"
         }
         else{

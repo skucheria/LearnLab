@@ -140,8 +140,11 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
     @objc func review(){
         print("Leaving review with rating: ", stars.rating)
         //for grouped reviews
-        let ref = Database.database().reference().child("grouped-reviews")
-        ref.child(currentTutor!).child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor!, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
+        let ref = Database.database().reference().child("grouped-reviews").child(currentTutor!)
+        let revRef = ref.childByAutoId()
+        revRef.updateChildValues(["rating" : stars.rating, "tutor" : currentTutor!, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
+
+//        ref.child(ref.childByAutoId().key!).updateChildValues(["rating" : stars.rating, "tutor" : currentTutor!, "text" : reviewTV.text, "student" : Auth.auth().currentUser!.uid])
         //marking session as reviewed
         let newRef = Database.database().reference()
         newRef.child("sessions").child(sessionForReview!).updateChildValues(["reviewed" : 1])
@@ -167,6 +170,15 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
             newRating = newRating / numReview
             userRef.child(curr!.id!).updateChildValues(["rating" : newRating, "numReviews" : numReview])
         }
+        var oldReviews = [String]()
+        if(curr!.reviews !=  nil){
+            for r in curr!.reviews!{
+                oldReviews.append(r)
+            }
+        }
+
+        oldReviews.append(revRef.key!)
+        userRef.child(curr!.id!).updateChildValues(["reviews" : oldReviews])
 
         self.navigationController?.popToRootViewController(animated: true)
     }

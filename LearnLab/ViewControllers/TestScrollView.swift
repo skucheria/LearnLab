@@ -36,7 +36,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentTutor : User? {
         didSet{
             navigationItem.title = currentTutor?.name
-            if(currentTutor?.reviews == nil){
+            if(currentTutor?.numReviews == nil){
                 ratingLabel.text = " "
             }
             else{
@@ -236,7 +236,8 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         classesPicker.delegate = self
     
         pullCourses()
-        if currentTutor?.reviews != nil{
+        if currentTutor?.numReviews != nil{
+            print("This tutor has some reviews")
             pullReviews()
         }
         currentUserInfo = getUserForUID(Auth.auth().currentUser!.uid)
@@ -270,7 +271,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func pullReviews(){
         let revRef = Database.database().reference().child("grouped-reviews")
-        if currentTutor?.reviews != nil{
+        if currentTutor?.numReviews != nil{
             for r in currentTutor!.reviews!{
                 revRef.child(currentTutor!.id!).child(r).observeSingleEvent(of: .value) { (snapshot) in
                     if let dict = snapshot.value as? [String:Any]{
@@ -346,7 +347,7 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
         reviewsLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         reviewsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
 //        self.scrollView.addSubview(bookSessionButton)
-        if currentTutor?.reviews != nil{
+        if currentTutor?.numReviews != nil{
             self.scrollView.addSubview(reviewsTV)
             reviewsTV.leftAnchor.constraint(equalTo: self.profileImageView.leftAnchor, constant: -16).isActive = true
             reviewsTV.topAnchor.constraint(equalTo: reviewsLabel.bottomAnchor, constant: 5).isActive = true
@@ -389,7 +390,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if let dict = snapshot.value as? [String : Any]{
                     if dict["studentID"] as? String == Auth.auth().currentUser!.uid{ // only do stuff is student already had booked sessions
                         if dict["active"] as? String == "yes"{
-                            print("session ID ", snapshot.key)
                             let currentTime: NSNumber = (Date().timeIntervalSince1970 as AnyObject as! NSNumber)
                             let end = dict["endTime"] as? NSNumber
                             if (end!.floatValue < currentTime.floatValue){
