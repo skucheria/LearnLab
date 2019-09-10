@@ -138,7 +138,6 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
     
     
     @objc func review(){
-        print("Leaving review with rating: ", stars.rating)
         //for grouped reviews
         let ref = Database.database().reference().child("grouped-reviews").child(currentTutor!)
         let revRef = ref.childByAutoId()
@@ -165,9 +164,13 @@ class NewReviewVC: UIViewController, UITextViewDelegate {
         else{
             // do the math here
             let starRate : Float = Float(stars.rating)
+            var newRating : Float = (oldRating * numReview) + starRate
             numReview += 1
-            var newRating : Float = (oldRating + numReview) + starRate
             newRating = newRating / numReview
+            print("Old overall rating: ", oldRating)
+            print("Total num of reviews now ", numReview)
+            print("New rating ", starRate)
+            print("Overall new rating ", newRating)
             userRef.child(curr!.id!).updateChildValues(["rating" : newRating, "numReviews" : numReview])
         }
         var oldReviews = [String]()

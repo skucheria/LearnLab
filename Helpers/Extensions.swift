@@ -68,7 +68,6 @@ extension UIViewController{
                             user.fcmToken = item.value["fcmToken"] as? String
                             user.numReviews = item.value["numReviews"] as? Float
                             user.reviews = item.value["reviews"] as? [String]
-
                         }
                     }
                 }
