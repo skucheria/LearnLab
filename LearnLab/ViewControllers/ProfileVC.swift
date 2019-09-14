@@ -184,7 +184,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -204,14 +204,14 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 cell.textLabel?.text = "Become a Tutor"
                 return cell
             }
-            else if (indexPath.row == 1){
-                cell.textLabel?.text = "Change Email"
-            }
-            else if(indexPath.row == 2){
-                cell.textLabel?.text = "Change Password"
-                return cell
-            }
-            else if(indexPath.row == 3){
+//            else if (indexPath.row == 1){
+//                cell.textLabel?.text = "Change Email"
+//            }
+//            else if(indexPath.row == 2){
+//                cell.textLabel?.text = "Change Password"
+//                return cell
+//            }
+            else if(indexPath.row == 1){
                 cell.textLabel?.text = "Logout"
                 cell.textLabel?.textColor = .red
                 return cell
@@ -255,7 +255,7 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                     let navController = UINavigationController(rootViewController: reg1VC)
                     present(navController, animated: true, completion: nil)
                 }
-            }
+            } /*
             else if indexPath.row == 1{
                 
 //                let reAuthUser = Auth.auth().currentUser
@@ -300,8 +300,8 @@ class ProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate, S
                 self.present(alert, animated: true, completion: {
                     print("completion block")
                 })
-            }
-            else if indexPath.row == 3{
+            } */
+            else if indexPath.row == 1{
                 progressHUD.show()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                     self.progressHUD.hide()
