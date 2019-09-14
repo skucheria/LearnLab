@@ -36,7 +36,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     let topView : UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -92,7 +92,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .lightGray
+        self.view.backgroundColor = .white
         ref = Database.database().reference()
         fstore = Firestore.firestore()
 
@@ -126,13 +126,13 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     func setupTopView(){
         topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        topView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         topView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         topView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
         topView.addSubview(searchTF)
         searchTF.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15).isActive = true
-        searchTF.topAnchor.constraint(equalTo: topView.topAnchor, constant: 50).isActive = true
+        searchTF.topAnchor.constraint(equalTo: topView.topAnchor, constant: 30).isActive = true
         searchTF.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         searchTF.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
@@ -150,6 +150,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         bottomView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         bottomView.addSubview(trackingLabel)
         trackingLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 10).isActive = true
+        trackingLabel.rightAnchor.constraint(equalTo: bottomView.rightAnchor, constant: -10).isActive = true
         trackingLabel.topAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
 //        trackingLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 5).isActive = true
 //        trackingLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 5).isActive = true
@@ -158,7 +159,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     func setupTableViews(){
         classesTableViews.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        classesTableViews.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        classesTableViews.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 15).isActive = true
         classesTableViews.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         classesTableViews.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
         
@@ -166,10 +167,8 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     @objc func donePressed(){ //upload list of classes they picked
-        //
-        
         for item in trackingCourses{
-            print(item.department! + " " + item.code!)
+            selectedCourses.append(item.dbId!)
         }
         
         let selected_indexPaths = classesTableViews.indexPathsForSelectedRows
@@ -181,7 +180,7 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
         }
         ref?.child("user").child(Auth.auth().currentUser!.uid).updateChildValues(["classes" : selectedCourses])
 
-        let main = MainTabController()
+        let main = MainVC()
         self.present(main, animated: false)
     }
     
@@ -245,10 +244,11 @@ class Registration2VC: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+//        let cell = tableView.cellForRow(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
         trackingCourses.append(filteredData[indexPath.row])
-        trackingLabel.text = trackingLabel.text! + " " + filteredData[indexPath.row].department!
-        cell?.accessoryType = UITableViewCell.AccessoryType.checkmark
+        trackingLabel.text = trackingLabel.text! + " " + (filteredData[indexPath.row].department! + " " + filteredData[indexPath.row].code!)
+//        cell?.accessoryType = UITableViewCell.AccessoryType.checkmark
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
