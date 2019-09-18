@@ -35,7 +35,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
         }
         
         if let imagePicked = selectedImage {
-//            profileImageView.image = selectedImage
+            profileImageView.image = selectedImage
         }
         
         if selectedImage != nil {
@@ -50,80 +50,77 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             return
         }
         
-        
-        if loginRegSegment.selectedSegmentIndex == 1{ //if registering
-            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-                if error == nil{
-                    print("successfully created user")
-                    print("user info? ", user?.user.uid)
-                }
-                else{
-                    print(error!)
-                }
-                //save user here
-                let values = ["name": name, "email": email ]
-                self.ref?.child("user").child((user?.user.uid)!).updateChildValues(values)
-                let pushManager = PushNotificationManager(userID: (user?.user.uid)!)
-                pushManager.registerForPushNotifications()
-            
-                let imageName = NSUUID().uuidString
-                
-                let imageRef = Storage.storage().reference().child("prof_pics").child("\(imageName).jpg")
-                
-                if let uploadData = self.profileImageView.image?.jpegData(compressionQuality: 0.1){
-                    imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
-                        if error != nil{
-                            print(error!)
-                            return
-                        }
-                        imageRef.downloadURL(completion: { (url, error) in
-                            if error == nil{
-                                let urlString = url?.absoluteString
-                                let vals = ["profilePic" : urlString, "tutor" : "no", "bio" : " ", "rating" : 0] as [String : Any]
-                                self.ref?.child("user").child((user?.user.uid)!).updateChildValues(vals) //updating with url link for image
+        if (email.isEmpty || password.isEmpty || name.isEmpty || self.profileImageView.image == nil){
+            // incomplete registration info, dont do anything
+            print("not enough info for logging in/registering")
+        }
+        else{
+            if loginRegSegment.selectedSegmentIndex == 1{ //if registering
+                Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+                    if error == nil{
+                        print("successfully created user")
+                        print("user info? ", user?.user.uid)
+                    }
+                    else{
+                        print(error!)
+                    }
+                    //save user here
+                    let values = ["name": name, "email": email ]
+                    self.ref?.child("user").child((user?.user.uid)!).updateChildValues(values)
+                    let pushManager = PushNotificationManager(userID: (user?.user.uid)!)
+                    pushManager.registerForPushNotifications()
+                    
+                    let imageName = NSUUID().uuidString
+                    
+                    let imageRef = Storage.storage().reference().child("prof_pics").child("\(imageName).jpg")
+                    
+                    if let uploadData = self.profileImageView.image?.jpegData(compressionQuality: 0.1){
+                        imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                            if error != nil{
+                                print(error!)
+                                return
                             }
-                        })
+                            imageRef.downloadURL(completion: { (url, error) in
+                                if error == nil{
+                                    let urlString = url?.absoluteString
+                                    let vals = ["profilePic" : urlString, "tutor" : "no", "bio" : " ", "rating" : 0] as [String : Any]
+                                    self.ref?.child("user").child((user?.user.uid)!).updateChildValues(vals) //updating with url link for image
+                                }
+                            })
+                        }
+                    }
+                }
+                let newVC = MainVC()
+                self.present(newVC, animated: true)
+            }
+            
+            else{ //if logging in
+                Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                    if error == nil{
+                        self.progressHUD.show()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            self.progressHUD.hide()
+                            let newVC = MainVC()
+                            self.present(newVC, animated: true)
+                        }
+                    }
+                    else{
+                        let alert = UIAlertController(title: "The username or password is incorrect!", message: nil, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                print("default")
+                            case .cancel:
+                                print("cancel")
+                            case .destructive:
+                                print("destructive")
+                            }}))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }
             
-            
-            progressHUD.show()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.progressHUD.hide()
-            }
-            let newVC = MainVC()
-            self.present(newVC, animated: true)
-            
         }
-            
-        else{ //if logging in
-            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-                if error == nil{
-                    self.progressHUD.show()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        self.progressHUD.hide()
-                        let newVC = MainVC()
-                        self.present(newVC, animated: true)
-                    }
-                }
-                else{
-                    let alert = UIAlertController(title: "The username or password is incorrect!", message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                        switch action.style{
-                        case .default:
-                            print("default")
-                        case .cancel:
-                            print("cancel")
-                        case .destructive:
-                            print("destructive")
-                        }}))
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
-        }
-        
-        
         
     }
     
