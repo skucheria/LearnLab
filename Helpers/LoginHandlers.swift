@@ -55,7 +55,17 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
         if loginRegSegment.selectedSegmentIndex == 1{ // jif registering
             if (email.isEmpty || password.isEmpty || name.isEmpty || self.profileImageView.image == nil){ // if any fields are missing, dont allow registration
                 // incomplete registration info, dont do anything
-                print("not enough info for registering")
+                let alert = UIAlertController(title: "Please enter fill all fields and select profile picture!", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
             }
             else{
                 Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
@@ -64,7 +74,18 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                         print("user info? ", user?.user.uid)
                     }
                     else{
-                        print(error!)
+                        let alert = UIAlertController(title: "A user already exists with this email!", message: nil, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                print("default")
+                            case .cancel:
+                                print("cancel")
+                            case .destructive:
+                                print("destructive")
+                            }}))
+                        self.present(alert, animated: true, completion: nil)
+                        return
                     }
                     //save user here
                     let values = ["name": name, "email": email ]
@@ -99,7 +120,17 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
         else{ // if logging in
             if (email.isEmpty || password.isEmpty){ // if any fields are missing, dont allow registration
                 // incomplete registration info, dont do anything
-                print("not enough info for logging in")
+                let alert = UIAlertController(title: "Please enter email and password!", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
             }
             else{ // do the logging in
                 Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
