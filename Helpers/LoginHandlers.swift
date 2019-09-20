@@ -50,12 +50,14 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
             return
         }
         
-        if (email.isEmpty || password.isEmpty || name.isEmpty || self.profileImageView.image == nil){
-            // incomplete registration info, dont do anything
-            print("not enough info for logging in/registering")
-        }
-        else{
-            if loginRegSegment.selectedSegmentIndex == 1{ //if registering
+        // change to by segment and then check for individual fields there
+        
+        if loginRegSegment.selectedSegmentIndex == 1{ // jif registering
+            if (email.isEmpty || password.isEmpty || name.isEmpty || self.profileImageView.image == nil){ // if any fields are missing, dont allow registration
+                // incomplete registration info, dont do anything
+                print("not enough info for registering")
+            }
+            else{
                 Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                     if error == nil{
                         print("successfully created user")
@@ -93,8 +95,13 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                 let newVC = MainVC()
                 self.present(newVC, animated: true)
             }
-            
-            else{ //if logging in
+        }
+        else{ // if logging in
+            if (email.isEmpty || password.isEmpty){ // if any fields are missing, dont allow registration
+                // incomplete registration info, dont do anything
+                print("not enough info for logging in")
+            }
+            else{ // do the logging in
                 Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                     if error == nil{
                         self.progressHUD.show()
@@ -119,9 +126,7 @@ extension LoginVC : UIImagePickerControllerDelegate, UINavigationControllerDeleg
                     }
                 }
             }
-            
         }
-        
     }
     
     func saveData(){
