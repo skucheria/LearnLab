@@ -396,7 +396,6 @@ class TestScrollView: UIViewController, UITableViewDelegate, UITableViewDataSour
                             let end = dict["endTime"] as? NSNumber
                             if (end!.floatValue < currentTime.floatValue){
                                 if (dict["reviewed"] as? Float == 0) {
-                                    print("NOT REVIEWED")
                                     self.needReview = true
                                     self.seshForReview = dict["sessionID"] as? String
                                     self.tutorReviewed = dict["tutorID"] as? String
