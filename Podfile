@@ -18,7 +18,6 @@ target 'LearnLab' do
   pod 'Stripe'
   pod 'FoldingCell'
   pod 'Cosmos'
-  pod 'RealmSwift'
   pod 'FAPanels'
   target 'LearnLabTests' do
     inherit! :search_paths
