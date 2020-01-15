@@ -17,7 +17,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
     let tfPassword = UITextField()
     let bCreate = UIButton(type: UIButton.ButtonType.system) as UIButton
     let bLogin = UIButton(type: UIButton.ButtonType.system) as UIButton
-    var authUI : FUIAuth?
     var ref : DatabaseReference?
     let progressHUD = ProgressHUD(text: "Logging in...")
 
@@ -179,10 +178,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         self.view.isUserInteractionEnabled = true
         self.view.addSubview(progressHUD)
         progressHUD.show()
-        authUI = FUIAuth.defaultAuthUI()
-        authUI?.delegate = self
-        let providers : [FUIAuthProvider] = [FUIGoogleAuth()]
-        authUI?.providers = providers
         
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)
@@ -195,7 +190,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
         setupSegment()
         
         ref = Database.database().reference()
-       
     }
     
     let name : UILabel = {
