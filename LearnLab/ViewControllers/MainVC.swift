@@ -357,21 +357,26 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func showMessages(){
+        msgVC.modalPresentationStyle = .fullScreen
         present(msgVC, animated: true, completion: nil)
     }
     
     @objc func showProfile(){
+        profVC.modalPresentationStyle = .fullScreen
         present(profVC, animated: true)
     }
     
     @objc func showMenu(){
         let newVC = MenuVC()
+        newVC.modalTransitionStyle = .crossDissolve
+        newVC.modalPresentationStyle = .fullScreen
         present(newVC, animated: true)
     }
 
     @objc func showSearch(){
         let search = SearchVC()
         let navVC = UINavigationController(rootViewController: search)
+        navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true, completion: nil)
     }
     
