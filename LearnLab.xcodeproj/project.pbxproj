@@ -22,6 +22,8 @@
 		353AD7FA229797EA0063596E /* userCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AD7F9229797EA0063596E /* userCellClass.swift */; };
 		354D6A8C2311E5D000DA1555 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354D6A8B2311E5D000DA1555 /* MenuVC.swift */; };
 		354D6A9223161BAC00DA1555 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354D6A9123161BAC00DA1555 /* SessionCell.swift */; };
+		35529C3523E384D700DBE6A9 /* NewMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35529C3423E384D700DBE6A9 /* NewMainVC.swift */; };
+		35529C3723E38A1500DBE6A9 /* MainVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35529C3623E38A1500DBE6A9 /* MainVCExtension.swift */; };
 		355F193A22C00BD5002703E6 /* TestScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F193922C00BD5002703E6 /* TestScrollView.swift */; };
 		3560D84A22868EC3003C12E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3560D84922868EC3003C12E0 /* ViewController.swift */; };
 		3560D84F2286ACD7003C12E0 /* Sensei.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3560D84E2286ACD7003C12E0 /* Sensei.jpg */; };
@@ -106,6 +108,8 @@
 		353AD7F9229797EA0063596E /* userCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userCellClass.swift; sourceTree = "<group>"; };
 		354D6A8B2311E5D000DA1555 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		354D6A9123161BAC00DA1555 /* SessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
+		35529C3423E384D700DBE6A9 /* NewMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMainVC.swift; sourceTree = "<group>"; };
+		35529C3623E38A1500DBE6A9 /* MainVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCExtension.swift; sourceTree = "<group>"; };
 		355F193922C00BD5002703E6 /* TestScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestScrollView.swift; sourceTree = "<group>"; };
 		3560D84922868EC3003C12E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3560D84E2286ACD7003C12E0 /* Sensei.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Sensei.jpg; sourceTree = "<group>"; };
@@ -231,6 +235,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		35529C3323E381E300DBE6A9 /* V2 VCs */ = {
+			isa = PBXGroup;
+			children = (
+				35529C3423E384D700DBE6A9 /* NewMainVC.swift */,
+				35529C3623E38A1500DBE6A9 /* MainVCExtension.swift */,
+			);
+			path = "V2 VCs";
+			sourceTree = "<group>";
+		};
 		3560D84D2286ACB6003C12E0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +361,7 @@
 		35D2995822855346005DF851 /* LearnLab */ = {
 			isa = PBXGroup;
 			children = (
+				35529C3323E381E300DBE6A9 /* V2 VCs */,
 				35A5154222C88B90005C1EEB /* LearnLab.entitlements */,
 				35D2998A228553AD005DF851 /* GoogleService-Info.plist */,
 				35D2995922855346005DF851 /* AppDelegate.swift */,
@@ -711,6 +725,7 @@
 				357D9ADC22ACFA33005C4220 /* Registration2VC.swift in Sources */,
 				35D2996222855346005DF851 /* LearnLab.xcdatamodeld in Sources */,
 				354D6A9223161BAC00DA1555 /* SessionCell.swift in Sources */,
+				35529C3523E384D700DBE6A9 /* NewMainVC.swift in Sources */,
 				357D4138228E6CB700EEEFE6 /* LoginHandlers.swift in Sources */,
 				3501305E22BDFE4A00A5DB9C /* Reviews.swift in Sources */,
 				3590022522B596C6005D60A7 /* SessionsVC.swift in Sources */,
@@ -718,6 +733,7 @@
 				3571CFF822B76C7C008B5D11 /* SearchInfoVC.swift in Sources */,
 				35B597C922A22F4D00730535 /* RegisterTutorVC.swift in Sources */,
 				35900FAE2289402200D796D3 /* tab4.swift in Sources */,
+				35529C3723E38A1500DBE6A9 /* MainVCExtension.swift in Sources */,
 				3590022322B596AF005D60A7 /* tab5.swift in Sources */,
 				353AD7F6229515B70063596E /* Extensions.swift in Sources */,
 				351C051022EE44B700CD95F0 /* NewReviewVC.swift in Sources */,
