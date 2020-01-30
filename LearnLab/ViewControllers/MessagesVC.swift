@@ -173,7 +173,7 @@ class MessagesVC: UITableViewController {
         else{
             chatPartnerID = msg.fromID
         }
-        
+         
         //get recipient user information
         if let id = chatPartnerID{
             ref?.child("user").child(id).observeSingleEvent(of: .value
