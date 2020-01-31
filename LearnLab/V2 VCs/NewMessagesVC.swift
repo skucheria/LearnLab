@@ -19,11 +19,13 @@ class NewMessagesVC: UITableViewController {
         self.navigationController?.navigationBar.barStyle = .blackOpaque
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
+        tableView.register(userCellClass.self, forCellReuseIdentifier: "cellID")
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleCancel))
         
         // Do any additional setup after loading the view.
     }
+    
+    // MARK: - Table view functions
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         1
@@ -34,9 +36,14 @@ class NewMessagesVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! userCellClass
         cell.textLabel!.text = "Cell"
+        cell.timeLabel.text = "Time"
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     /*
     // MARK: - Navigation

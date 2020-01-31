@@ -22,7 +22,8 @@ extension NewMainVC {
         
         sessionsTV.delegate = self
         sessionsTV.dataSource = self
-        sessionsTV.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
+        sessionsTV.register(SessionCell.self, forCellReuseIdentifier: "cellID")
+        sessionsTV.register(PendingSessionCell.self, forCellReuseIdentifier: "cellID2")
 
     }
     

@@ -22,6 +22,8 @@ class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Do any additional setup after loading the view.
     }
     
+    // MARK: - Table view functions
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if( sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex) == "Current"){
             if section == 0{
@@ -43,9 +45,22 @@ class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID2", for: indexPath) as! PendingSessionCell
         cell.textLabel?.text = "Cell"
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let title = sessionSegment.titleForSegment(at: sessionSegment.selectedSegmentIndex)
+        if title == "Current"{
+            if indexPath.section == 0{
+                return 93
+            }
+            else if indexPath.section == 1{
+                return 45
+            }
+        }
+        return 45
     }
     
     // MARK: - UI Elements
