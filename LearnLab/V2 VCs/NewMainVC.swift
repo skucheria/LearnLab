@@ -10,12 +10,15 @@ import UIKit
 
 class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var messagesVC : UINavigationController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 31/255, green: 9/255, blue: 87/255, alpha: 1)
         
         addSubviews()
         setupSubviews()
+        configureMessagesVC()
         // Do any additional setup after loading the view.
     }
     
@@ -44,8 +47,6 @@ class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = "Cell"
         return cell
     }
-    
-
     
     // MARK: - UI Elements
     
@@ -91,7 +92,7 @@ class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let image = UIImage(named: "speech-bubble")
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.addTarget(self, action: #selector(showMessages), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showMessages), for: .touchUpInside)
         return button
     }()
     

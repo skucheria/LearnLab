@@ -64,5 +64,14 @@ extension NewMainVC {
     }
     
     
+    func configureMessagesVC(){
+        if(messagesVC == nil){
+            messagesVC = UINavigationController(rootViewController: NewMessagesVC())
+        }
+    }
     
+    @objc func showMessages(){
+//        messagesVC.modalPresentationStyle = .fullScreen
+        present(messagesVC, animated: true, completion: nil)
+    }
 }

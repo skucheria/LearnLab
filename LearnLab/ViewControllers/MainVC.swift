@@ -306,8 +306,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         mainLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         mainLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        mainLabel.widthAnchor.constraint(equalToConstant: 100)
-        mainLabel.heightAnchor.constraint(equalToConstant: 20)
         
         menuButton.topAnchor.constraint(equalTo: mainLabel.topAnchor).isActive = true
         menuButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
@@ -319,8 +317,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         name.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 15).isActive = true
         name.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
-        name.widthAnchor.constraint(equalToConstant: 100)
-        name.heightAnchor.constraint(equalToConstant: 20)
         
         messagesButton.topAnchor.constraint(equalTo: mainLabel.topAnchor).isActive = true
         messagesButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
