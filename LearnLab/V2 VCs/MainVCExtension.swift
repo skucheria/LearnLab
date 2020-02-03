@@ -77,7 +77,7 @@ extension NewMainVC {
     }
     
     @objc func showSearch(){
-        let search = SearchVC()
+        let search = NewSearchVC()
         let navVC = UINavigationController(rootViewController: search)
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true, completion: nil)

@@ -11,7 +11,6 @@ import UIKit
 class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var messagesVC : UINavigationController!
-    var searchVC : UINavigationController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
