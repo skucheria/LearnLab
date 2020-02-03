@@ -11,6 +11,7 @@ import UIKit
 class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var messagesVC : UINavigationController!
+    var searchVC : UINavigationController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -147,7 +148,7 @@ class NewMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.layer.cornerRadius = 5
         button.layer.masksToBounds = true
-//        button.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
         return button
     }()
 
